@@ -8,7 +8,7 @@ In a world of different stages, you play a hero who has to kill all the monsters
 
 This game is strongly inspired by the mobile arcade action game:  [Archero](https://play.google.com/store/apps/details?id=com.habby.archero&hl=fr)
 
-Table of contents
+# Table of contents
 
 <!--ts-->
    * [Game](#Game)
