@@ -1,5 +1,6 @@
 
-# Game
+ Game
+=================
 
 ## Executive summary
 In a world of different stages, you play a hero iyou play a hero who has to kill all the monsters in order to progress to new stages and if you die ... you have to start all over again until you reach the last stage
@@ -7,12 +8,26 @@ In a world of different stages, you play a hero iyou play a hero who has to kill
 this game is strongly inspired by the mobile arcade action game:  [Archero](https://play.google.com/store/apps/details?id=com.habby.archero&hl=fr)
 
 
-**Table of Contents**
-[TOCM]
+Table of contents
+=================
+<!--ts-->
+   * [Game](#Game)
+   * [Table of contents](#table-of-contents)
+   * [Mission](#Mission)
+      * [First step](#First-step)
+      * [Second step](#Second-step)
+      * [Third step](#Third-step)
+      * [X step](#X-step)
+   * [Required](#Required)
+   * [Authors](#Authors)
+   * [License](#License)
+   * [End](#End)
+ 
+<!--te-->
 
-[TOC]
 
 # Mission
+=================
 
 ## First step
 1. create a map
@@ -41,18 +56,21 @@ website
 and so on...
 
 # Required
+=================
 + JavaScript
 + Html5 / CSS
 + ...
 
 
 # Authors
+=================
 
 + CHAPOULIE Dorian  [github](https://github.com/none06)
 
 + LONGIN Rémi [github](https://github.com/remiLNG)
 
 # License
+=================
 
 
 
