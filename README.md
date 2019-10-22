@@ -1,6 +1,6 @@
 
 # Game
-
+![](https://i.ibb.co/FwMnJzc/unnamed.jpg)
 
 ## Executive summary
 In a world of different stages, you play a hero iyou play a hero who has to kill all the monsters in order to progress to new stages and if you die ... you have to start all over again until you reach the last stage
