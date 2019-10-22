@@ -1,19 +1,18 @@
 
-#Game
+# Game
 
-##Executive summary
+## Executive summary
 In a world of different stages, you play a hero iyou play a hero who has to kill all the monsters in order to progress to new stages and if you die ... you have to start all over again until you reach the last stage
 
 this game is strongly inspired by the mobile arcade action game:  [Archero](https://play.google.com/store/apps/details?id=com.habby.archero&hl=fr)
 
 
 **Table of Contents**
-
 [TOCM]
 
 [TOC]
 
-#Mission
+# Mission
 
 ## First step
 1. create a map
@@ -33,7 +32,7 @@ this game is strongly inspired by the mobile arcade action game:  [Archero](http
 2. new monsters ?
 3. sprite for character and monsters (animation)
 
-##X step
+## X step
 
 others worlds
 bonus
@@ -47,15 +46,15 @@ and so on...
 + ...
 
 
-#Authors
+# Authors
 
 + CHAPOULIE Dorian  [github](https://github.com/none06)
 
 + LONGIN Rémi [github](https://github.com/remiLNG)
 
-#License
+# License
 
 
 
 
-#End
+# End
