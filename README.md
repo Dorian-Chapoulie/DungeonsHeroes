@@ -21,13 +21,13 @@ this game is strongly inspired by the mobile arcade action game:  [Archero](http
 4. include the possibility of shooting between the character and the monsters
 
 
-##Second step
+## Second step
 1. generate random worlds
 2. the monsters are aiming the character
 3. improve shooting
 4. health bar for character and monsters
 
-##Third step
+## Third step
 1. Differents stages
 2. new monsters ?
 3. sprite for character and monsters (animation)
@@ -40,7 +40,7 @@ multiplayer (network)
 website 
 and so on...
 
-#Required
+# Required
 + JavaScript
 + Html5 / CSS
 + ...
