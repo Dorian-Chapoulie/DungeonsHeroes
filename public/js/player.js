@@ -15,6 +15,10 @@ export class Player {
         this.frameX = 0;
         this.frameY = 0;
 
+        this.canMoveUp = true;
+        this.canMoveDown = true;
+        this.canMoveRight = true;
+        this.canMoveLeft = true;
 
         this.DROIT = 0;
         this.GAUCHE = 1;

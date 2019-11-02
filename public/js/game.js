@@ -44,12 +44,41 @@ const init = () => {
 
 const playerMovements = () => {
     
-    if(isKeyPressed("z")) {
+     /* Collision Murs */
+     if (player.x + player.width > canvas.width && player.canMoveRight) {
+        player.dx = 0;
+        player.canMoveRight = false;
+    }else {
+        player.canMoveRight = true;
+    }
+
+    if (player.x <= 0 && player.canMoveLeft) {
+        player.dx = 0;
+        player.canMoveLeft = false;
+    }else {
+        player.canMoveLeft = true;
+    }
+
+    if (player.y + player.width > canvas.height &&  player.canMoveDown) {
+        player.dy = 0;
+        player.canMoveDown = false;
+    }else {
+        player.canMoveDown = true;
+    }
+
+    if (player.y < 0 && player.canMoveUp) {
+        player.dy = 0;
+        player.canMoveUp = false;
+    }else {
+        player.canMoveUp = true;
+    }
+
+    if(isKeyPressed("z") && player.canMoveUp) {
         player.dy = - player.speed;
         player.frameY = player.AVANCER;               
         sendMessage('playermove', {pos: 'z', name: player.name});      
-        canSendNy = true;                
-    }else if(isKeyPressed("s")) {
+        canSendNy = true;              
+    }else if(isKeyPressed("s") && player.canMoveDown) {
         player.dy = player.speed;
         player.frameY = player.RECULER;
         sendMessage('playermove', { pos: 's', name: player.name });
@@ -60,12 +89,12 @@ const playerMovements = () => {
         canSendNy = false;
     }
 
-    if (isKeyPressed("q")) {
+    if (isKeyPressed("q")  && player.canMoveLeft) {
         player.dx = -player.speed;
         player.frameY = player.GAUCHE;
         sendMessage('playermove', { pos: 'q', name: player.name });
         canSendNx = true;
-    } else if (isKeyPressed("d")) {
+    } else if (isKeyPressed("d")  && player.canMoveRight) {
         player.dx = player.speed;
         player.frameY = player.DROIT;
         sendMessage('playermove', { pos: 'd', name: player.name });
@@ -74,18 +103,6 @@ const playerMovements = () => {
         player.dx = 0;
         sendMessage('playermove', { pos: 'nx', name: player.name });
         canSendNx = false;
-    }
-    /* Collision Murs */
-    if (player.x + player.width > canvas.width) {
-        player.dx = -1;
-    } else if (player.x < 0) {
-        player.dx = 1;
-    }
-    if (player.y + player.width > canvas.height) {
-        player.dy = -1;
-    }
-    if (player.y < 0) {
-        player.dy = 1;
     }
 }
 
