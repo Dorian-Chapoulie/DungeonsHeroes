@@ -5,46 +5,48 @@ export class Player {
         this.name = name;
         this.x = x;
         this.y = y;
+        this.width = 64;
+        this.height = 64;
         this.dx = 0;
         this.dy = 0;
         this.speed = 5;
         this.image = new Image();
         this.image.src = '/media/player-sprite.png'
-        this.frame = 0;
+        this.frameX = 0;
         this.frameY = 0;
+
 
         this.DROIT = 0;
         this.GAUCHE = 1;
         this.RECULER = 2;
-        this.AVANCER = 3;     
-        
+        this.AVANCER = 3;
+
         this.health = 100;
         this.healthBar = new HealthBar(this.health, this.health, this.x, this.y);
     }
 
     nextFrame = () => {
-        if(this.frameY <= 1) {
-            if(this.frame++ >= 9) {
-                this.frame = 1;
-            }           
-        }else if(this.frameY == 2) {
-            this.frame = 0;
-        }
-        else if(this.frameY == 3) {
-            if(this.frame++ >= 4) {
-                this.frame = 1;
-            } 
+        if (this.frameY <= 1) {
+            if (this.frameX++ >= 9) {
+                this.frameX = 1;
+            }
+        } else if (this.frameY == 2) {
+            this.frameX = 0;
+        } else if (this.frameY == 3) {
+            if (this.frameX++ >= 4) {
+                this.frameX = 1;
+            }
         }
     }
-    
-    move = (time) => {
-        this.x += (this.dx * time);
-        this.y += (this.dy * time);
-        this.healthBar.move(this.dx * time, this.dy * time);
+
+    move = () => {
+        this.x += this.dx;
+        this.y += this.dy;
+        this.healthBar.move(this.dx, this.dy);
     }
 
     damage = amount => {
-        if(this.health - amount > 0)
+        if (this.health - amount > 0)
             this.health -= amount;
         else
             this.health = 0;
@@ -55,6 +57,6 @@ export class Player {
     draw = context => {
         context.font = "15px Arial";
         context.fillText(this.name, this.x + context.measureText(this.name).width / 4, this.y);
-        this.healthBar.draw(context);                
+        this.healthBar.draw(context);
     }
 };

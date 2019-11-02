@@ -47,14 +47,6 @@ export const initSocksEvents = () => {
             player.dx = 0;               
         }                
     });  
-
-    socket.on('playerpos', pos => {   
-        const player = getNewPlayer();                                    
-        player.x = pos.x;
-        player.y = pos.y;   
-        player.healthBar.x = pos.x;
-        player.healthBar.y = pos.y;       
-    });  
 }
 
 export const sendMessage = (event, msg) => {

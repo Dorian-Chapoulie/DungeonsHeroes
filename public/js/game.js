@@ -7,7 +7,7 @@ import { Player } from '/js/player.js';
 
 var player, player2;
 var canvas;
-var context;    
+var context;
 
 var canSendNx = false;
 var canSendNy = false;
@@ -21,85 +21,92 @@ export const setNewPlayer = (newPlayer) => {
 export const getNewPlayer = () => player2;
 export const getLocalPlayer = () => player;
 
-const init = () => { 
-    initSocksEvents();   
+const init = () => {
+    initSocksEvents();
     initInputsEvent();
     initChat();
-    
+
     const pseudo = prompt("votre pseudo:");
     player = new Player(pseudo, 300, 300);
 
-    sendMessage('newplayer', {name: pseudo, x: player.x, y: player.y});
+    sendMessage('newplayer', { name: pseudo, x: player.x, y: player.y });
 
     canvas = document.getElementById('Canvas');
-    context = canvas.getContext('2d');    
-           
-    drawMap(context, mapLevel, tilesSize); 
-    requestAnimationFrame(loop);
+    context = canvas.getContext('2d');
 
-    setInterval(() => {
-        sendMessage('playerpos', {x: player.x, y: player.y});  
-    }, 2 * 1000);
+
+    drawMap(context, mapLevel, tilesSize);
+    console.log("map ok")
+    requestAnimationFrame(loop);
 }
 
 const playerMovements = () => {
-    
-    if(isKeyPressed("z")) {
-        player.dy = - player.speed;
-        player.frameY = player.AVANCER;               
-        sendMessage('playermove', {pos: 'z', name: player.name});      
-        canSendNy = true;                
-    }else if(isKeyPressed("s")) {
+    if (isKeyPressed("z")) {
+        player.dy = -player.speed;
+        player.frameY = player.AVANCER;
+        sendMessage('playermove', { pos: 'z', name: player.name });
+        canSendNy = true;
+    } else if (isKeyPressed("s")) {
         player.dy = player.speed;
         player.frameY = player.RECULER;
-        sendMessage('playermove', {pos: 's', name: player.name});        
+        sendMessage('playermove', { pos: 's', name: player.name });
         canSendNy = true;
-    }else if(cansendNy() && canSendNy) {
+    } else if (cansendNy() && canSendNy) {
         player.dy = 0;
-        sendMessage('playermove', {pos: 'ny', name: player.name});    
-        canSendNy = false;               
+        sendMessage('playermove', { pos: 'ny', name: player.name });
+        canSendNy = false;
     }
 
-    if(isKeyPressed("q")) {
-        player.dx = - player.speed;
+    if (isKeyPressed("q")) {
+        player.dx = -player.speed;
         player.frameY = player.GAUCHE;
-        sendMessage('playermove', {pos: 'q', name: player.name});  
-        canSendNx = true;      
-    }else if(isKeyPressed("d")) {
+        sendMessage('playermove', { pos: 'q', name: player.name });
+        canSendNx = true;
+    } else if (isKeyPressed("d")) {
         player.dx = player.speed;
         player.frameY = player.DROIT;
-        sendMessage('playermove', {pos: 'd', name: player.name});        
-        canSendNx = true;      
-    }else if(cansendNx() && canSendNx) {
-        player.dx = 0;    
-        sendMessage('playermove', {pos: 'nx', name: player.name});    
-        canSendNx = false;              
+        sendMessage('playermove', { pos: 'd', name: player.name });
+        canSendNx = true;
+    } else if (cansendNx() && canSendNx) {
+        player.dx = 0;
+        sendMessage('playermove', { pos: 'nx', name: player.name });
+        canSendNx = false;
+    }
+    /* Collision Murs */
+    if (player.x + player.width > canvas.width) {
+        player.dx = -1;
+    } else if (player.x < 0) {
+        player.dx = 1;
+    }
+    if (player.y + player.width > canvas.height) {
+        player.dy = -1;
+    }
+    if (player.y < 0) {
+        player.dy = 1;
     }
 }
 
-const loop = () => {    
+setInterval(() => {
+    player.damage(10);
+}, 800);
+
+const loop = () => {
     //context.clearRect(0, 0, canvas.width, canvas.height);
-    const startDate = new Date();
-    drawMap(context, mapLevel, tilesSize);      
-    
+    drawMap(context, mapLevel, tilesSize);
+
     drawPlayerAnimation(context, player);
 
-    
+
     playerMovements();
-        
+
+
+    player.move();
     player.draw(context);
-            
-    if(player2) {                           
+
+    if (player2) {
+        player2.move();
         player2.draw(context);
         drawPlayerAnimation(context, player2);
     }
-
-    const endDate = new Date();
-    const delta = (endDate.getTime() - startDate.getTime()) + 1;
-
-    if(player2)
-        player2.move(delta);
-    player.move(delta);
-    
     requestAnimationFrame(loop);
 }
