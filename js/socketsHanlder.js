@@ -34,6 +34,10 @@ class SocketsHanlder {
                         break;
                 }
             });
+
+            socket.on('playerpos', data => {                                                 
+                socket.broadcast.emit('playerpos', data);            
+            });
         });
     }
 

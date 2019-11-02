@@ -35,11 +35,15 @@ const init = () => {
     context = canvas.getContext('2d');    
            
     drawMap(context, mapLevel, tilesSize); 
-    console.log("map ok")
     requestAnimationFrame(loop);
+
+    setInterval(() => {
+        sendMessage('playerpos', {x: player.x, y: player.y});  
+    }, 2 * 1000);
 }
 
 const playerMovements = () => {
+    
     if(isKeyPressed("z")) {
         player.dy = - player.speed;
         player.frameY = player.AVANCER;               
@@ -73,27 +77,29 @@ const playerMovements = () => {
     }
 }
 
-setInterval(() => {
-    player.damage(10);
-}, 800);
-
 const loop = () => {    
     //context.clearRect(0, 0, canvas.width, canvas.height);
+    const startDate = new Date();
     drawMap(context, mapLevel, tilesSize);      
     
     drawPlayerAnimation(context, player);
 
     
     playerMovements();
-    
-
-    player.move();
+        
     player.draw(context);
             
-    if(player2) {                   
-        player2.move();
+    if(player2) {                           
         player2.draw(context);
         drawPlayerAnimation(context, player2);
     }
+
+    const endDate = new Date();
+    const delta = (endDate.getTime() - startDate.getTime()) + 1;
+
+    if(player2)
+        player2.move(delta);
+    player.move(delta);
+    
     requestAnimationFrame(loop);
 }
