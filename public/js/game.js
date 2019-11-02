@@ -32,21 +32,41 @@ const init = () => {
     sendMessage('newplayer', { name: pseudo, x: player.x, y: player.y });
 
     canvas = document.getElementById('Canvas');
+<<<<<<< HEAD
     context = canvas.getContext('2d');
 
 
     drawMap(context, mapLevel, tilesSize);
     console.log("map ok")
+=======
+    context = canvas.getContext('2d');    
+           
+    drawMap(context, mapLevel, tilesSize); 
+>>>>>>> 221e9d6... fix multiplayer delay #1
     requestAnimationFrame(loop);
+
+    setInterval(() => {
+        sendMessage('playerpos', {x: player.x, y: player.y});  
+    }, 2 * 1000);
 }
 
 const playerMovements = () => {
+<<<<<<< HEAD
     if (isKeyPressed("z")) {
         player.dy = -player.speed;
         player.frameY = player.AVANCER;
         sendMessage('playermove', { pos: 'z', name: player.name });
         canSendNy = true;
     } else if (isKeyPressed("s")) {
+=======
+    
+    if(isKeyPressed("z")) {
+        player.dy = - player.speed;
+        player.frameY = player.AVANCER;               
+        sendMessage('playermove', {pos: 'z', name: player.name});      
+        canSendNy = true;                
+    }else if(isKeyPressed("s")) {
+>>>>>>> 221e9d6... fix multiplayer delay #1
         player.dy = player.speed;
         player.frameY = player.RECULER;
         sendMessage('playermove', { pos: 's', name: player.name });
@@ -86,6 +106,7 @@ const playerMovements = () => {
     }
 }
 
+<<<<<<< HEAD
 setInterval(() => {
     player.damage(10);
 }, 800);
@@ -94,10 +115,18 @@ const loop = () => {
     //context.clearRect(0, 0, canvas.width, canvas.height);
     drawMap(context, mapLevel, tilesSize);
 
+=======
+const loop = () => {    
+    //context.clearRect(0, 0, canvas.width, canvas.height);
+    const startDate = new Date();
+    drawMap(context, mapLevel, tilesSize);      
+    
+>>>>>>> 221e9d6... fix multiplayer delay #1
     drawPlayerAnimation(context, player);
 
 
     playerMovements();
+<<<<<<< HEAD
 
 
     player.move();
@@ -105,8 +134,22 @@ const loop = () => {
 
     if (player2) {
         player2.move();
+=======
+        
+    player.draw(context);
+            
+    if(player2) {                           
+>>>>>>> 221e9d6... fix multiplayer delay #1
         player2.draw(context);
         drawPlayerAnimation(context, player2);
     }
+
+    const endDate = new Date();
+    const delta = (endDate.getTime() - startDate.getTime()) + 1;
+
+    if(player2)
+        player2.move(delta);
+    player.move(delta);
+    
     requestAnimationFrame(loop);
 }

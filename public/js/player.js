@@ -38,11 +38,11 @@ export class Player {
             }
         }
     }
-
-    move = () => {
-        this.x += this.dx;
-        this.y += this.dy;
-        this.healthBar.move(this.dx, this.dy);
+    
+    move = (time) => {
+        this.x += (this.dx * time);
+        this.y += (this.dy * time);
+        this.healthBar.move(this.dx * time, this.dy * time);
     }
 
     damage = amount => {
