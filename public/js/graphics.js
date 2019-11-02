@@ -1,3 +1,5 @@
+const mapTiles = [];
+
 export const drawFrame = (context, img, frameX, frameY, canvasX, canvasY) => {
     var scaledWidth = 84;
     var scaledHeight = 84;
@@ -21,11 +23,15 @@ export const drawPlayerAnimation = (context, player) => {
     player.nextFrame();
 }
 
-export const drawImage = (context, x, y, tileID, tilesSize) => {
-    const base_image = new Image();
-    base_image.src = '/media/tile' + tileID + '.png';
-    base_image.onload = function() {
-        context.drawImage(base_image, x, y, tilesSize, tilesSize);
+export const drawImage = (context, x, y, tileID, tilesSize) => {  
+    if(mapTiles[tileID] === undefined) {  
+        mapTiles[tileID] = new Image();
+        mapTiles[tileID].src = '/media/tile' + tileID + '.png';
+        mapTiles[tileID].onload = function(){
+            context.drawImage(mapTiles[tileID], x, y, tilesSize, tilesSize);        
+        }    
+    }else {
+        context.drawImage(mapTiles[tileID], x, y, tilesSize, tilesSize);       
     }
 }
 
