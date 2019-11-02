@@ -18,9 +18,9 @@ export const drawFrame = (context, img, frameX, frameY, canvasX, canvasY) => {
     );
 }
 
-export const drawPlayerAnimation = (context, player) => {
-    drawFrame(context, player.image, player.frameX, player.frameY, player.x, player.y);
-    player.nextFrame();
+export const drawEntityAnimation = (context, entity) => {    
+    drawFrame(context, entity.image, entity.frameX, entity.frameY, entity.x, entity.y);
+    entity.nextFrame();
 }
 
 export const drawImage = (context, x, y, tileID, tilesSize) => {  

@@ -1,11 +1,13 @@
 import { initSocksEvents, sendMessage } from '/js/socketsHandler.js';
 import { initInputsEvent, isKeyPressed, cansendNx, cansendNy } from '/js/inputsHandler.js';
-import { drawPlayerAnimation, drawMap } from '/js/graphics.js';
+import { drawEntityAnimation, drawMap } from '/js/graphics.js';
 import { initChat } from '/js/chat.js';
 import { mapLevel, tilesSize } from '/js/map.js';
 import { Player } from '/js/player.js';
+import { Skeleton } from '/js/skeleton.js';
 
 var player, player2;
+const mobs = [];
 var canvas;
 var context;
 
@@ -28,6 +30,8 @@ const init = () => {
 
     const pseudo = prompt("votre pseudo:");
     player = new Player(pseudo, 300, 300);
+    mobs.push(new Skeleton("skeleton", 300, 50));
+    mobs[0].dy = mobs[0].speed;
 
     sendMessage('newplayer', { name: pseudo, x: player.x, y: player.y });
 
@@ -106,17 +110,40 @@ const playerMovements = () => {
     }
 }
 
+const randomMobsMovements = (m) => {
+    if (m.x + m.width > canvas.width) {
+        m.dx = -m.speed;
+    }
+    if (m.x <= 0) {
+        m.dx = m.speed;
+    }
+
+    if (m.y + m.width > canvas.height) {
+        m.dy = -m.speed;
+    }
+
+    if (m.y < 0) {
+        m.dy = m.speed;
+    }
+}
+
 const loop = () => {    
     //context.clearRect(0, 0, canvas.width, canvas.height);
     const startDate = new Date();
     drawMap(context, mapLevel, tilesSize);      
     
-    drawPlayerAnimation(context, player);
-
+    drawEntityAnimation(context, player);   
 
     playerMovements();
         
     player.draw(context);
+    mobs.forEach(m => {
+        drawEntityAnimation(context, m);
+        m.draw(context);
+        randomMobsMovements(m);
+    })
+    
+    
             
     if(player2) {                           
         player2.draw(context);
@@ -129,6 +156,9 @@ const loop = () => {
     if(player2)
         player2.move(delta);
     player.move(delta);
+    mobs.forEach(m => {
+        m.move(delta);
+    })
     
     requestAnimationFrame(loop);
 }
