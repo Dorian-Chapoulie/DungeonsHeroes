@@ -5,12 +5,13 @@ import { initChat } from '/js/chat.js';
 import { mapLevel, tilesSize } from '/js/map.js';
 import { Player } from '/js/player.js';
 import { Skeleton } from '/js/skeleton.js';
+import { Fire } from '/js/Fire.js';
 
 var player, player2;
 const mobs = [];
 var canvas;
 var context;
-
+var fire = [];
 var canSendNx = false;
 var canSendNy = false;
 
@@ -36,53 +37,53 @@ const init = () => {
     sendMessage('newplayer', { name: pseudo, x: player.x, y: player.y });
 
     canvas = document.getElementById('Canvas');
-    context = canvas.getContext('2d');    
-           
-    drawMap(context, mapLevel, tilesSize); 
+    context = canvas.getContext('2d');
+
+    drawMap(context, mapLevel, tilesSize);
     requestAnimationFrame(loop);
 
     setInterval(() => {
-        sendMessage('playerpos', {x: player.x, y: player.y});  
+        sendMessage('playerpos', { x: player.x, y: player.y });
     }, 2 * 1000);
 }
 
 const playerMovements = () => {
-    
-     /* Collision Murs */
-     if (player.x + player.width > canvas.width && player.canMoveRight) {
+
+    /* Collision Murs */
+    if (player.x + player.width > canvas.width && player.canMoveRight) {
         player.dx = 0;
         player.canMoveRight = false;
-    }else {
+    } else {
         player.canMoveRight = true;
     }
 
     if (player.x <= 0 && player.canMoveLeft) {
         player.dx = 0;
         player.canMoveLeft = false;
-    }else {
+    } else {
         player.canMoveLeft = true;
     }
 
-    if (player.y + player.width > canvas.height &&  player.canMoveDown) {
+    if (player.y + player.width > canvas.height && player.canMoveDown) {
         player.dy = 0;
         player.canMoveDown = false;
-    }else {
+    } else {
         player.canMoveDown = true;
     }
 
     if (player.y < 0 && player.canMoveUp) {
         player.dy = 0;
         player.canMoveUp = false;
-    }else {
+    } else {
         player.canMoveUp = true;
     }
 
-    if(isKeyPressed("z") && player.canMoveUp) {
-        player.dy = - player.speed;
-        player.frameY = player.AVANCER;               
-        sendMessage('playermove', {pos: 'z', name: player.name});      
-        canSendNy = true;              
-    }else if(isKeyPressed("s") && player.canMoveDown) {
+    if (isKeyPressed("z") && player.canMoveUp) {
+        player.dy = -player.speed;
+        player.frameY = player.AVANCER;
+        sendMessage('playermove', { pos: 'z', name: player.name });
+        canSendNy = true;
+    } else if (isKeyPressed("s") && player.canMoveDown) {
         player.dy = player.speed;
         player.frameY = player.RECULER;
         sendMessage('playermove', { pos: 's', name: player.name });
@@ -93,12 +94,12 @@ const playerMovements = () => {
         canSendNy = false;
     }
 
-    if (isKeyPressed("q")  && player.canMoveLeft) {
+    if (isKeyPressed("q") && player.canMoveLeft) {
         player.dx = -player.speed;
         player.frameY = player.GAUCHE;
         sendMessage('playermove', { pos: 'q', name: player.name });
         canSendNx = true;
-    } else if (isKeyPressed("d")  && player.canMoveRight) {
+    } else if (isKeyPressed("d") && player.canMoveRight) {
         player.dx = player.speed;
         player.frameY = player.DROIT;
         sendMessage('playermove', { pos: 'd', name: player.name });
@@ -127,38 +128,61 @@ const randomMobsMovements = (m) => {
     }
 }
 
-const loop = () => {    
+function drawFire() {
+    fire.forEach((r) => {
+        r.draw();
+    })
+}
+
+function createFire(n) {
+    for (let i = 0; i < n; i++) {
+        fire[i] = new Fire(context, player.x + player.width / 2, player.y, 0, 5);
+        fire[i].draw();
+        fire[i].move();
+    }
+}
+
+function moveFire() {
+    fire.forEach((r) => {
+        r.move();
+    });
+}
+
+const loop = () => {
     //context.clearRect(0, 0, canvas.width, canvas.height);
     const startDate = new Date();
-    drawMap(context, mapLevel, tilesSize);      
-    
-    drawEntityAnimation(context, player);   
+    drawMap(context, mapLevel, tilesSize);
+
+    drawEntityAnimation(context, player);
 
     playerMovements();
-        
+
+    createFire(Math.random() * 100);
+    drawFire();
+    moveFire();
+
     player.draw(context);
     mobs.forEach(m => {
         drawEntityAnimation(context, m);
         m.draw(context);
         randomMobsMovements(m);
     })
-    
-    
-            
-    if(player2) {                           
+
+
+    if (player2) {
         player2.draw(context);
-        drawPlayerAnimation(context, player2);
+        drawEntityAnimation(context, player2);
     }
 
     const endDate = new Date();
     const delta = (endDate.getTime() - startDate.getTime()) + 1;
 
-    if(player2)
+    if (player2)
         player2.move(delta);
     player.move(delta);
     mobs.forEach(m => {
         m.move(delta);
     })
-    
+
     requestAnimationFrame(loop);
 }
