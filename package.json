@@ -1,0 +1,24 @@
+{
+  "name": "dungeonsheroes",
+  "version": "1.0.0",
+  "description": "archero game like",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/none06/DungeonsHeroes.git"
+  },
+  "author": "Dorian Chapoulie - Rémi Longin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/none06/DungeonsHeroes/issues"
+  },
+  "homepage": "https://github.com/none06/DungeonsHeroes#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "socket.io": "^2.3.0"
+  }
+}
