@@ -1,8 +1,8 @@
 const mapTiles = [];
 
 export const drawFrame = (context, img, frameX, frameY, canvasX, canvasY) => {
-    var scaledWidth = 84;
-    var scaledHeight = 84;
+    var scaledWidth = 64;
+    var scaledHeight = 64;
     var width = 64;
     var height = 64;
     context.drawImage(
