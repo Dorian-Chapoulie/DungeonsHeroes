@@ -6,7 +6,7 @@ export class Fire {
         this.dx = Math.sin(angle) * speed;
         this.dy = -Math.cos(angle) * speed;
         this.context = context;
-
+        this.damageValue = 3;
     }
 
     draw() {

@@ -8,7 +8,7 @@ import { Skeleton } from '/js/skeleton.js';
 import { Fire } from '/js/Fire.js';
 
 var player, player2;
-const mobs = [];
+var mobs = [];
 var canvas;
 var context;
 var fire = [];
@@ -32,7 +32,7 @@ const init = () => {
     const pseudo = prompt("votre pseudo:");
     player = new Player(pseudo, 300, 300);
     mobs.push(new Skeleton("skeleton", 300, 50));
-    mobs[0].dy = mobs[0].speed;
+    //mobs[0].dy = mobs[0].speed;
 
     sendMessage('newplayer', { name: pseudo, x: player.x, y: player.y });
 
@@ -130,22 +130,45 @@ const randomMobsMovements = (m) => {
 
 function drawFire() {
     fire.forEach((r) => {
-        r.draw();
+        if(mobs.length > 0)
+            r.draw();
     })
 }
 
 function createFire(n) {
     for (let i = 0; i < n; i++) {
-        fire[i] = new Fire(context, player.x + player.width / 2, player.y, 0, 5);
-        fire[i].draw();
-        fire[i].move();
+        if(fire[i] !== undefined) {
+            if(fire[i].x >= canvas.width
+                || fire[i].x <= 0
+                || fire[i].y >= canvas.height
+                || fire[i].y <= 0) {
+                    fire[i] = new Fire(context, player.x + player.width / 2, player.y, 0, 5);
+                }
+        }else {
+            fire[i] = new Fire(context, player.x + player.width / 2, player.y, 0, 5);
+        }               
     }
 }
 
 function moveFire() {
     fire.forEach((r) => {
-        r.move();
+        if(mobs.length > 0) {
+            r.move();
+            projectileCollision(r, mobs[0]);
+        }
     });
+}
+
+//x = mobs[0].x + mobs[0].width / 3;
+//mobs[0].x + mobs[0].width - (mobs[0].width / 3);
+const projectileCollision = (projectile, entity) => {
+    if(projectile.x >= entity.x + entity.width / 3 && projectile.x <= entity.x + entity.width - (entity.width / 3)) {
+        if(projectile.y >= entity.y && projectile.y <= entity.y + entity.height / 2) {
+            entity.damage(projectile.damageValue);
+            entity.draw(context);
+            projectile.x = -1; //TO-DO: correct way to delete the object
+        }
+    }
 }
 
 const loop = () => {
@@ -157,11 +180,13 @@ const loop = () => {
 
     playerMovements();
 
-    createFire(Math.random() * 100);
+    createFire(3);
     drawFire();
     moveFire();
 
     player.draw(context);
+
+    mobs = mobs.filter(m => m.health > 0);
     mobs.forEach(m => {
         drawEntityAnimation(context, m);
         m.draw(context);
