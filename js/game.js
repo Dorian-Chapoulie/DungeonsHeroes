@@ -13,7 +13,7 @@ class Game {
         ];
 
         this.socketHanlder = socketHanlder;
-        this.sendMap();
+        this.map = [];
     }
 
     getRandomInt(max) {
@@ -21,21 +21,22 @@ class Game {
     }   
 
     sendMap() {
-        const map = [];
-        let row = [];  
-        let x = 0;                
+        if(this.map.length <= 0) {
+            let row = [];  
+            let x = 0;                
 
-        for(let i = 0; i < (this.WIDTH / this.TILE_SIZE) * (this.HEIGHT / this.TILE_SIZE); i++) {                       
-            if(x == (this.WIDTH / this.TILE_SIZE)) {                
-                x = 0;                     
-                map.push(row);                
-                row = [];                
-            }
-            row.push(this.tiles[this.getRandomInt(this.tiles.length)]);                
-            x++;                             
-        }                    
-        if(row.length > 0) map.push(row);            
-        this.socketHanlder.sendMessage('map', map);
+            for(let i = 0; i < (this.WIDTH / this.TILE_SIZE) * (this.HEIGHT / this.TILE_SIZE); i++) {                       
+                if(x == (this.WIDTH / this.TILE_SIZE)) {                
+                    x = 0;                     
+                    this.map.push(row);                
+                    row = [];                
+                }
+                row.push(this.tiles[this.getRandomInt(this.tiles.length)]);                
+                x++;                             
+            }                    
+            if(row.length > 0) this.map.push(row);            
+        }
+        this.socketHanlder.sendMessage('map', this.map);
     }
 
     async startGameLoop() {
