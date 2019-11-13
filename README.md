@@ -1,4 +1,4 @@
-![](https://i.ibb.co/HC0HsHr/unnamed.png)
+![](https://i.ibb.co/k56htP7/Screenshot-3.png)
 
 
 # Game
@@ -13,56 +13,68 @@ This game is strongly inspired by the mobile arcade action game:  [Archero](http
 <!--ts-->
    * [Game](#Game)
    * [Table of contents](#table-of-contents)
-   * [Mission](#Mission)
-      * [First step](#First-step)
-      * [Second step](#Second-step)
-      * [Third step](#Third-step)
-      * [X step](#X-step)
+   * [First Preview](#First-Preview)
+   * [Sprite](#Sprite)
+   * [Next Missions](#Next-Mission)
    * [Required](#Required)
    * [Authors](#Authors)
+   * [Acknowledgment](#Acknowledgment)
    * [License](#License)
    * [End](#End)
  
 <!--te-->
 
-# Mission
+# First Preview
 
-## First step
-1. create a map
-2. create a character who can move in the map thanks to the keys of the keyboard
-3. spawn monsters randomly in the map and make them move randomly
-4. include the possibility of shooting between the character and the monsters
+![](https://i.ibb.co/wzycXPG/Screenshot-6.png)
 
-## Second step
-1. generate random worlds
-2. the monsters are aiming the character
-3. improve shooting
-4. health bar for character and monsters
 
-## Third step
-1. Differents stages
-2. new monsters ?
-3. sprite for character and monsters (animation)
+# Sprite
 
-## X step
+![](https://i.ibb.co/wzjjVzG/Screenshot-9.png)
 
-others worlds
-bonus
-multiplayer (network)
-website 
-and so on...
+Note : this is a basic sprite used as a test , we will change for a better one later
+
+
+# Multiplayer 
+
+![](https://i.ibb.co/pKkPZS4/Screenshot-7.png)
+
+![](https://i.ibb.co/7zCgXmw/Screenshot-8.png)
+
+Note : a chat system has been implemented to allow a communication between the two players
+
+# Next Missions
+
+1. spawn differents monsters randomly in the map and make them move randomly
+2. include the possibility of shooting between the character and the monsters
+3. player and monster aim at each other
+4. improve shooting
+5. generate random worlds
+6. Differents stages
+
 
 # Required
 
 + JavaScript
 + Html5 / CSS
-+ ...
++ Node JS
 
 # Authors
 
 + CHAPOULIE Dorian  [github](https://github.com/none06)
 
 + LONGIN Rémi [github](https://github.com/remiLNG)
+
+# Acknowledgment
+
+Thanks to 
+
+Tamerlan BEKMURZAYEV Student in Gobelins PARIS
+
+
+for making our logo
+
 
 # License
 
