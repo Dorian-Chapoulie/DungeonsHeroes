@@ -16,6 +16,7 @@ This game is strongly inspired by the mobile arcade action game:  [Archero](http
    * [First Preview](#First-Preview)
    * [Sprite](#Sprite)
    * [Next Missions](#Next-Mission)
+   * [To Do List ](#To-do-list)
    * [Required](#Required)
    * [Authors](#Authors)
    * [Acknowledgment](#Acknowledgment)
@@ -53,6 +54,16 @@ Note : a chat system has been implemented to allow a communication between the t
 5. generate random worlds
 6. Differents stages
 
+
+# To Do List  
+
+
+| Monday, November 18th |  
+| --------- | 
+|  Player and Monsters aim at each other |
+|  Fix multiplayer delay |    
+|  Random displacement for the monsters |  
+|  Fix some errors |   
 
 # Required
 
