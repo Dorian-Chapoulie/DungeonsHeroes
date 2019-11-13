@@ -2,7 +2,7 @@ const socket = io.connect();
 import { saveMap } from '/js/map.js';
 import { Player } from '/js/player.js';
 import { setNewPlayer, getNewPlayer } from '/js/game.js';
-import { displayMessage, displayNewUser } from '/js/chat.js';
+import { displayMessage, displayNewUser, displayUserDisconnected } from '/js/chat.js';
 
 export const initSocksEvents = () => {
     sendMessage('playerlist');
@@ -54,6 +54,12 @@ export const initSocksEvents = () => {
         player.y = pos.y;   
         player.healthBar.x = pos.x;
         player.healthBar.y = pos.y;       
+    });  
+
+
+    socket.on('playerdisconnected', player => {   
+        displayUserDisconnected(player.name);
+        setNewPlayer(undefined);        
     });  
 }
 
