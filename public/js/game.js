@@ -12,6 +12,7 @@ var mobs = [];
 var canvas;
 var context;
 var fire = [];
+var firemob = [];
 var canSendNx = false;
 var canSendNy = false;
 
@@ -32,7 +33,8 @@ const init = () => {
     const pseudo = prompt("votre pseudo:");
     player = new Player(pseudo, 300, 300);
     mobs.push(new Skeleton("skeleton", 300, 50));
-    //mobs[0].dy = mobs[0].speed;
+    //  mobs[0].dy = mobs[0].speed;
+    // mobs[0].dx = mobs[0].speed;
 
     sendMessage('newplayer', { name: pseudo, x: player.x, y: player.y });
 
@@ -128,42 +130,69 @@ const randomMobsMovements = (m) => {
     }
 }
 
-function drawFire() {
-    fire.forEach((r) => {
-        if(mobs.length > 0)
-            r.draw();
-    })
-}
+
 
 function createFire(n) {
     for (let i = 0; i < n; i++) {
-        if(fire[i] !== undefined) {
-            if(fire[i].x >= canvas.width
-                || fire[i].x <= 0
-                || fire[i].y >= canvas.height
-                || fire[i].y <= 0) {
-                    fire[i] = new Fire(context, player.x + player.width / 2, player.y, 0, 5);
-                }
-        }else {
+        if (fire[i] !== undefined) {
+            if (fire[i].x >= canvas.width ||
+                fire[i].x <= 0 ||
+                fire[i].y >= canvas.height ||
+                fire[i].y <= 0) {
+                fire[i] = new Fire(context, player.x + player.width / 2, player.y, 0, 5);
+
+            }
+        } else {
             fire[i] = new Fire(context, player.x + player.width / 2, player.y, 0, 5);
-        }               
+
+        }
     }
+}
+
+function monsterFire(n) {
+    for (let i = 0; i < n; i++) {
+        if (firemob[i] !== undefined) {
+            if (firemob[i].x >= canvas.width ||
+                firemob[i].x <= 0 ||
+                firemob[i].y >= canvas.height ||
+                firemob[i].y <= 0) {
+                firemob[i] = new Fire(context, mobs[0].x + mobs[0].width / 2, mobs[0].y, 0, 5);
+
+            }
+        } else {
+            firemob[i] = new Fire(context, mobs[0].x + mobs[0].width / 2, mobs[0].y, 0, 5);
+
+        }
+    }
+}
+
+function drawFire() {
+    fire.forEach((r) => {
+        if (mobs.length > 0)
+            r.draw();
+    })
+    firemob.forEach((r) => {
+        r.draw();
+    })
 }
 
 function moveFire() {
     fire.forEach((r) => {
-        if(mobs.length > 0) {
+        if (mobs.length > 0) {
             r.move();
             projectileCollision(r, mobs[0]);
         }
+    });
+    firemob.forEach((r) => {
+        r.move();
     });
 }
 
 //x = mobs[0].x + mobs[0].width / 3;
 //mobs[0].x + mobs[0].width - (mobs[0].width / 3);
 const projectileCollision = (projectile, entity) => {
-    if(projectile.x >= entity.x + entity.width / 3 && projectile.x <= entity.x + entity.width - (entity.width / 3)) {
-        if(projectile.y >= entity.y && projectile.y <= entity.y + entity.height / 2) {
+    if (projectile.x >= entity.x + entity.width / 3 && projectile.x <= entity.x + entity.width - (entity.width / 3)) {
+        if (projectile.y >= entity.y && projectile.y <= entity.y + entity.height / 2) {
             entity.damage(projectile.damageValue);
             entity.draw(context);
             projectile.x = -1; //TO-DO: correct way to delete the object
@@ -180,7 +209,8 @@ const loop = () => {
 
     playerMovements();
 
-    createFire(3);
+    createFire(10);
+    monsterFire(3);
     drawFire();
     moveFire();
 
