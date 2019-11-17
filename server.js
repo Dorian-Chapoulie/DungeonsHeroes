@@ -2,8 +2,15 @@ const config = require('./config/config');
 const http = require('http'); 
 const path = require("path");
 const express = require('express');  
+
+const fs = require('fs');
+const https = require('https');
+const privateKey  = fs.readFileSync('./certificats/KEY.key', 'utf8');
+const certificate = fs.readFileSync('./certificats/CERT.cert', 'utf8');
+const credentials = {key: privateKey, cert: certificate};
+
 const app = express();
-const server = http.createServer(app);
+const server = https.createServer(credentials, app);
 const io = require('socket.io').listen(server);
 
 const CSocketHanlder = require('./js/socketsHanlder');
@@ -25,4 +32,6 @@ app.get('/', function(req, res) {
     res.sendFile(path.join(__dirname + '/public/html/index.html'));
 });
 
-console.log('Server running at http://127.0.0.1:' + config.port);  
+//var s = new PeerServer({port: port, allow_discovery: true});
+
+console.log('Server running at https://127.0.0.1:' + config.port);  

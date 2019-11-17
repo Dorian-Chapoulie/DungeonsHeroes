@@ -9,10 +9,11 @@ class SocketsHanlder {
             this.chat.addEvents(socket);    
             this.game.sendMap();    
 
-            socket.on('newplayer', (data) => {   
-                socket.broadcast.emit('newplayer', data); 
+            socket.on('newplayer', (data) => {  
+                const {name, x, y} = data;
+                socket.broadcast.emit('newplayer', {name, x, y, socketId: socket.id}); 
                 socket.emit('playerlist', this.game.joueurs);                  
-                this.game.joueurs.push({name: data.name, x: data.x, y: data.y, socketId: socket.id});                                                                                
+                this.game.joueurs.push({name: data.name, x: data.x, y: data.y, socketId: socket.id});                                                   
             });                            
         
 

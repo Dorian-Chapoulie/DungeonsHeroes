@@ -4,7 +4,8 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width">
         <title>Dungeon's Heroes</title>
-        <script src="/socket.io/socket.io.js"></script>         
+        <script src="/socket.io/socket.io.js"></script>     
+        <script src="https://unpkg.com/peerjs@1.0.0/dist/peerjs.min.js"></script>    
         <link rel="stylesheet" href="/css/style.css">
     </head>
 <body>
@@ -19,8 +20,10 @@
                 <input type="button" id="sendchat" value="send"/>
             </div>
         </div>
-
     </div>
+
+    <video id="video" width="300" height="300" autoplay="autoplay" class="mx-auto d-block"></video>
+    <video id="video2" width="300" height="300" autoplay="autoplay" class="mx-auto d-block"></video>
 
 </body>        
     <script type="module" src="/js/socketsHandler.js" />
