@@ -178,42 +178,14 @@ function drawFire() {
 
 function moveFire() {
     fire.forEach((r) => {
-        if (r.test === undefined) {
-            r.test = true;
-            const Mx = mobs[0].x;
-            const My = mobs[0].y;
 
-            const Px = player.x;
-            const Py = player.y;
-
-            var angleRadians = Math.atan2(My - Py, Mx - Px);
-
-            var angleDeg = Math.atan2(My - Py, Mx - Px) * 18 / Math.PI;
-
-            r.dx = Math.cos(angleRadians) * 1;
-            r.dy = Math.sin(angleRadians) * 1;
-        }
         if (mobs.length > 0) {
             r.move();
             projectileCollision(r, mobs[0]);
         }
     });
     firemob.forEach((r) => {
-        if (r.test === undefined) {
-            r.test = true;
-            const Px = player.x;
-            const Py = player.y;
 
-            const Mx = mobs[0].x;
-            const My = mobs[0].y;
-
-            var angleRadians = Math.atan2(Py - My, Px - Mx);
-
-            var angleDeg = Math.atan2(Py - My, Px - Mx) * 18 / Math.PI;
-
-            r.dx = Math.cos(angleRadians) * 1;
-            r.dy = Math.sin(angleRadians) * 1;
-        }
         r.move();
     });
 }
