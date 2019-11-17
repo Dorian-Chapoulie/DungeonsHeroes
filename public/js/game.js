@@ -33,8 +33,8 @@ const init = () => {
     const pseudo = prompt("votre pseudo:");
     player = new Player(pseudo, 300, 300);
     mobs.push(new Skeleton("skeleton", 300, 50));
-    //  mobs[0].dy = mobs[0].speed;
-    // mobs[0].dx = mobs[0].speed;
+    // mobs[0].dy = mobs[0].speed;
+    //mobs[0].dx = mobs[0].speed;
 
     sendMessage('newplayer', { name: pseudo, x: player.x, y: player.y });
 
@@ -178,12 +178,42 @@ function drawFire() {
 
 function moveFire() {
     fire.forEach((r) => {
+        if (r.test === undefined) {
+            r.test = true;
+            const Mx = mobs[0].x;
+            const My = mobs[0].y;
+
+            const Px = player.x;
+            const Py = player.y;
+
+            var angleRadians = Math.atan2(My - Py, Mx - Px);
+
+            var angleDeg = Math.atan2(My - Py, Mx - Px) * 18 / Math.PI;
+
+            r.dx = Math.cos(angleRadians) * 1;
+            r.dy = Math.sin(angleRadians) * 1;
+        }
         if (mobs.length > 0) {
             r.move();
             projectileCollision(r, mobs[0]);
         }
     });
     firemob.forEach((r) => {
+        if (r.test === undefined) {
+            r.test = true;
+            const Px = player.x;
+            const Py = player.y;
+
+            const Mx = mobs[0].x;
+            const My = mobs[0].y;
+
+            var angleRadians = Math.atan2(Py - My, Px - Mx);
+
+            var angleDeg = Math.atan2(Py - My, Px - Mx) * 18 / Math.PI;
+
+            r.dx = Math.cos(angleRadians) * 1;
+            r.dy = Math.sin(angleRadians) * 1;
+        }
         r.move();
     });
 }
@@ -198,6 +228,7 @@ const projectileCollision = (projectile, entity) => {
             projectile.x = -1; //TO-DO: correct way to delete the object
         }
     }
+
 }
 
 const loop = () => {
@@ -210,7 +241,7 @@ const loop = () => {
     playerMovements();
 
     createFire(10);
-    monsterFire(3);
+    monsterFire(1);
     drawFire();
     moveFire();
 
