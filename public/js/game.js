@@ -31,7 +31,7 @@ const init = () => {
     initChat();
 
     const pseudo = prompt("votre pseudo:");
-    player = new Player(pseudo, 300, 300);
+    player = new Player(pseudo, 300, 300, undefined);
     mobs.push(new Skeleton("skeleton", 300, 50));
     // mobs[0].dy = mobs[0].speed;
     //mobs[0].dx = mobs[0].speed;
@@ -130,8 +130,6 @@ const randomMobsMovements = (m) => {
     }
 }
 
-
-
 function createFire(n) {
     for (let i = 0; i < n; i++) {
         if (fire[i] !== undefined) {
@@ -168,8 +166,9 @@ function monsterFire(n) {
 
 function drawFire() {
     fire.forEach((r) => {
-        if (mobs.length > 0)
-            r.draw();
+        if (mobs.length > 0){
+           r.draw();
+        }
     })
     firemob.forEach((r) => {
         r.draw();

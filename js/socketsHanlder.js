@@ -9,10 +9,11 @@ class SocketsHanlder {
             this.chat.addEvents(socket);    
             this.game.sendMap();    
 
-            socket.on('newplayer', (data) => {   
-                socket.broadcast.emit('newplayer', data); 
-                socket.emit('playerlist', this.game.joueurs);  
-                this.game.joueurs.push({name: data.name, x: data.x, y: data.y});                                                                                
+            socket.on('newplayer', (data) => {  
+                const {name, x, y} = data;
+                socket.broadcast.emit('newplayer', {name, x, y, socketId: socket.id}); 
+                socket.emit('playerlist', this.game.joueurs);                  
+                this.game.joueurs.push({name: data.name, x: data.x, y: data.y, socketId: socket.id});                                                   
             });                            
         
 
@@ -38,7 +39,14 @@ class SocketsHanlder {
             socket.on('playerpos', data => {                                                 
                 socket.broadcast.emit('playerpos', data);            
             });
-        });
+
+            socket.on('disconnect', () => {                                 
+                const disconnectedPlayer = this.game.joueurs.find(p => p.socketId === socket.id);
+                socket.broadcast.emit('playerdisconnected', disconnectedPlayer);
+                this.game.joueurs = this.game.joueurs.filter(j => j !== disconnectedPlayer);                                
+            });
+        });       
+
     }
 
     sendMessage(event, data) {

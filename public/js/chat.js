@@ -22,6 +22,14 @@ export const displayNewUser = username => {
     scrollToLastMsg();
 }
 
+export const displayUserDisconnected = username => {
+    const chatBox = document.getElementById('conversation');
+    const message = document.createElement('p');
+    message.innerHTML = '<b>' + username + '</b>' + '<i>' + "s'est déconnecté." + '</i>';
+    chatBox.appendChild(message);
+    scrollToLastMsg();
+}
+
 const scrollToLastMsg = () =>  {
     const chatBox = document.getElementById('conversation');
     chatBox.scrollTop = chatBox.scrollHeight;

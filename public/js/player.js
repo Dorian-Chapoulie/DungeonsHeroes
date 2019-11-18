@@ -1,8 +1,9 @@
 import { Entity } from "/js/entity.js";
 
 export class Player extends Entity {
-    constructor(name, x, y) {
+    constructor(name, x, y, id) {
         super(x,y);
+        this.id = id;
         this.name = name;
 
         this.canMoveUp = true;
