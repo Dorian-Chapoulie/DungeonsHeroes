@@ -11,6 +11,8 @@ export class Player extends Entity {
         this.canMoveRight = true;
         this.canMoveLeft = true;
 
+        this.speed = 3;
+
         this.image = new Image();
         this.image.src = '/media/player-sprite.png'
     }

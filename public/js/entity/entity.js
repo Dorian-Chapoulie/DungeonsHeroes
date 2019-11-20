@@ -8,7 +8,7 @@ export class Entity {
         this.height = 64;
         this.dx = 0;
         this.dy = 0;
-        this.speed = 5;
+        this.speed = 1;
 
         this.frameX = 0;
         this.frameY = 0;
@@ -51,6 +51,8 @@ export class Entity {
 
         this.healthBar.health = this.health;
     }
+
+    shoot(context, entity) {}
 
     draw(context) {
         this.healthBar.draw(context);
