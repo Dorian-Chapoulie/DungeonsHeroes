@@ -1,4 +1,4 @@
-class Game {    
+class Game {
     constructor(socketHanlder) {
         this.joueurs = [];
         this.isPlaying = false;
@@ -10,6 +10,7 @@ class Game {
         this.tiles = [
             1,
             2,
+            3,
         ];
 
         this.socketHanlder = socketHanlder;
@@ -18,29 +19,29 @@ class Game {
 
     getRandomInt(max) {
         return Math.floor(Math.random() * Math.floor(max));
-    }   
+    }
 
     sendMap() {
-        if(this.map.length <= 0) {
-            let row = [];  
-            let x = 0;                
+        if (this.map.length <= 0) {
+            let row = [];
+            let x = 0;
 
-            for(let i = 0; i < (this.WIDTH / this.TILE_SIZE) * (this.HEIGHT / this.TILE_SIZE); i++) {                       
-                if(x == (this.WIDTH / this.TILE_SIZE)) {                
-                    x = 0;                     
-                    this.map.push(row);                
-                    row = [];                
+            for (let i = 0; i < (this.WIDTH / this.TILE_SIZE) * (this.HEIGHT / this.TILE_SIZE); i++) {
+                if (x == (this.WIDTH / this.TILE_SIZE)) {
+                    x = 0;
+                    this.map.push(row);
+                    row = [];
                 }
-                row.push(this.tiles[this.getRandomInt(this.tiles.length)]);                
-                x++;                             
-            }                    
-            if(row.length > 0) this.map.push(row);            
+                row.push(this.tiles[this.getRandomInt(this.tiles.length)]);
+                x++;
+            }
+            if (row.length > 0) this.map.push(row);
         }
         this.socketHanlder.sendMessage('map', this.map);
     }
 
     async startGameLoop() {
-        this.isPlaying = true;       
+        this.isPlaying = true;
     }
 
     stopGameLoop() {
