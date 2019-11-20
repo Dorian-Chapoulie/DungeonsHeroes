@@ -31,8 +31,10 @@ const init = () => {
 
     const pseudo = prompt("votre pseudo:");
     player = new Player(pseudo, 300, 300, undefined);
-    mobs.push(new Skeleton("skeleton", 300, 50));
-    mobs.push(new Wizzard("Wizzard", 200, 50));       
+    for (let i = 0; i < Math.random() * 10; i++) {
+        mobs.push(new Skeleton("skeleton", Math.random() * 640, Math.random() * 896));
+        mobs.push(new Wizzard("Wizzard", Math.random() * 640, Math.random() * 896));
+    }
 
     sendMessage('newplayer', { name: pseudo, x: player.x, y: player.y });
 
@@ -130,10 +132,10 @@ const randomMobsMovements = (m) => {
 
 const projectileCollision = (projectile, entity) => {
     if (projectile.x >= entity.x + entity.width / 3 && projectile.x <= entity.x + entity.width - (entity.width / 3)) {
-        if (projectile.y >= entity.y && projectile.y <= entity.y + entity.height / 2) {            
+        if (projectile.y >= entity.y && projectile.y <= entity.y + entity.height / 2) {
             entity.damage(projectile.damageValue);
-            entity.draw(context);                        
-            return true;                      
+            entity.draw(context);
+            return true;
         }
     }
 
@@ -141,10 +143,10 @@ const projectileCollision = (projectile, entity) => {
 }
 
 const destroyProjectile = projectile => {
-    if(projectile.x >= canvas.width
-        || projectile.x <= 0
-        || projectile.y >= canvas.height
-        || projectile.y <= 0) {
+    if (projectile.x >= canvas.width ||
+        projectile.x <= 0 ||
+        projectile.y >= canvas.height ||
+        projectile.y <= 0) {
         return true;
     }
     return false;
@@ -157,24 +159,24 @@ const loop = () => {
 
     drawEntityAnimation(context, player);
 
-    playerMovements();    
+    playerMovements();
 
     player.draw(context);
 
     mobs = mobs.filter(m => m.health > 0);
-    
-    mobs.forEach(m => {        
+
+    mobs.forEach(m => {
         drawEntityAnimation(context, m);
         m.draw(context);
         m.shoot(context, player);
-        if(m.projectile !== undefined) {
+        if (m.projectile !== undefined) {
             m.projectile.move();
             if (projectileCollision(m.projectile, player)) {
                 m.canShoot = true;
                 m.projectile.onHit(player);
             }
 
-            if(destroyProjectile(m.projectile)) {
+            if (destroyProjectile(m.projectile)) {
                 m.canShoot = true;
             }
         }
@@ -192,7 +194,7 @@ const loop = () => {
 
     if (player2)
         player2.move(delta);
-        
+
     player.move(delta);
 
     mobs.forEach(m => {
