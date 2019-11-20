@@ -1,4 +1,4 @@
-import { HealthBar } from "/js/healthBar.js";
+import { HealthBar } from "/js/graphics/healthBar.js";
 
 export class Entity {
     constructor(x, y) {

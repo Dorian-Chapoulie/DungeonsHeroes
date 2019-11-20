@@ -1,8 +1,8 @@
 const socket = io.connect();
-import { saveMap } from '/js/map.js';
-import { Player } from '/js/player.js';
+import { saveMap } from '/js/network/map.js';
+import { Player } from '/js/entity/player.js';
 import { setNewPlayer, getNewPlayer } from '/js/game.js';
-import { displayMessage, displayNewUser, displayUserDisconnected } from '/js/chat.js';
+import { displayMessage, displayNewUser, displayUserDisconnected } from '/js/network/chat.js';
 
 var peer;
 var localMediaStream;

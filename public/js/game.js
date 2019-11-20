@@ -1,11 +1,12 @@
-import { initSocksEvents, sendMessage } from '/js/socketsHandler.js';
-import { initInputsEvent, isKeyPressed, cansendNx, cansendNy } from '/js/inputsHandler.js';
-import { drawEntityAnimation, drawMap } from '/js/graphics.js';
-import { initChat } from '/js/chat.js';
-import { mapLevel, tilesSize } from '/js/map.js';
-import { Player } from '/js/player.js';
-import { Skeleton } from '/js/skeleton.js';
-import { Fire } from '/js/Fire.js';
+import { initSocksEvents, sendMessage } from '/js/network/socketsHandler.js';
+import { initInputsEvent, isKeyPressed, cansendNx, cansendNy } from '/js/inputs/inputsHandler.js';
+import { drawEntityAnimation, drawMap } from '/js/graphics/graphics.js';
+import { initChat } from '/js/network/chat.js';
+import { mapLevel, tilesSize } from '/js/network/map.js';
+import { Player } from '/js/entity/player.js';
+import { Skeleton } from '/js/entity/skeleton.js';
+import { Wizzard } from '/js/entity/wizzard.js';
+import { Fire } from '/js/projectiles/Fire.js';
 
 var player, player2;
 var mobs = [];
@@ -33,8 +34,7 @@ const init = () => {
     const pseudo = prompt("votre pseudo:");
     player = new Player(pseudo, 300, 300, undefined);
     mobs.push(new Skeleton("skeleton", 300, 50));
-    mobs.push(new Skeleton("skeleton", 200, 50));
-    mobs.push(new Skeleton("skeleton", 400, 50));    
+    mobs.push(new Wizzard("skeleton", 200, 50));       
     // mobs[0].dy = mobs[0].speed;
     //mobs[0].dx = mobs[0].speed;
 

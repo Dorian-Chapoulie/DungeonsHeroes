@@ -1,4 +1,4 @@
-import { sendMessage } from '/js/socketsHandler.js';
+import { sendMessage } from '/js/network/socketsHandler.js';
 import { getLocalPlayer } from '/js/game.js';
 
 export const initChat = () => {
