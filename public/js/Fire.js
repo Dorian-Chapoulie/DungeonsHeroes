@@ -1,10 +1,10 @@
 export class Fire {
-    constructor(context, x, y, angle, speed) {
+    constructor(context, x, y) {
         this.x = x;
         this.y = y;
-        this.angle = angle;
-        this.dx = Math.sin(angle) * speed;
-        this.dy = -Math.cos(angle) * speed;
+        this.speed = 5;        
+        this.dx = 0;
+        this.dy = 0;
         this.context = context;
         this.damageValue = 3;
     }

@@ -33,6 +33,8 @@ const init = () => {
     const pseudo = prompt("votre pseudo:");
     player = new Player(pseudo, 300, 300, undefined);
     mobs.push(new Skeleton("skeleton", 300, 50));
+    mobs.push(new Skeleton("skeleton", 200, 50));
+    mobs.push(new Skeleton("skeleton", 400, 50));    
     // mobs[0].dy = mobs[0].speed;
     //mobs[0].dx = mobs[0].speed;
 
@@ -137,28 +139,31 @@ function createFire(n) {
                 fire[i].x <= 0 ||
                 fire[i].y >= canvas.height ||
                 fire[i].y <= 0) {
-                fire[i] = new Fire(context, player.x + player.width / 2, player.y, 0, 5);
+                fire[i] = new Fire(context, player.x + player.width / 2, player.y);
 
             }
         } else {
-            fire[i] = new Fire(context, player.x + player.width / 2, player.y, 0, 5);
+            fire[i] = new Fire(context, player.x + player.width / 2, player.y);
 
         }
     }
 }
 
 function monsterFire(n) {
+    if(mobs.length <= 0) {
+        return;
+    }
     for (let i = 0; i < n; i++) {
         if (firemob[i] !== undefined) {
             if (firemob[i].x >= canvas.width ||
                 firemob[i].x <= 0 ||
                 firemob[i].y >= canvas.height ||
                 firemob[i].y <= 0) {
-                firemob[i] = new Fire(context, mobs[0].x + mobs[0].width / 2, mobs[0].y, 0, 5);
+                firemob[i] = new Fire(context, mobs[0].x + mobs[0].width / 2, mobs[0].y);
 
             }
         } else {
-            firemob[i] = new Fire(context, mobs[0].x + mobs[0].width / 2, mobs[0].y, 0, 5);
+            firemob[i] = new Fire(context, mobs[0].x + mobs[0].width / 2, mobs[0].y);
 
         }
     }
@@ -167,38 +172,38 @@ function monsterFire(n) {
 function drawFire() {
     fire.forEach((r) => {
         if (mobs.length > 0){
-           r.draw();
+           r.draw();                      
         }
     })
-    firemob.forEach((r) => {
+    firemob.forEach((r) => {        
         r.draw();
     })
 }
 
 function moveFire() {
-    fire.forEach((r) => {
-        if (r.test === undefined) {
-            r.test = true;
-            const Mx = mobs[0].x;
-            const My = mobs[0].y;
-
-            const Px = player.x;
-            const Py = player.y;
-
-            var angleRadians = Math.atan2(My - Py, Mx - Px);
-
-            var angleDeg = Math.atan2(My - Py, Mx - Px) * 18 / Math.PI;
-
-            r.dx = Math.cos(angleRadians) * 1;
-            r.dy = Math.sin(angleRadians) * 1;
-        }
+    fire.forEach((r) => {       
         if (mobs.length > 0) {
             r.move();
-            projectileCollision(r, mobs[0]);
+            projectileCollision(r, mobs[0]);            
+            if (r.test === undefined) {                
+                r.test = true;            
+                const Mx = mobs[0].x;
+                const My = mobs[0].y;
+    
+                const Px = player.x;
+                const Py = player.y;
+    
+                var angleRadians = Math.atan2(My - Py, Mx - Px);
+    
+                //var angleDeg = Math.atan2(My - Py, Mx - Px) * 18 / Math.PI;
+    
+                r.dx = Math.cos(angleRadians) * r.speed;
+                r.dy = Math.sin(angleRadians) * r.speed;
+            }
         }
     });
     firemob.forEach((r) => {
-        if (r.test === undefined) {
+        if (r.test === undefined) {            
             r.test = true;
             const Px = player.x;
             const Py = player.y;
@@ -214,6 +219,7 @@ function moveFire() {
             r.dy = Math.sin(angleRadians) * 1;
         }
         r.move();
+        projectileCollision(r, player);        
     });
 }
 
@@ -221,10 +227,10 @@ function moveFire() {
 //mobs[0].x + mobs[0].width - (mobs[0].width / 3);
 const projectileCollision = (projectile, entity) => {
     if (projectile.x >= entity.x + entity.width / 3 && projectile.x <= entity.x + entity.width - (entity.width / 3)) {
-        if (projectile.y >= entity.y && projectile.y <= entity.y + entity.height / 2) {
+        if (projectile.y >= entity.y && projectile.y <= entity.y + entity.height / 2) {            
             entity.damage(projectile.damageValue);
-            entity.draw(context);
-            projectile.x = -1; //TO-DO: correct way to delete the object
+            entity.draw(context);                        
+            projectile.x = -1; //TO-DO: correct way to delete the object            
         }
     }
 
@@ -237,9 +243,9 @@ const loop = () => {
 
     drawEntityAnimation(context, player);
 
-    playerMovements();
+    playerMovements();    
 
-    createFire(10);
+    createFire(1);
     monsterFire(1);
     drawFire();
     moveFire();
@@ -250,7 +256,7 @@ const loop = () => {
     mobs.forEach(m => {
         drawEntityAnimation(context, m);
         m.draw(context);
-        randomMobsMovements(m);
+        randomMobsMovements(m);        
     })
 
 
