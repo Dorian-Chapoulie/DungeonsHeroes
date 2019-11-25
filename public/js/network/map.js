@@ -1,4 +1,4 @@
-export const tilesSize = 128;
+export const tilesSize = 32;
 export var mapLevel = [];
 
-export const saveMap = map => mapLevel = map;   
+export const saveMap = map => mapLevel = map;
