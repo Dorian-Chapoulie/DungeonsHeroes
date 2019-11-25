@@ -58,11 +58,10 @@ Note : a chat system has been implemented to allow a communication between the t
 # To Do List  
 
 
-| Monday, November 18th |  
+| Monday, November 25th |  
 | --------- | 
-|  Player and Monsters aim at each other |
-|  Fix multiplayer delay |    
-|  Random displacement for the monsters |  
+|  New mob  |
+|  Add walls  |    
 |  Fix some errors |   
 
 # Required
