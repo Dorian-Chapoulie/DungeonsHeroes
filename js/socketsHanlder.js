@@ -16,7 +16,9 @@ class SocketsHanlder {
                 this.game.joueurs.push({name: data.name, x: data.x, y: data.y, socketId: socket.id});  
 
                 if(this.game.joueurs.length == 2) {
-                    this.game.sendMobs();
+                    setTimeout(() => {
+                        this.game.sendMobs();
+                    }, 2000);                    
                 }                                    
                              
             });                            
