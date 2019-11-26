@@ -22,7 +22,7 @@ export class Player extends Entity {
         context.save();
         context.fillStyle = "white";
         context.font = "20px Arial";
-        context.fillText(this.name, this.x + , this.y);
+        context.fillText(this.name, this.x + context.measureText(this.name).width / 4, this.y);
         context.restore();
     }
 };
