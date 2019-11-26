@@ -20,7 +20,7 @@ export class Skeleton extends Entity {
             const Ex = this.target.x;
             const Ey = this.target.y;
 
-            const angleRadians = Math.atan2(Ey - this.y, Ex - this.x);        
+            const angleRadians = Math.atan2(Ey - this.y, Ex - this.x);
 
             this.projectile.dx = Math.cos(angleRadians) * this.speed;
             this.projectile.dy = Math.sin(angleRadians) * this.speed;
@@ -28,14 +28,14 @@ export class Skeleton extends Entity {
     }
 
     draw = context => {
-        super.draw(context); 
-        if(this.projectile !== undefined) {
+        super.draw(context);
+        if (this.projectile !== undefined) {
             this.projectile.draw();
-        }         
+        }
         context.save();
-        context.fillStyle = "red"; 
+        context.fillStyle = "red";
         context.font = "15px Arial";
-        context.restore();
         context.fillText(this.name, this.x + context.measureText(this.name).width / 4, this.y);
+        context.restore();
     }
 };
