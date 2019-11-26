@@ -26,14 +26,14 @@ export const getLocalPlayer = () => player;
 
 export const addMob = (id, pos, targetId) => {
     const target = targetId === player2.socketId ? player2 : player;
-    switch(id) {
-        case 0:             
+    switch (id) {
+        case 0:
             mobs.push(new Skeleton("skeleton", pos.x, pos.y, target));
             break;
-        case 1:                
+        case 1:
             mobs.push(new Wizzard("wizzard", pos.x, pos.y, target));
             break;
-        case 2:                
+        case 2:
             mobs.push(new Witch("witch", pos.x, pos.y, target));
             break;
     }
@@ -154,10 +154,10 @@ const projectileCollision = (projectile, entity) => {
 }
 
 const destroyProjectile = projectile => {
-    if (projectile.x >= canvas.width ||
-        projectile.x <= 0 ||
-        projectile.y >= canvas.height ||
-        projectile.y <= 0) {
+    if (projectile.x >= canvas.width - 32 ||
+        projectile.x <= 32 ||
+        projectile.y >= canvas.height - 32 ||
+        projectile.y <= 32) {
         return true;
     }
     return false;
