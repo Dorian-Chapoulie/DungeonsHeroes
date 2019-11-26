@@ -13,13 +13,18 @@ class SocketsHanlder {
                 const {name, x, y} = data;
                 socket.broadcast.emit('newplayer', {name, x, y, socketId: socket.id}); 
                 socket.emit('playerlist', this.game.joueurs);                  
-                this.game.joueurs.push({name: data.name, x: data.x, y: data.y, socketId: socket.id});                                                   
+                this.game.joueurs.push({name: data.name, x: data.x, y: data.y, socketId: socket.id});  
+
+                if(this.game.joueurs.length == 2) {
+                    this.game.sendMobs();
+                }                                    
+                             
             });                            
         
 
             socket.on('playermove', (data) => {                                                 
-                socket.broadcast.emit('playermove', data.pos);            
-                const player = this.game.joueurs.find(p => p.name === data.name);                
+                socket.broadcast.emit('playermove', data);            
+                /*const player = this.game.joueurs.find(p => p.name === data.name);                
                 switch(data.pos) {
                     case 'z':
                         player.y -= 5;
@@ -33,7 +38,7 @@ class SocketsHanlder {
                     case 'd':
                         player.x += 5;
                         break;
-                }
+                }*/
             });
 
             socket.on('playerpos', data => {                                                 

@@ -3,9 +3,9 @@ import { saveMap } from '/js/network/map.js';
 import { Player } from '/js/entity/player.js';
 import { setNewPlayer, getNewPlayer } from '/js/game.js';
 import { displayMessage, displayNewUser, displayUserDisconnected } from '/js/network/chat.js';
-
-var peer;
-var localMediaStream;
+import { addMob } from '/js/game.js';
+//var peer;
+//var localMediaStream;
 
 const askPermissions = (elementId) => {
     navigator.getUserMedia = navigator.getUserMedia ||
@@ -26,7 +26,10 @@ const askPermissions = (elementId) => {
 
 export const initSocksEvents = () => {
     sendMessage('playerlist');
-
+    socket.on('connect', () => { 
+        
+    });
+    /*
     socket.on('connect', () => {
         peer = new Peer(socket.id);
 
@@ -48,7 +51,7 @@ export const initSocksEvents = () => {
 
             call.answer(localMediaStream);
         });
-    });
+    });*/
 
     socket.on('map', map => {                               
         saveMap(map);
@@ -62,7 +65,7 @@ export const initSocksEvents = () => {
         setNewPlayer(new Player(player.name, player.x, player.y, player.socketId));
 
        
-        askPermissions('video');
+        /*askPermissions('video');
 
         const createEmptyAudioTrack = () => {
             const ctx = new AudioContext();
@@ -84,7 +87,7 @@ export const initSocksEvents = () => {
             videoPartner.onloadedmetadata = function(e) {
                 videoPartner.play();
             };
-        });
+        });*/
 
         displayNewUser(player.name);
     });  
@@ -118,11 +121,19 @@ export const initSocksEvents = () => {
     });  
 
     socket.on('playerpos', pos => {   
-        const player = getNewPlayer();                                    
-        player.x = pos.x;
-        player.y = pos.y;   
-        player.healthBar.x = pos.x;
-        player.healthBar.y = pos.y;       
+        const player = getNewPlayer();    
+        if(player) {             
+            player.x = pos.x;
+            player.y = pos.y;
+            player.healthBar.x = pos.x;
+            player.healthBar.y = pos.y;
+        }
+    });  
+
+    socket.on('mobs', data => {           
+        data.forEach(e => {            
+            addMob(e.mobId, e.position, e.target);
+        });
     });  
 
 

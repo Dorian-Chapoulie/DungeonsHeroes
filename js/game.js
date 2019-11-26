@@ -3,6 +3,8 @@ class Game {
         this.joueurs = [];
         this.isPlaying = false;
 
+        this.level = 0;
+
         this.WIDTH = 640;
         this.HEIGHT = 896;
         this.TILE_SIZE = 32;
@@ -14,8 +16,29 @@ class Game {
             4,
         ];
 
+        this.mobId = [
+            0,
+            1,
+            2,
+        ];
+
         this.socketHanlder = socketHanlder;
         this.map = [];
+    }
+
+    generateMobs() {
+        const ret = [];
+        for(let i = 0; i < this.level * 2 + 1; i++) {            
+            ret.push({
+                mobId: this.mobId[this.getRandomInt(this.mobId.length)],
+                target: this.joueurs[this.getRandomInt(this.joueurs.length)].socketId,
+                position: {
+                    x: this.getRandomInt(this.WIDTH),
+                    y: this.getRandomInt(this.HEIGHT),
+                },
+            });
+        }
+        return ret;
     }
 
     getRandomInt(max) {
@@ -28,6 +51,10 @@ class Game {
             tile = this.tiles[this.getRandomInt(this.tiles.length)];
         } while (forbidenValues.find(e => e === tile));
         return tile;
+    }
+
+    sendMobs() {
+        this.socketHanlder.sendMessage('mobs', this.generateMobs());
     }
 
     sendMap() {
@@ -56,7 +83,7 @@ class Game {
             }
             if (row.length > 0) this.map.push(row);
         }
-        console.log("MAP: ", this.map);
+
         this.socketHanlder.sendMessage('map', this.map);
     }
 

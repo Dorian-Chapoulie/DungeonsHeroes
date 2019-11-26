@@ -38,9 +38,9 @@ export class Entity {
     }
     
     move = (time) => {
-        this.x += (this.dx * time);
-        this.y += (this.dy * time);
-        this.healthBar.move(this.dx * time, this.dy * time);
+        this.x += (this.dx * this.speed * time);
+        this.y += (this.dy * this.speed * time);
+        this.healthBar.move(this.dx * this.speed * time, this.dy * this.speed * time);
     }
 
     damage = amount => {
