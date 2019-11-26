@@ -25,20 +25,16 @@ export const getNewPlayer = () => player2;
 export const getLocalPlayer = () => player;
 
 export const addMob = (id, pos, targetId) => {
-    mobs.push(new Wizzard("wizzard", pos.x, pos.y));
-    return;
+    const target = targetId === player2.socketId ? player2 : player;
     switch(id) {
-        case 0:
-            console.log("deb:", player.socketId);        
-            mobs.push(new Skeleton("skeleton", pos.x, pos.y));
+        case 0:             
+            mobs.push(new Skeleton("skeleton", pos.x, pos.y, target));
             break;
-        case 1:
-                console.log("deb:", player.socketId);
-            mobs.push(new Wizzard("wizzard", pos.x, pos.y));
+        case 1:                
+            mobs.push(new Wizzard("wizzard", pos.x, pos.y, target));
             break;
-        case 2:
-                console.log("deb:", player.socketId);
-            mobs.push(new Witch("witch", pos.x, pos.y));
+        case 2:                
+            mobs.push(new Witch("witch", pos.x, pos.y, target));
             break;
     }
 }
@@ -183,7 +179,7 @@ const loop = () => {
     mobs.forEach(m => {
         drawEntityAnimation(context, m);
         m.draw(context);
-        m.shoot(context, player);
+        m.shoot(context);
         if (m.projectile !== undefined) {
             m.projectile.move();
             if (projectileCollision(m.projectile, player)) {

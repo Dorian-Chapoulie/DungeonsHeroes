@@ -2,14 +2,15 @@ import { Entity } from "/js/entity/entity.js";
 
 export class Player extends Entity {
     constructor(name, x, y, id) {
-        super(x,y);
-        this.id = id;
+        super(x,y);        
         this.name = name;
 
         this.canMoveUp = true;
         this.canMoveDown = true;
         this.canMoveRight = true;
-        this.canMoveLeft = true;        
+        this.canMoveLeft = true;      
+        
+        this.socketId = id;
 
         this.image = new Image();
         this.image.src = '/media/player-sprite.png'

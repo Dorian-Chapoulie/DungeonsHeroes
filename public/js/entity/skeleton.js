@@ -2,21 +2,23 @@ import { Entity } from "/js/entity/entity.js";
 import { Fire } from "/js/projectiles/Fire.js";
 
 export class Skeleton extends Entity {
-    constructor(name, x, y) {
+    constructor(name, x, y, target) {
         super(x,y);
         this.name = name;
+
+        this.target = target;
 
         this.image = new Image();
         this.image.src = '/media/skeleton-sprite.png';
         this.canShoot = true;
     }
     
-    shoot(context, entity) {        
-        if(this.canShoot) {                    
+    shoot(context) {        
+        if(this.canShoot && this.target) {                    
             this.canShoot = false;
             this.projectile = new Fire(context, this.x + this.width / 2, this.y);
-            const Ex = entity.x;
-            const Ey = entity.y;
+            const Ex = this.target.x;
+            const Ey = this.target.y;
 
             const angleRadians = Math.atan2(Ey - this.y, Ex - this.x);        
 
