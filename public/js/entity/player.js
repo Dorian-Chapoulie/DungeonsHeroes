@@ -2,7 +2,7 @@ import { Entity } from "/js/entity/entity.js";
 
 export class Player extends Entity {
     constructor(name, x, y, id) {
-        super(x,y);
+        super(x, y);
         this.id = id;
         this.name = name;
 
@@ -16,11 +16,14 @@ export class Player extends Entity {
         this.image = new Image();
         this.image.src = '/media/player-sprite.png'
     }
-    
+
 
     draw = context => {
         super.draw(context);
-        context.font = "15px Arial";
-        context.fillText(this.name, this.x + context.measureText(this.name).width / 4, this.y);
+        context.save();
+        context.fillStyle = "white";
+        context.font = "20px Arial";
+        context.fillText(this.name, this.x + , this.y);
+        context.restore();
     }
 };

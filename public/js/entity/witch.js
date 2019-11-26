@@ -34,9 +34,9 @@ export class Witch extends Entity {
             this.projectile.draw();
         }
         context.save();
-        context.fillStyle = "red";
+        context.fillStyle = 'rgb(230, 45, 240)';
         context.font = "15px Arial";
-        context.restore();
         context.fillText(this.name, this.x + context.measureText(this.name).width / 4, this.y);
+        context.restore();
     }
 };
