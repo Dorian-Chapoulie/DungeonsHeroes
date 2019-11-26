@@ -98,32 +98,32 @@ const playerMovements = () => {
     if (isKeyPressed("z") && player.canMoveUp) {
         player.dy = -player.speed;
         player.frameY = player.AVANCER;
-        sendMessage('playermove', { pos: 'z', name: player.name });
+        sendMessage('playermove', 'z');
         canSendNy = true;
     } else if (isKeyPressed("s") && player.canMoveDown) {
         player.dy = player.speed;
         player.frameY = player.RECULER;
-        sendMessage('playermove', { pos: 's', name: player.name });
+        sendMessage('playermove', 's');
         canSendNy = true;
     } else if (cansendNy() && canSendNy) {
         player.dy = 0;
-        sendMessage('playermove', { pos: 'ny', name: player.name });
+        sendMessage('playermove', 'ny');
         canSendNy = false;
     }
 
     if (isKeyPressed("q") && player.canMoveLeft) {
         player.dx = -player.speed;
         player.frameY = player.GAUCHE;
-        sendMessage('playermove', { pos: 'q', name: player.name });
+        sendMessage('playermove', 'q');
         canSendNx = true;
     } else if (isKeyPressed("d") && player.canMoveRight) {
         player.dx = player.speed;
         player.frameY = player.DROIT;
-        sendMessage('playermove', { pos: 'd', name: player.name });
+        sendMessage('playermove', 'd');
         canSendNx = true;
     } else if (cansendNx() && canSendNx) {
         player.dx = 0;
-        sendMessage('playermove', { pos: 'nx', name: player.name });
+        sendMessage('playermove', 'nx');
         canSendNx = false;
     }
 }
@@ -189,6 +189,11 @@ const loop = () => {
             if (projectileCollision(m.projectile, player)) {
                 m.canShoot = true;
                 m.projectile.onHit(player);
+            }
+
+            if (projectileCollision(m.projectile, player2)) {
+                m.canShoot = true;
+                m.projectile.onHit(player2);
             }
 
             if (destroyProjectile(m.projectile)) {
