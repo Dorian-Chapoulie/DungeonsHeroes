@@ -14,7 +14,8 @@ var canvas;
 var context;
 var canSendNx = false;
 var canSendNy = false;
-var theme = document.getElementById('theme');
+var themeSong = document.getElementById('theme');
+var isSoungPlayed = false;
 
 document.addEventListener("DOMContentLoaded", () => init());
 
@@ -24,6 +25,9 @@ export const setNewPlayer = (newPlayer) => {
 
 export const getNewPlayer = () => player2;
 export const getLocalPlayer = () => player;
+const playThemeSong = () => {
+    themeSong.play();
+}
 
 export const addMob = (id, pos, targetId) => {
     const target = targetId === player2.socketId ? player2 : player;
@@ -46,7 +50,15 @@ const init = () => {
     initChat();
 
     const pseudo = prompt("votre pseudo:");
-    player = new Player(pseudo, 300, 300, undefined);
+    player = new Player(pseudo, 300, 300, undefined); 
+
+    const intervalSong = setInterval(() => {        
+        if(isSoungPlayed) {
+            clearInterval(intervalSong);
+        }
+        themeSong.play().then(() => isSoungPlayed = true).catch(() => isSoungPlayed = false);
+    }, 100);    
+
 
     sendMessage('newplayer', { name: pseudo, x: player.x, y: player.y });
 
@@ -218,6 +230,5 @@ const loop = () => {
         m.move(delta);
     })
 
-    requestAnimationFrame(loop);
-    theme.play();
+    requestAnimationFrame(loop);    
 }
