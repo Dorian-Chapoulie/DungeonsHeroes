@@ -3,7 +3,7 @@ import { Projectile } from '/js/projectiles/Projectile.js';
 export class Frost extends Projectile {
     constructor(context, x, y) {
         super(context, x, y);
-       
+
         this.damageValue = 5;
     }
 
@@ -20,7 +20,7 @@ export class Frost extends Projectile {
     onHit(entity) {
         super.onHit(entity);
         const temp = entity.speed;
-        entity.speed = 0;
+        entity.speed *= 0.5;
         setTimeout(() => {
             entity.speed = temp;
         }, 2000);
