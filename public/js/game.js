@@ -25,9 +25,6 @@ export const setNewPlayer = (newPlayer) => {
 
 export const getNewPlayer = () => player2;
 export const getLocalPlayer = () => player;
-const playThemeSong = () => {
-    themeSong.play();
-}
 
 export const addMob = (id, pos, targetId) => {
     const target = targetId === player2.socketId ? player2 : player;
