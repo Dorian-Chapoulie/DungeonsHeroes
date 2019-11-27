@@ -14,6 +14,7 @@ var canvas;
 var context;
 var canSendNx = false;
 var canSendNy = false;
+var theme = document.getElementById('theme');
 
 document.addEventListener("DOMContentLoaded", () => init());
 
@@ -218,4 +219,5 @@ const loop = () => {
     })
 
     requestAnimationFrame(loop);
+    theme.play();
 }
