@@ -63,28 +63,28 @@ const init = () => {
 const playerMovements = () => {
 
     /* Collision Murs */
-    if (player.x + player.width > canvas.width && player.canMoveRight) {
+    if (player.x + player.width + 16 > canvas.width) {
         player.dx = 0;
         player.canMoveRight = false;
     } else {
         player.canMoveRight = true;
     }
 
-    if (player.x <= 0 && player.canMoveLeft) {
+    if (player.x < 16) {
         player.dx = 0;
         player.canMoveLeft = false;
     } else {
         player.canMoveLeft = true;
     }
 
-    if (player.y + player.width > canvas.height && player.canMoveDown) {
+    if (player.y + player.height > canvas.height - 32) {
         player.dy = 0;
         player.canMoveDown = false;
     } else {
         player.canMoveDown = true;
     }
 
-    if (player.y < 0 && player.canMoveUp) {
+    if (player.y < 32) {
         player.dy = 0;
         player.canMoveUp = false;
     } else {
