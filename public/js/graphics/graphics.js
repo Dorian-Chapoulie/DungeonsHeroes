@@ -18,9 +18,20 @@ export const drawFrame = (context, img, frameX, frameY, canvasX, canvasY) => {
     );
 }
 
-export const drawEntityAnimation = (context, entity) => {    
-    drawFrame(context, entity.image, entity.frameX, entity.frameY, entity.x, entity.y);
+export const drawEntityAnimation = (entity) => {    
+    drawFrame(entity.context, entity.image, entity.frameX, entity.frameY, entity.x, entity.y);
     entity.nextFrame();
+}
+
+export const drawLootAnimation = async (loot) => {    
+    drawFrame(loot.context, loot.image, loot.frameX, loot.frameY, loot.x, loot.y);
+    if(loot.canDrawNextFrame) {
+        loot.canDrawNextFrame = false;
+        setTimeout(() => {
+            loot.canDrawNextFrame = true;
+        }, loot.interValFrameMS);
+        loot.nextFrame();
+    }
 }
 
 export const drawImage = (context, x, y, tileID, tilesSize) => {  

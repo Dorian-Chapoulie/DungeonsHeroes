@@ -1,7 +1,7 @@
 const socket = io.connect();
 import { saveMap } from '/js/network/map.js';
 import { Player } from '/js/entity/player.js';
-import { setNewPlayer, getNewPlayer } from '/js/game.js';
+import { setNewPlayer, getNewPlayer, getContext } from '/js/game.js';
 import { displayMessage, displayNewUser, displayUserDisconnected } from '/js/network/chat.js';
 import { addMob } from '/js/game.js';
 //var peer;
@@ -61,10 +61,9 @@ export const initSocksEvents = () => {
         displayMessage(data);
     }); 
     
-    socket.on('newplayer', player => {                                             
-        setNewPlayer(new Player(player.name, player.x, player.y, player.socketId));
-
-       
+    socket.on('newplayer', player => {                            
+        setNewPlayer(new Player(player.name, player.x, player.y, player.socketId, getContext()));
+    
         /*askPermissions('video');
 
         const createEmptyAudioTrack = () => {
@@ -94,7 +93,7 @@ export const initSocksEvents = () => {
 
     socket.on('playerlist', list =>  {                 
         if(list.length > 0) {             
-            setNewPlayer(new Player(list[0].name, list[0].x, list[0].y, list[0].socketId));            
+            setNewPlayer(new Player(list[0].name, list[0].x, list[0].y, list[0].socketId, getContext()));            
         }
     });
 

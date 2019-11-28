@@ -1,7 +1,9 @@
 import { HealthBar } from "/js/graphics/healthBar.js";
+import { Heart } from "/js/loot/heart.js";
+import { Coin } from "/js/loot/coin.js";
 
 export class Entity {
-    constructor(x, y) {
+    constructor(x, y, context) {
         this.x = x;
         this.y = y;
         this.width = 64;
@@ -13,14 +15,20 @@ export class Entity {
         this.frameX = 0;
         this.frameY = 0;
 
-
         this.DROIT = 0;
         this.GAUCHE = 1;
         this.RECULER = 2;
         this.AVANCER = 3;
 
+        this.context = context;
+
+        this.loots = [
+            0, //heart
+            1, //coin
+        ];
+
         this.health = 100;
-        this.healthBar = new HealthBar(this.health, this.health, this.x, this.y);
+        this.healthBar = new HealthBar(this.health, this.x, this.y);
     }
 
     nextFrame = () => {
@@ -36,8 +44,27 @@ export class Entity {
             }
         }
     }
+
+    getRandomInt(max) {
+        return Math.floor(Math.random() * Math.floor(max));
+    }
+
+    getLoots() {      
+        const ret = [];
+        for(let i = 0; i < this.getRandomInt(5) + 1; i++) {
+            switch(this.getRandomInt(this.loots.length)) {
+                case 0:
+                    ret.push(new Heart(this.context, this.x + i * 64, this.y));
+                break;
+                case 1:
+                    ret.push(new Coin(this.context, this.x + i * 64, this.y));
+                break;
+            }
+        }
+        return ret;
+    }
     
-    move = (time) => {
+    move(time) {
         this.x += (this.dx * this.speed * time);
         this.y += (this.dy * this.speed * time);
         this.healthBar.move(this.dx * this.speed * time, this.dy * this.speed * time);
@@ -47,14 +74,13 @@ export class Entity {
         if (this.health - amount > 0)
             this.health -= amount;
         else
-            this.health = 0;
-
-        this.healthBar.health = this.health;
+            this.health = 0;        
     }
 
-    shoot(context, entity) {}
-
-    draw(context) {
-        this.healthBar.draw(context);
+    draw() {
+        if(this.health > 100) {
+            this.health = 100;
+        }
+        this.healthBar.draw(this.context, this.health);
     }
 };

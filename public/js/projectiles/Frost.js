@@ -24,10 +24,5 @@ export class Frost extends Projectile {
         setTimeout(() => {
             entity.speed = temp;
         }, 2000);
-    }
-
-    move = () => {
-        this.x += this.dx;
-        this.y += this.dy;
-    }
+    }    
 }

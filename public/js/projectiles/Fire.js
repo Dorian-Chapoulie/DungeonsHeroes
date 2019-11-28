@@ -21,10 +21,4 @@ export class Fire extends Projectile {
         this.context.fill();
         this.context.restore();
     }
-
-
-    move = () => {
-        this.x += this.dx;
-        this.y += this.dy;
-    }
 }

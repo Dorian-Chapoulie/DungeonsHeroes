@@ -1,6 +1,6 @@
 import { initSocksEvents, sendMessage } from '/js/network/socketsHandler.js';
 import { initInputsEvent, isKeyPressed, cansendNx, cansendNy } from '/js/inputs/inputsHandler.js';
-import { drawEntityAnimation, drawMap } from '/js/graphics/graphics.js';
+import { drawEntityAnimation, drawMap, drawLootAnimation } from '/js/graphics/graphics.js';
 import { initChat } from '/js/network/chat.js';
 import { mapLevel, tilesSize } from '/js/network/map.js';
 import { Player } from '/js/entity/player.js';
@@ -10,6 +10,7 @@ import { Witch } from '/js/entity/witch.js';
 
 var player, player2;
 var mobs = [];
+var loots = [];
 var canvas;
 var context;
 var canSendNx = false;
@@ -22,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => init());
 export const setNewPlayer = (newPlayer) => {
     player2 = newPlayer;
 }
-
+export const getContext = () => context;
 export const getNewPlayer = () => player2;
 export const getLocalPlayer = () => player;
 
@@ -30,15 +31,19 @@ export const addMob = (id, pos, targetId) => {
     const target = targetId === player2.socketId ? player2 : player;
     switch (id) {
         case 0:
-            mobs.push(new Skeleton("skeleton", pos.x, pos.y, target));
+            mobs.push(new Skeleton("skeleton", pos.x, pos.y, target, context));
             break;
         case 1:
-            mobs.push(new Wizzard("wizzard", pos.x, pos.y, target));
+            mobs.push(new Wizzard("wizzard", pos.x, pos.y, target, context));
             break;
         case 2:
-            mobs.push(new Witch("witch", pos.x, pos.y, target));
+            mobs.push(new Witch("witch", pos.x, pos.y, target, context));
             break;
     }
+}
+
+const getRandomInt = max => {
+    return Math.floor(Math.random() * Math.floor(max));
 }
 
 const init = () => {
@@ -46,21 +51,21 @@ const init = () => {
     initInputsEvent();
     initChat();
 
-    const pseudo = prompt("votre pseudo:");
-    player = new Player(pseudo, 300, 300, undefined); 
+    canvas = document.getElementById('Canvas');
+    context = canvas.getContext('2d');
 
+    const pseudo = prompt("votre pseudo:");
+    player = new Player(pseudo, 300, 300, undefined, context); 
+/*
     const intervalSong = setInterval(() => {        
         if(isSoungPlayed) {
             clearInterval(intervalSong);
         }
         themeSong.play().then(() => isSoungPlayed = true).catch(() => isSoungPlayed = false);
-    }, 100);    
+    }, 100);    */
 
 
-    sendMessage('newplayer', { name: pseudo, x: player.x, y: player.y });
-
-    canvas = document.getElementById('Canvas');
-    context = canvas.getContext('2d');
+    sendMessage('newplayer', { name: pseudo, x: player.x, y: player.y });    
 
     drawMap(context, mapLevel, tilesSize);
     requestAnimationFrame(loop);
@@ -151,15 +156,21 @@ const randomMobsMovements = (m) => {
     }
 }
 
-const projectileCollision = (projectile, entity) => {
-    if (projectile.x >= entity.x + entity.width / 3 && projectile.x <= entity.x + entity.width - (entity.width / 3)) {
-        if (projectile.y >= entity.y && projectile.y <= entity.y + entity.height / 2) {
-            entity.damage(projectile.damageValue);
-            entity.draw(context);
+const entityCollision = (a, b) => {
+    if (a.x >= b.x && a.x <= b.x + b.width) {
+        if(a.y >= b.y && a.y <= b.y + b.height) {
             return true;
         }
     }
+    return false;
+}
 
+const projectileCollision = (projectile, entity) => {
+    if (entityCollision(projectile, entity)) {
+        entity.damage(projectile.damageValue);
+        entity.draw(context);
+        return true;
+    }
     return false;
 }
 
@@ -178,18 +189,59 @@ const loop = () => {
     const startDate = new Date();
     drawMap(context, mapLevel, tilesSize);
 
-    drawEntityAnimation(context, player);
+    drawEntityAnimation(player);
 
     playerMovements();
 
-    player.draw(context);
+    player.draw();
 
+    const deadMobs = mobs.filter(m => m.health <= 0);
+    deadMobs.forEach(dm => {       
+        loots.push(...dm.getLoots());
+    });
+    
+    if(loots.length > 0) {        
+        for(let i = 0; i < loots.length; i++) {
+            if(loots[i] === undefined) {
+                continue;
+            }
+            drawLootAnimation(loots[i]);
+            if(entityCollision(loots[i], player)) {
+                console.log("pickup", player.health);
+                loots[i].onPickUp(player);
+                console.log("done", player.health);
+                loots[i] = undefined;
+            }
+        };    
+        loots = loots.filter(l => l !== undefined);    
+    }
     mobs = mobs.filter(m => m.health > 0);
 
+    if(!player.target) {
+        player.target = mobs[getRandomInt(mobs.length)];
+    }else {
+        player.shoot();
+    }
+
     mobs.forEach(m => {
-        drawEntityAnimation(context, m);
-        m.draw(context);
-        m.shoot(context);
+        drawEntityAnimation(m);
+        m.draw();
+        m.shoot();
+
+        if (player.projectile && projectileCollision(player.projectile, m)) {
+            player.canShoot = true;
+            player.projectile.onHit(m);
+            player.projectile = undefined;
+            player.canShoot = true;
+        }
+        
+        if (player2 && player2.projectile && projectileCollision(player2.projectile, m)) {
+            player2.canShoot = true;
+            player2.projectile.onHit(m);
+            player2.projectile = undefined;
+            player2.canShoot = true;
+        }
+
         if (m.projectile !== undefined) {
             m.projectile.move();
             if (projectileCollision(m.projectile, player)) {
@@ -197,7 +249,7 @@ const loop = () => {
                 m.projectile.onHit(player);
             }
 
-            if (projectileCollision(m.projectile, player2)) {
+            if (player2 && projectileCollision(m.projectile, player2)) {
                 m.canShoot = true;
                 m.projectile.onHit(player2);
             }
@@ -211,8 +263,13 @@ const loop = () => {
 
 
     if (player2) {
-        player2.draw(context);
-        drawEntityAnimation(context, player2);
+        player2.draw();
+        drawEntityAnimation(player2);
+
+        if(player2 && player2.projectile && destroyProjectile(player2.projectile)) {
+            player2.projectile = undefined;
+            player2.canShoot = true;
+        }
     }
 
     const endDate = new Date();
@@ -222,6 +279,11 @@ const loop = () => {
         player2.move(delta);
 
     player.move(delta);
+    if(player.projectile && destroyProjectile(player.projectile)) {
+        player.projectile = undefined;
+        player.canShoot = true;
+    }    
+    
 
     mobs.forEach(m => {
         m.move(delta);

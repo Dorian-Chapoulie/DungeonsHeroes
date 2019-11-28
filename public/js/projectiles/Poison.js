@@ -25,9 +25,4 @@ export class Poison extends Projectile {
             entity.speed = temp;
         }, 900);
     }
-
-    move = () => {
-        this.x += this.dx;
-        this.y += this.dy;
-    }
 }

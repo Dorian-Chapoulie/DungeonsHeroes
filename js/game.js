@@ -33,8 +33,8 @@ class Game {
                 mobId: this.mobId[this.getRandomInt(this.mobId.length)],
                 target: this.joueurs[this.getRandomInt(this.joueurs.length)].socketId,
                 position: {
-                    x: this.getRandomInt(this.WIDTH),
-                    y: this.getRandomInt(this.HEIGHT),
+                    x: this.getRandomInt(this.WIDTH - 64),
+                    y: this.getRandomInt(this.HEIGHT - 64),
                 },
             });
         }
