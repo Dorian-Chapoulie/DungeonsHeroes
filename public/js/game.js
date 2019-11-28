@@ -56,13 +56,13 @@ const init = () => {
 
     const pseudo = prompt("votre pseudo:");
     player = new Player(pseudo, 300, 300, undefined, context); 
-/*
+
     const intervalSong = setInterval(() => {        
         if(isSoungPlayed) {
             clearInterval(intervalSong);
         }
         themeSong.play().then(() => isSoungPlayed = true).catch(() => isSoungPlayed = false);
-    }, 100);    */
+    }, 100);    
 
 
     sendMessage('newplayer', { name: pseudo, x: player.x, y: player.y });    
@@ -185,7 +185,6 @@ const destroyProjectile = projectile => {
 }
 
 const loop = () => {
-    //context.clearRect(0, 0, canvas.width, canvas.height);
     const startDate = new Date();
     drawMap(context, mapLevel, tilesSize);
 
@@ -206,10 +205,8 @@ const loop = () => {
                 continue;
             }
             drawLootAnimation(loots[i]);
-            if(entityCollision(loots[i], player)) {
-                console.log("pickup", player.health);
-                loots[i].onPickUp(player);
-                console.log("done", player.health);
+            if(entityCollision(loots[i], player)) {                
+                loots[i].onPickUp(player);                
                 loots[i] = undefined;
             }
         };    
