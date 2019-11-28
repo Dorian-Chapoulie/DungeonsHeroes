@@ -21,7 +21,7 @@ export class Loot {
         this.frameY = 0;
     }
 
-    onPickUp = () => {
+    onPickUp() {        
         this.pickUpSound.play();
     }
 
