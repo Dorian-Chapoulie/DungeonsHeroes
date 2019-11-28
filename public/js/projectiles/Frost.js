@@ -19,10 +19,16 @@ export class Frost extends Projectile {
 
     onHit(entity) {
         super.onHit(entity);
-        const temp = entity.speed;
-        entity.speed *= 0.5;
-        setTimeout(() => {
-            entity.speed = temp;
-        }, 2000);
+        if(entity.canAffect) {            
+            entity.canAffect = false;
+            const temp = entity.speed;
+            entity.speed *= 0.5;
+
+            setTimeout(() => {
+                entity.canAffect = true;
+                entity.speed = temp;
+            }, 2000);
+
+        }
     }    
 }

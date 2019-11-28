@@ -27,6 +27,8 @@ export class Entity {
             1, //coin
         ];
 
+        this.canAffect = true;
+                
         this.health = 100;
         this.healthBar = new HealthBar(this.health, this.x, this.y);
     }
