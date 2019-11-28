@@ -16,7 +16,12 @@ export class Player extends Entity {
         this.image = new Image();
         this.image.src = '/media/player-sprite.png'
         this.canShoot = true;
-        this.target = undefined;        
+        this.target = undefined;    
+        
+        this.AVANCER = 0;
+        this.GAUCHE = 1;
+        this.RECULER = 2;
+        this.DROIT = 3;
     }
 
     shoot = () => {        

@@ -11,7 +11,12 @@ export class Skeleton extends Entity {
         this.image = new Image();
         this.image.src = '/media/skeleton-sprite.png';
         this.canShoot = true;     
-        this.projectile = undefined;             
+        this.projectile = undefined;       
+        
+        this.DROIT = 0;
+        this.GAUCHE = 1;
+        this.RECULER = 2;
+        this.AVANCER = 3;
     }
     
     shoot() {        

@@ -15,11 +15,6 @@ export class Entity {
         this.frameX = 0;
         this.frameY = 0;
 
-        this.DROIT = 0;
-        this.GAUCHE = 1;
-        this.RECULER = 2;
-        this.AVANCER = 3;
-
         this.context = context;
 
         this.loots = [
@@ -34,16 +29,8 @@ export class Entity {
     }
 
     nextFrame = () => {
-        if (this.frameY <= 1) {
-            if (this.frameX++ >= 9) {
-                this.frameX = 1;
-            }
-        } else if (this.frameY == 2) {
-            this.frameX = 0;
-        } else if (this.frameY == 3) {
-            if (this.frameX++ >= 4) {
-                this.frameX = 1;
-            }
+        if (this.frameX++ >= this.image.width / this.width - 1) {
+            this.frameX = 1;
         }
     }
 
