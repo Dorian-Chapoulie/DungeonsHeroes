@@ -195,7 +195,10 @@ const loop = () => {
     player.draw();
 
     const deadMobs = mobs.filter(m => m.health <= 0);
-    deadMobs.forEach(dm => {       
+    deadMobs.forEach(dm => {
+        if(player.target === dm) {
+            player.target = undefined;
+        }     
         loots.push(...dm.getLoots());
     });
     

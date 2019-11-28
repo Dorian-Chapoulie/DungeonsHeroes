@@ -4,7 +4,7 @@ export class Poison extends Projectile {
     constructor(context, x, y) {
         super(context, x, y);
 
-        this.damageValue = 0;
+        this.damageValue = 1;
     }
 
     draw() {
@@ -19,10 +19,16 @@ export class Poison extends Projectile {
 
     onHit(entity) {
         super.onHit(entity);
-        const temp = entity.speed;
-        entity.speed = 0;
-        setTimeout(() => {
-            entity.speed = temp;
-        }, 900);
+        if(entity.canAffect) {                        
+            entity.canAffect = false;
+            const temp = entity.speed;
+            entity.speed = 0;
+
+            setTimeout(() => {
+                entity.canAffect = true;
+                entity.speed = temp;
+            }, 2000);
+
+        }
     }
 }

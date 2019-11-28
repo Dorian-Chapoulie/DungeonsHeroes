@@ -4,12 +4,22 @@ export class Fire extends Projectile {
     constructor(context, x, y) {
         super(context, x, y);
         
-        this.damageValue = 20;
-        //TO-DO adding damage over time
+        this.damageValue = 1;
+        this.dotTime = 3000;
     }
 
-    onHit(entity) {
-        super.onHit(entity); 
+    onHit(entity) {        
+        if(entity.canAffect) {            
+            entity.canAffect = false;
+            const interval = setInterval(() => {
+                super.onHit(entity);
+            }, 100);
+            setTimeout(() => {    
+                entity.canAffect = true;
+                clearInterval(interval);
+            }, this.dotTime);
+
+        }
     }
 
     draw() {        
