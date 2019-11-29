@@ -23,8 +23,9 @@ export class Entity {
         ];
 
         this.canAffect = true;
-                
+
         this.health = 100;
+        this.shield = 0;
         this.healthBar = new HealthBar(this.health, this.x, this.y);
     }
 
@@ -38,21 +39,21 @@ export class Entity {
         return Math.floor(Math.random() * Math.floor(max));
     }
 
-    getLoots() {      
+    getLoots() {
         const ret = [];
-        for(let i = 0; i < this.getRandomInt(5) + 1; i++) {
-            switch(this.getRandomInt(this.loots.length)) {
+        for (let i = 0; i < this.getRandomInt(5) + 1; i++) {
+            switch (this.getRandomInt(this.loots.length)) {
                 case 0:
                     ret.push(new Heart(this.context, this.x + i * 64, this.y));
-                break;
+                    break;
                 case 1:
                     ret.push(new Coin(this.context, this.x + i * 64, this.y));
-                break;
+                    break;
             }
         }
         return ret;
     }
-    
+
     move(time) {
         this.x += (this.dx * this.speed * time);
         this.y += (this.dy * this.speed * time);
@@ -60,16 +61,18 @@ export class Entity {
     }
 
     damage = amount => {
-        if (this.health - amount > 0)
+        if (this.shield - amount >= 0) {
+            this.shield -= amount;
+        } else
+        if (this.health - amount >= 0) {
             this.health -= amount;
-        else
-            this.health = 0;        
+        }
     }
 
     draw() {
-        if(this.health > 100) {
+        if (this.health > 100) {
             this.health = 100;
         }
-        this.healthBar.draw(this.context, this.health);
+        this.healthBar.draw(this.context, this.health, this.shield);
     }
 };

@@ -1,6 +1,6 @@
 export class HealthBar {
     constructor(maxHealth, x, y) {
-        this.maxHealth = maxHealth;     
+        this.maxHealth = maxHealth;
         this.x = x;
         this.y = y;
     }
@@ -10,12 +10,15 @@ export class HealthBar {
         this.y += dy;
     }
 
-    draw = (context, health) => {                       
+    draw = (context, health, shield) => {
         context.save();
-        context.fillStyle = "red"; 
+        context.fillStyle = "red";
         context.fillRect(this.x, this.y - 25, this.maxHealth * 0.64, 7);
-        context.fillStyle = "green";         
-        context.fillRect(this.x, this.y - 25, health * 0.64, 7);        
+        context.fillStyle = "green";
+        context.fillRect(this.x, this.y - 25, health * 0.64, 7);
+        context.fillStyle = "blue";
+        context.fillRect(this.x, this.y - 32, shield * 0.64, 7);
+
         context.restore();
     }
 };
