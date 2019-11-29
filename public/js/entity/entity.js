@@ -1,6 +1,7 @@
 import { HealthBar } from "/js/graphics/healthBar.js";
 import { Heart } from "/js/loot/heart.js";
 import { Coin } from "/js/loot/coin.js";
+import { Armor } from "/js/loot/armor.js";
 
 export class Entity {
     constructor(x, y, context) {
@@ -20,6 +21,7 @@ export class Entity {
         this.loots = [
             0, //heart
             1, //coin
+            2, //armor
         ];
 
         this.canAffect = true;
@@ -49,6 +51,10 @@ export class Entity {
                 case 1:
                     ret.push(new Coin(this.context, this.x + i * 64, this.y));
                     break;
+                case 2:
+                    ret.push(new Armor(this.context, this.x + i * 64, this.y));
+                    break;
+
             }
         }
         return ret;
