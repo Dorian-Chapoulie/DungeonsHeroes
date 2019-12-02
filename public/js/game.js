@@ -7,6 +7,7 @@ import { Player } from '/js/entity/player.js';
 import { Skeleton } from '/js/entity/skeleton.js';
 import { Wizzard } from '/js/entity/wizzard.js';
 import { Witch } from '/js/entity/witch.js';
+import { Torch } from '/js/entity/torch.js';
 
 var player, player2;
 var mobs = [];
@@ -46,6 +47,18 @@ const getRandomInt = max => {
     return Math.floor(Math.random() * Math.floor(max));
 }
 
+function playSound(url){
+    var audio = document.createElement('audio');
+    audio.style.display = "none";
+    audio.src = url;
+    audio.autoplay = true;
+    audio.onended = function(){
+      audio.remove() //Remove when played.
+    };
+    document.body.appendChild(audio);
+  }
+
+let lights = [];
 const init = () => {
     initSocksEvents();
     initInputsEvent();
@@ -54,8 +67,14 @@ const init = () => {
     canvas = document.getElementById('Canvas');
     context = canvas.getContext('2d');
 
+    for(let x = 1; x < 4; x+=2) {
+        for(let y = 0; y < 8; y++) {
+            lights.push(new Torch(x * 100 + 100, y + 64 + y * 100, context));    
+        }        
+    }   
+
     const pseudo = prompt("votre pseudo:");
-    player = new Player(pseudo, 300, 300, undefined, context); 
+    player = new Player(pseudo, 300, 800, undefined, context); 
 
     const intervalSong = setInterval(() => {        
         if(isSoungPlayed) {
@@ -186,9 +205,17 @@ const destroyProjectile = projectile => {
 
 const loop = () => {
     const startDate = new Date();
-    drawMap(context, mapLevel, tilesSize);
+    drawMap(context, mapLevel, tilesSize);    
 
     drawEntityAnimation(player);
+    lights.forEach(l => {
+        if(l.y >= player.y && l.canProcessLight == false) {
+            l.canProcessLight = true;
+            playSound('/media/sound/torch.mp3');
+        }
+        l.processLight();
+        drawEntityAnimation(l);
+    });
 
     playerMovements();
 
@@ -221,7 +248,7 @@ const loop = () => {
         player.target = mobs[getRandomInt(mobs.length)];
     }else {
         player.shoot();
-    }
+    }    
 
     mobs.forEach(m => {
         drawEntityAnimation(m);

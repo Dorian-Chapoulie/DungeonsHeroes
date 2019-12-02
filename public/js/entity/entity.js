@@ -10,9 +10,11 @@ export class Entity {
         this.y = y;
         this.width = 64;
         this.height = 64;
+        this.scaleX = 64;
+        this.scaleY = 64;  
         this.dx = 0;
         this.dy = 0;
-        this.speed = 1;
+        this.speed = 0.5;
 
         this.frameX = 0;
         this.frameY = 0;
@@ -31,11 +33,19 @@ export class Entity {
         this.shield = 0;
         this.healthBar = new HealthBar(this.health, this.x, this.y);
         this.shieldBar = new ShieldBar(this.shield, this.x, this.y);
+        this.canDrawNextFrame = true;
+        this.drawTime = 100;
     }
 
     nextFrame = () => {
-        if (this.frameX++ >= this.image.width / this.width - 1) {
-            this.frameX = 1;
+        if(this.canDrawNextFrame) {
+            if (this.frameX++ >= this.image.width / this.width - 2) {
+                this.frameX = 0;
+            }
+            this.canDrawNextFrame = false;
+            setTimeout(() => {
+                this.canDrawNextFrame = true;
+            }, this.drawTime);
         }
     }
 

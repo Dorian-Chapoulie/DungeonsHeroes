@@ -1,30 +1,26 @@
 const mapTiles = [];
 
-export const drawFrame = (context, img, frameX, frameY, canvasX, canvasY) => {
-    var scaledWidth = 64;
-    var scaledHeight = 64;
-    var width = 64;
-    var height = 64;
-    context.drawImage(
-        img,
-        frameX * width,
-        frameY * height,
-        width,
-        height,
-        canvasX,
-        canvasY,
-        scaledWidth,
-        scaledHeight,
+export const drawFrame = (entity) => {
+    entity.context.drawImage(
+        entity.image,
+        entity.frameX * entity.width,
+        entity.frameY * entity.height,
+        entity.width,
+        entity.height,
+        entity.x,
+        entity.y,
+        entity.scaleX,
+        entity.scaleY,
     );
 }
 
 export const drawEntityAnimation = (entity) => {    
-    drawFrame(entity.context, entity.image, entity.frameX, entity.frameY, entity.x, entity.y);
+    drawFrame(entity);
     entity.nextFrame();
 }
 
 export const drawLootAnimation = async (loot) => {    
-    drawFrame(loot.context, loot.image, loot.frameX, loot.frameY, loot.x, loot.y);
+    drawFrame(loot);
     if(loot.canDrawNextFrame) {
         loot.canDrawNextFrame = false;
         setTimeout(() => {
