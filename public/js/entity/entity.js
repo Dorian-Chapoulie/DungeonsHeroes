@@ -2,6 +2,7 @@ import { HealthBar } from "/js/graphics/healthBar.js";
 import { Heart } from "/js/loot/heart.js";
 import { Coin } from "/js/loot/coin.js";
 import { Armor } from "/js/loot/armor.js";
+import { ShieldBar } from "/js/graphics/shieldBar.js";
 
 export class Entity {
     constructor(x, y, context) {
@@ -29,6 +30,7 @@ export class Entity {
         this.health = 100;
         this.shield = 0;
         this.healthBar = new HealthBar(this.health, this.x, this.y);
+        this.shieldBar = new ShieldBar(this.shield, this.x, this.y);
     }
 
     nextFrame = () => {
@@ -64,6 +66,7 @@ export class Entity {
         this.x += (this.dx * this.speed * time);
         this.y += (this.dy * this.speed * time);
         this.healthBar.move(this.dx * this.speed * time, this.dy * this.speed * time);
+        this.shieldBar.move(this.dx * this.speed * time, this.dy * this.speed * time);
     }
 
     damage = amount => {
@@ -79,6 +82,8 @@ export class Entity {
         if (this.health > 100) {
             this.health = 100;
         }
-        this.healthBar.draw(this.context, this.health, this.shield);
+        this.healthBar.draw(this.context, this.health);
+        this.shieldBar.draw(this.context, this.shield);
+
     }
 };
