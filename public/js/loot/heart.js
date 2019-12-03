@@ -4,7 +4,10 @@ export class Heart extends Loot {
     constructor(context, x, y) {
         super(context, x, y, '/media/heart-sprite.png', '/media/sound/heart.mp3');
         this.canDrawNextFrame = true;  
-        this.interValFrameMS = 150;                  
+        this.width = 64;
+        this.height = 64;
+        this.scaleX = 64;
+        this.scaleY = 64;             
     }
 
     onPickUp(entity) {

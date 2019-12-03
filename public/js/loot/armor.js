@@ -5,8 +5,12 @@ import { Loot } from '/js/loot/loot.js';
 export class Armor extends Loot {
     constructor(context, x, y) {
         super(context, x, y, '/media/shield-sprite.png', '/media/sound/armor.mp3');
-        this.canDrawNextFrame = true;
-        this.interValFrameMS = 150;
+        this.canDrawNextFrame = true;        
+
+        this.width = 64;
+        this.height = 64;
+        this.scaleX = 64;
+        this.scaleY = 64;
     }
 
     onPickUp(entity) {

@@ -1,6 +1,6 @@
 import { initSocksEvents, sendMessage } from '/js/network/socketsHandler.js';
 import { initInputsEvent, isKeyPressed, cansendNx, cansendNy } from '/js/inputs/inputsHandler.js';
-import { drawEntityAnimation, drawMap, drawLootAnimation } from '/js/graphics/graphics.js';
+import { drawEntityAnimation, drawMap } from '/js/graphics/graphics.js';
 import { initChat } from '/js/network/chat.js';
 import { mapLevel, tilesSize } from '/js/network/map.js';
 import { Player } from '/js/entity/player.js';
@@ -8,10 +8,14 @@ import { Skeleton } from '/js/entity/skeleton.js';
 import { Wizzard } from '/js/entity/wizzard.js';
 import { Witch } from '/js/entity/witch.js';
 import { Torch } from '/js/entity/torch.js';
+import { Coin } from '/js/loot/coin.js';
+import { Heart } from '/js/loot/heart.js';
+import { Armor } from '/js/loot/armor.js';
 
 var player, player2;
 var mobs = [];
 var loots = [];
+var lights = [];
 var canvas;
 var context;
 var canSendNx = false;
@@ -32,13 +36,27 @@ export const addMob = (id, pos, targetId) => {
     const target = targetId === player2.socketId ? player2 : player;
     switch (id) {
         case 0:
-            mobs.push(new Skeleton("skeleton", pos.x, pos.y, target, context));
+            mobs.push(new Skeleton(pos.x, pos.y, target, context));
             break;
         case 1:
-            mobs.push(new Wizzard("wizzard", pos.x, pos.y, target, context));
+            mobs.push(new Wizzard(pos.x, pos.y, target, context));
             break;
         case 2:
-            mobs.push(new Witch("witch", pos.x, pos.y, target, context));
+            mobs.push(new Witch(pos.x, pos.y, target, context));
+            break;
+    }
+}
+
+export const addLoot = (id, pos) => {
+    switch (id) {
+        case 0: //coin
+            loots.push(new Coin(context, pos.x, pos.y));
+            break;
+        case 1: //heart
+            loots.push(new Heart(context, pos.x, pos.y));
+            break;
+        case 2: //armor
+            loots.push(new Armor(context, pos.x, pos.y));
             break;
     }
 }
@@ -47,6 +65,7 @@ const getRandomInt = max => {
     return Math.floor(Math.random() * Math.floor(max));
 }
 
+/*
 function playSound(url){
     var audio = document.createElement('audio');
     audio.style.display = "none";
@@ -56,9 +75,8 @@ function playSound(url){
       audio.remove() //Remove when played.
     };
     document.body.appendChild(audio);
-  }
+}*/
 
-let lights = [];
 const init = () => {
     initSocksEvents();
     initInputsEvent();
@@ -67,21 +85,22 @@ const init = () => {
     canvas = document.getElementById('Canvas');
     context = canvas.getContext('2d');
 
+    /*
     for(let x = 1; x < 4; x+=2) {
         for(let y = 0; y < 8; y++) {
             lights.push(new Torch(x * 100 + 100, y + 64 + y * 100, context));    
         }        
-    }   
+    }*/
 
     const pseudo = prompt("votre pseudo:");
     player = new Player(pseudo, 300, 800, undefined, context); 
 
-    const intervalSong = setInterval(() => {        
+   /* const intervalSong = setInterval(() => {        
         if(isSoungPlayed) {
             clearInterval(intervalSong);
         }
         themeSong.play().then(() => isSoungPlayed = true).catch(() => isSoungPlayed = false);
-    }, 100);    
+    }, 100);  */  
 
 
     sendMessage('newplayer', { name: pseudo, x: player.x, y: player.y });    
@@ -208,14 +227,14 @@ const loop = () => {
     drawMap(context, mapLevel, tilesSize);    
 
     drawEntityAnimation(player);
-    lights.forEach(l => {
+    /*lights.forEach(l => {
         if(l.y >= player.y && l.canProcessLight == false) {
             l.canProcessLight = true;
             playSound('/media/sound/torch.mp3');
         }
         l.processLight();
         drawEntityAnimation(l);
-    });
+    });*/
 
     playerMovements();
 
@@ -225,16 +244,16 @@ const loop = () => {
     deadMobs.forEach(dm => {
         if(player.target === dm) {
             player.target = undefined;
+        }
+        if(player2.target === dm) {
+            player2.target = undefined;
         }     
-        loots.push(...dm.getLoots());
+        sendMessage('deadmob', {id: dm.name, position: {x: dm.x, y: dm.y} });
     });
     
     if(loots.length > 0) {        
         for(let i = 0; i < loots.length; i++) {
-            if(loots[i] === undefined) {
-                continue;
-            }
-            drawLootAnimation(loots[i]);
+            drawEntityAnimation(loots[i]);
             if(entityCollision(loots[i], player)) {                
                 loots[i].onPickUp(player);                
                 loots[i] = undefined;
@@ -248,7 +267,7 @@ const loop = () => {
         player.target = mobs[getRandomInt(mobs.length)];
     }else {
         player.shoot();
-    }    
+    }      
 
     mobs.forEach(m => {
         drawEntityAnimation(m);

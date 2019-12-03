@@ -4,7 +4,10 @@ export class Coin extends Loot {
     constructor(context, x, y) {
         super(context, x, y, '/media/coin-sprite.png', '/media/sound/coin.mp3');
         this.canDrawNextFrame = true;  
-        this.interValFrameMS = 150;                          
+        this.width = 64;
+        this.height = 64;
+        this.scaleX = 64;
+        this.scaleY = 64;                             
     }
 
     onPickUp(entity) {

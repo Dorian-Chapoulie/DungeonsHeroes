@@ -21,12 +21,6 @@ export class Entity {
 
         this.context = context;
 
-        this.loots = [
-            0, //heart
-            1, //coin
-            2, //armor
-        ];
-
         this.canAffect = true;
 
         this.health = 100;
@@ -47,29 +41,6 @@ export class Entity {
                 this.canDrawNextFrame = true;
             }, this.drawTime);
         }
-    }
-
-    getRandomInt(max) {
-        return Math.floor(Math.random() * Math.floor(max));
-    }
-
-    getLoots() {
-        const ret = [];
-        for (let i = 0; i < this.getRandomInt(5) + 1; i++) {
-            switch (this.getRandomInt(this.loots.length)) {
-                case 0:
-                    ret.push(new Heart(this.context, this.x + i * 64, this.y));
-                    break;
-                case 1:
-                    ret.push(new Coin(this.context, this.x + i * 64, this.y));
-                    break;
-                case 2:
-                    ret.push(new Armor(this.context, this.x + i * 64, this.y));
-                    break;
-
-            }
-        }
-        return ret;
     }
 
     move(time) {

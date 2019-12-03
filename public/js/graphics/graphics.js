@@ -19,17 +19,6 @@ export const drawEntityAnimation = (entity) => {
     entity.nextFrame();
 }
 
-export const drawLootAnimation = async (loot) => {    
-    drawFrame(loot);
-    if(loot.canDrawNextFrame) {
-        loot.canDrawNextFrame = false;
-        setTimeout(() => {
-            loot.canDrawNextFrame = true;
-        }, loot.interValFrameMS);
-        loot.nextFrame();
-    }
-}
-
 export const drawImage = (context, x, y, tileID, tilesSize) => {  
     if(mapTiles[tileID] === undefined) {  
         mapTiles[tileID] = new Image();

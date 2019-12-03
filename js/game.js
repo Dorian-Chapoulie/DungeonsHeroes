@@ -22,6 +22,26 @@ class Game {
             2,
         ];
 
+        this.loots = [
+            0, //coin
+            1, //heart
+            2, //armor
+        ]
+
+        this.mobsLoots = {
+            "Skelton": [
+                0,
+            ],
+            "Wizzard": [
+                0,
+                2,
+            ],
+            "Witch": [
+                0,
+                1,
+            ],
+        }
+
         this.socketHanlder = socketHanlder;
         this.map = [];
     }
@@ -55,6 +75,18 @@ class Game {
 
     sendMobs() {
         this.socketHanlder.sendMessage('mobs', this.generateMobs());
+    }
+
+    sendLoots(mob) {
+        const possibleLoots = this.mobsLoots[mob.id];
+        this.socketHanlder.sendMessage('loots',
+        {
+            id: possibleLoots[this.getRandomInt(possibleLoots.length)],
+            position: {
+                x: mob.position.x,
+                y: mob.position.y,
+            },
+        });
     }
 
     sendMap() {

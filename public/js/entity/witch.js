@@ -2,9 +2,9 @@ import { Entity } from "/js/entity/entity.js";
 import { Poison } from "/js/projectiles/Poison.js";
 
 export class Witch extends Entity {
-    constructor(name, x, y, target, context) {
+    constructor(x, y, target, context) {
         super(x, y, context);
-        this.name = name;
+        this.name = "Witch";
 
         this.target = target;
 

@@ -2,10 +2,7 @@ export class Loot {
     constructor(context, x, y, imageSrc, soundSrc) {
         this.x = x;
         this.y = y;
-        this.context = context;  
-        
-        this.width = 64;
-        this.heught = 64;
+        this.context = context;      
 
         this.image = new Image();
         this.image.src = imageSrc;  
@@ -19,6 +16,9 @@ export class Loot {
         
         this.frameX = 0;
         this.frameY = 0;
+
+        this.canDrawNextFrame = true;
+        this.drawTime = 500;
     }
 
     onPickUp() {        
@@ -26,8 +26,14 @@ export class Loot {
     }
 
     nextFrame = () => {
-        if (this.frameX++ >= this.image.width / this.width - 1) {
-            this.frameX = 1;
+        if(this.canDrawNextFrame) {            
+            if (this.frameX++ >= this.image.width / this.width - 2) {
+                this.frameX = 0;
+            }
+            this.canDrawNextFrame = false;
+            setTimeout(() => {
+                this.canDrawNextFrame = true;
+            }, this.drawTime);
         }
     }
 }

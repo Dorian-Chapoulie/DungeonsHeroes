@@ -2,9 +2,9 @@ import { Entity } from "/js/entity/entity.js";
 import { Frost } from "/js/projectiles/Frost.js";
 
 export class Wizzard extends Entity {
-    constructor(name, x, y, target, context) {
+    constructor(x, y, target, context) {
         super(x,y, context);
-        this.name = name;
+        this.name = "Wizzard";
 
         this.target = target;
 

@@ -47,6 +47,10 @@ class SocketsHanlder {
                 socket.broadcast.emit('playerpos', data);            
             });
 
+            socket.on('deadmob', dm => {                                                 
+                this.game.sendLoots(dm);        
+            });
+
             socket.on('disconnect', () => {                                 
                 const disconnectedPlayer = this.game.joueurs.find(p => p.socketId === socket.id);
                 socket.broadcast.emit('playerdisconnected', disconnectedPlayer);

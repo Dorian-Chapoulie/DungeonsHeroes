@@ -1,7 +1,7 @@
 const socket = io.connect();
 import { saveMap } from '/js/network/map.js';
 import { Player } from '/js/entity/player.js';
-import { setNewPlayer, getNewPlayer, getContext } from '/js/game.js';
+import { setNewPlayer, getNewPlayer, getContext, addLoot } from '/js/game.js';
 import { displayMessage, displayNewUser, displayUserDisconnected } from '/js/network/chat.js';
 import { addMob } from '/js/game.js';
 //var peer;
@@ -134,6 +134,10 @@ export const initSocksEvents = () => {
         data.forEach(e => {
             addMob(e.mobId, e.position, e.target);
         });
+    });
+
+    socket.on('loots', loot => {
+        addLoot(loot.id, loot.position);
     });
 
 
