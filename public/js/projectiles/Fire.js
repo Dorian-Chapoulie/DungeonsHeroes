@@ -2,7 +2,7 @@ import { Projectile } from '/js/projectiles/Projectile.js';
 
 export class Fire extends Projectile {
     constructor(context, x, y) {
-        super(context, x, y);
+        super(context, x, y, 0);
 
         this.damageValue = 1;
         this.dotTime = 3000;

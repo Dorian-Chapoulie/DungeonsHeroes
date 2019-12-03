@@ -2,9 +2,10 @@ import { Entity } from "/js/entity/entity.js";
 import { Poison } from "/js/projectiles/Poison.js";
 
 export class Witch extends Entity {
-    constructor(x, y, target, context) {
+    constructor(x, y, target, context, id) {
         super(x, y, context);
         this.name = "Witch";
+        this.id = id;
 
         this.target = target;
 
@@ -22,6 +23,7 @@ export class Witch extends Entity {
 
     shoot() {
         if (this.canShoot && this.target) {
+            super.shoot();
             this.canShoot = false;
             this.projectile = new Poison(this.context, this.x + this.width / 2, this.y);
             const Ex = this.target.x;

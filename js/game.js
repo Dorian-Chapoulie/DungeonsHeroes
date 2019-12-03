@@ -29,7 +29,7 @@ class Game {
         ]
 
         this.mobsLoots = {
-            "Skelton": [
+            "Skeleton": [
                 0,
             ],
             "Wizzard": [
@@ -42,6 +42,8 @@ class Game {
             ],
         }
 
+        this.shootIds = [];
+
         this.socketHanlder = socketHanlder;
         this.map = [];
     }
@@ -50,12 +52,13 @@ class Game {
         const ret = [];
         for(let i = 0; i < this.level * 2 + 1; i++) {            
             ret.push({
-                mobId: this.mobId[this.getRandomInt(this.mobId.length)],
+                mobType: this.mobId[this.getRandomInt(this.mobId.length)],
                 target: this.joueurs[this.getRandomInt(this.joueurs.length)].socketId,
                 position: {
                     x: this.getRandomInt(this.WIDTH - 64),
                     y: this.getRandomInt(this.HEIGHT - 64),
                 },
+                id: Date.now(),
             });
         }
         return ret;
@@ -77,8 +80,8 @@ class Game {
         this.socketHanlder.sendMessage('mobs', this.generateMobs());
     }
 
-    sendLoots(mob) {
-        const possibleLoots = this.mobsLoots[mob.id];
+    sendLoots(mob) {        
+        const possibleLoots = this.mobsLoots[mob.name];
         this.socketHanlder.sendMessage('loots',
         {
             id: possibleLoots[this.getRandomInt(possibleLoots.length)],

@@ -2,7 +2,7 @@ import { Projectile } from '/js/projectiles/Projectile.js';
 
 export class Frost extends Projectile {
     constructor(context, x, y) {
-        super(context, x, y);
+        super(context, x, y, 1);
 
         this.damageValue = 5;
     }

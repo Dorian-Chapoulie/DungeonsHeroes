@@ -11,6 +11,9 @@ import { Torch } from '/js/entity/torch.js';
 import { Coin } from '/js/loot/coin.js';
 import { Heart } from '/js/loot/heart.js';
 import { Armor } from '/js/loot/armor.js';
+import { Fire } from '/js/projectiles/Fire.js';
+import { Frost } from '/js/projectiles/Frost.js';
+import { Poison } from '/js/projectiles/Poison.js';
 
 var player, player2;
 var mobs = [];
@@ -38,18 +41,59 @@ export const player2ShootAt = entityId => {
         }
     });
 }
+export const damageEntity = (entityId, type) => {    
+    let target = undefined;
+    let projectile = undefined;
 
-export const addMob = (id, pos, targetId) => {
+    mobs.forEach(m => {
+        if(m.id === entityId) {
+            target = m;
+        }
+    })
+    if(player.name == entityId) {
+        target = player;
+    }
+    if(player2.name == entityId) {
+        target = player2;
+    }
+
+    if(target) {
+        switch(type){
+            case 0: //fire
+                projectile = new Fire(context, 0, 0);
+                break;
+            case 1: //frost
+                projectile = new Frost(context, 0, 0);
+                break;
+            case 2: //poison
+                projectile = new Poison(context, 0, 0);
+                break;
+        }
+        projectile.onHit(target);
+    }else {
+        console.log(target, "pas trouvé");
+        mobs.forEach(m => console.log(m.id));
+    }
+}
+
+export const manageDeadMob = (mobId) => {    
+    mobs.forEach(m => {
+        if(m.id === mobId) {
+            m.health = 0;
+        }
+    })
+}
+export const addMob = (mobType, pos, targetId, id) => {
     const target = targetId === player2.socketId ? player2 : player;
-    switch (id) {
+    switch (mobType) {
         case 0:
-            mobs.push(new Skeleton(pos.x, pos.y, target, context));
+            mobs.push(new Skeleton(pos.x, pos.y, target, context, id));
             break;
         case 1:
-            mobs.push(new Wizzard(pos.x, pos.y, target, context));
+            mobs.push(new Wizzard(pos.x, pos.y, target, context, id));
             break;
         case 2:
-            mobs.push(new Witch(pos.x, pos.y, target, context));
+            mobs.push(new Witch(pos.x, pos.y, target, context, id));
             break;
     }
 }
@@ -210,6 +254,7 @@ const entityCollision = (a, b) => {
     return false;
 }
 
+/*
 const projectileCollision = (projectile, entity) => {
     if (entityCollision(projectile, entity)) {
         entity.damage(projectile.damageValue);
@@ -217,7 +262,7 @@ const projectileCollision = (projectile, entity) => {
         return true;
     }
     return false;
-}
+}*/
 
 const destroyProjectile = projectile => {
     if (projectile.x >= canvas.width - 32 ||
@@ -255,7 +300,7 @@ const loop = () => {
         if(player2.target === dm) {
             player2.target = undefined;
         }     
-        sendMessage('deadmob', {id: dm.name, position: {x: dm.x, y: dm.y} });
+        sendMessage('deadmob', {name: dm.name, position: {x: dm.x, y: dm.y}, id: dm.id });
     });
     
     if(loots.length > 0) {        
@@ -282,34 +327,33 @@ const loop = () => {
         m.draw();
         m.shoot();
 
-        if (player.projectile && projectileCollision(player.projectile, m)) {
+        if (player.projectile && entityCollision(player.projectile, m)) {
             player.canShoot = true;
-            player.projectile.onHit(m);
+            sendMessage('hitentity', {id: m.id, type: player.projectile.type, shootId: player.shootId, sender: player.name});
             player.projectile = undefined;
-            player.canShoot = true;
         }
         
-        if (player2 && player2.projectile && projectileCollision(player2.projectile, m)) {
+        if (player2 && player2.projectile && entityCollision(player2.projectile, m)) {            
             player2.canShoot = true;
-            player2.projectile.onHit(m);
+            sendMessage('hitentity', {id: m.id, type: player2.projectile.type, shootId: player2.shootId, sender: player2.name});
             player2.projectile = undefined;
-            player2.canShoot = true;
         }
 
         if (m.projectile !== undefined) {
             m.projectile.move();
-            if (projectileCollision(m.projectile, player)) {
-                m.canShoot = true;
-                m.projectile.onHit(player);
+            if (entityCollision(m.projectile, player)) {
+                m.canShoot = true;                
+                sendMessage('hitentity', {id: player.name, type: m.projectile.type, shootId: m.shootId, sender: m.id});
             }
 
-            if (player2 && projectileCollision(m.projectile, player2)) {
-                m.canShoot = true;
-                m.projectile.onHit(player2);
+            if (player2 && entityCollision(m.projectile, player2)) {
+                m.canShoot = true;                
+                sendMessage('hitentity', {id: player2.name, type: m.projectile.type, shootId: m.shootId, sender: m.id});
             }
 
             if (destroyProjectile(m.projectile)) {
                 m.canShoot = true;
+                m.projectile = undefined;
             }
         }
         //randomMobsMovements(m);        

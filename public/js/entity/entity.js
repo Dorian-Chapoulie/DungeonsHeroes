@@ -11,7 +11,7 @@ export class Entity {
         this.scaleY = 64;  
         this.dx = 0;
         this.dy = 0;
-        this.speed = 0.5;
+        this.speed = 1;
 
         this.frameX = 0;
         this.frameY = 0;
@@ -26,7 +26,11 @@ export class Entity {
         this.shieldBar = new ShieldBar(this.shield, this.x, this.y);
         this.canDrawNextFrame = true;
         this.drawTime = 100;
-        this.id = Date.now();
+        this.shootId = 0;
+    }
+
+    shoot() {
+        this.shootId++;
     }
 
     nextFrame = () => {

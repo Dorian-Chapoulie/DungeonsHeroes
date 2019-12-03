@@ -1,7 +1,15 @@
 const socket = io.connect();
 import { saveMap } from '/js/network/map.js';
 import { Player } from '/js/entity/player.js';
-import { setNewPlayer, getNewPlayer, getContext, addLoot, player2ShootAt } from '/js/game.js';
+import {
+    setNewPlayer,
+    getNewPlayer,
+    getContext,
+    addLoot,
+    player2ShootAt,
+    damageEntity,
+    manageDeadMob,
+} from '/js/game.js';
 import { displayMessage, displayNewUser, displayUserDisconnected } from '/js/network/chat.js';
 import { addMob } from '/js/game.js';
 //var peer;
@@ -132,7 +140,7 @@ export const initSocksEvents = () => {
 
     socket.on('mobs', data => {
         data.forEach(e => {
-            addMob(e.mobId, e.position, e.target);
+            addMob(e.mobType, e.position, e.target, e.id);
         });
     });
 
@@ -140,8 +148,16 @@ export const initSocksEvents = () => {
         addLoot(loot.id, loot.position);
     });
 
-    socket.on('playershoot', targetId => {        
+    socket.on('deadmob', id => {
+        manageDeadMob(id);
+    });
+
+    socket.on('playershoot', targetId => {     
         player2ShootAt(targetId);
+    });
+
+    socket.on('hitentity', data => {                
+        damageEntity(data.id, data.type);
     });
     
 

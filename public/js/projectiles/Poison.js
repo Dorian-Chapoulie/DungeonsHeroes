@@ -2,7 +2,7 @@ import { Projectile } from '/js/projectiles/Projectile.js';
 
 export class Poison extends Projectile {
     constructor(context, x, y) {
-        super(context, x, y);
+        super(context, x, y, 2);
 
         this.damageValue = 1;
     }

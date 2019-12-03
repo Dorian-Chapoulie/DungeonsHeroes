@@ -23,13 +23,15 @@ export class Player extends Entity {
         this.RECULER = 3;
         this.DROIT = 2;
 
-        this.shield = 100;
+        this.shield = 100;        
     }
 
     shoot = () => {
-        if (this.canShoot && this.target) {
+        if (this.canShoot && this.target) {   
+            super.shoot();         
             this.canShoot = false;
             this.projectile = new Frost(this.context, this.x + this.width / 2, this.y);
+            this.projectile.damageValue = 50;
             const Ex = this.target.x;
             const Ey = this.target.y;
 

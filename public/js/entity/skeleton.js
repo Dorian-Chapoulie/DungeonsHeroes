@@ -2,9 +2,10 @@ import { Entity } from "/js/entity/entity.js";
 import { Fire } from "/js/projectiles/Fire.js";
 
 export class Skeleton extends Entity {
-    constructor(x, y, target, context) {
+    constructor(x, y, target, context, id) {
         super(x,y, context);
         this.name = "Skeleton";
+        this.id = id;
 
         this.target = target;
 
@@ -20,7 +21,8 @@ export class Skeleton extends Entity {
     }
     
     shoot() {        
-        if(this.canShoot && this.target) {                    
+        if(this.canShoot && this.target) {     
+            super.shoot();              
             this.canShoot = false;
             this.projectile = new Fire(this.context, this.x + this.width / 2, this.y);
             const Ex = this.target.x;

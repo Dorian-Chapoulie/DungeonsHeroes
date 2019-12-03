@@ -48,12 +48,39 @@ class SocketsHanlder {
             });
 
             socket.on('deadmob', dm => {                                                 
-                this.game.sendLoots(dm);        
+                this.game.sendLoots(dm); 
+                socket.broadcast.emit('deadmob', dm.id);       
             });
 
             socket.on('playershoot', targetId => {                                                 
                 socket.broadcast.emit('playershoot', targetId);        
             });
+
+            socket.on('hitentity', data => { 
+               /* let insert = true;
+                const senderShoots = this.game.shootIds.filter(s => s.sender === data.sender);
+                senderShoots.forEach(s => {
+                    if(s.id === data.shootId) {
+                        insert = false;
+                    }
+                });
+
+                if(insert) {
+                    this.game.shootIds.push({
+                        sender: data.sender,
+                        id: data.shootId,
+                    });
+                    socket.broadcast.emit('hitentity', data);    
+                }else {
+                    for(let i = 0; i < this.game.shootIds.length; i++){
+                        if(this.game.shootIds[i].sender === data.sender && this.game.shootIds[i].id === data.shootId) {
+                            this.game.shootIds[i] = undefined;
+                        }
+                    }
+                    this.game.shootIds = this.game.shootIds.filter(e => e !== undefined);                    
+                }*/   
+                socket.broadcast.emit('hitentity', data);                                                                   
+            });            
 
             socket.on('disconnect', () => {                                 
                 const disconnectedPlayer = this.game.joueurs.find(p => p.socketId === socket.id);

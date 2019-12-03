@@ -2,9 +2,10 @@ import { Entity } from "/js/entity/entity.js";
 import { Frost } from "/js/projectiles/Frost.js";
 
 export class Wizzard extends Entity {
-    constructor(x, y, target, context) {
+    constructor(x, y, target, context, id) {
         super(x,y, context);
         this.name = "Wizzard";
+        this.id = id;
 
         this.target = target;
 
@@ -22,6 +23,7 @@ export class Wizzard extends Entity {
     
     shoot() {        
         if(this.canShoot && this.target) {
+            super.shoot();
             this.canShoot = false;
             this.projectile = new Frost(this.context, this.x + this.width / 2, this.y);
             const Ex = this.target.x;
