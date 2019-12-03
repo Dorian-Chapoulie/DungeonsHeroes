@@ -17,13 +17,14 @@ export class Player extends Entity {
         this.image.src = '/media/player-sprite.png'
         this.canShoot = true;
         this.target = undefined;
-
+        this.speed = 2;
         this.AVANCER = 0;
         this.GAUCHE = 1;
         this.RECULER = 3;
         this.DROIT = 2;
 
-        this.shield = 100;        
+        this.shield = 100;  
+        this.health = 500;      
     }
 
     shoot = () => {
@@ -31,7 +32,7 @@ export class Player extends Entity {
             super.shoot();         
             this.canShoot = false;
             this.projectile = new Frost(this.context, this.x + this.width / 2, this.y);
-            this.projectile.damageValue = 50;
+            this.projectile.damageValue = 25;
             const Ex = this.target.x;
             const Ey = this.target.y;
 

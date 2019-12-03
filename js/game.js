@@ -43,7 +43,8 @@ class Game {
         }
 
         this.shootIds = [];
-        this.deadMobs = 0;
+        this.deadMobs = [];
+        this.deadMobsNumber = 0;
         this.mobs = 0;
 
         this.socketHanlder = socketHanlder;

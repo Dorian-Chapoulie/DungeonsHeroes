@@ -5,11 +5,11 @@ class SocketsHanlder {
     }    
     
     sendNextLevel() {
-        this.io.emit('reposplayer', {});                                                 
+        this.io.emit('reposplayer', {});                                                         
         this.game.level++;   
         this.game.sendMap(); 
         this.game.mobs = 0;
-        this.game.deadMobs = 0;
+        this.game.deadMobsNumber = 0;
         setTimeout(() => {
             this.game.sendMobs();
         }, 5000);
@@ -63,12 +63,21 @@ class SocketsHanlder {
             });
 
             socket.on('deadmob', dm => { 
-                this.game.deadMobs++;
-                this.game.sendLoots(dm); 
-                this.io.emit('deadmob', dm.id);  
-                if(this.game.deadMobs == this.game.mobs){
-                    this.sendNextLevel();
-                }  
+                let isAlreadyDead = false;
+                this.game.deadMobs.forEach(d => {
+                    if(d === dm.id) {
+                        isAlreadyDead = true;
+                    }
+                });
+                if(!isAlreadyDead) {
+                    this.game.deadMobs.push(dm.id);
+                    this.game.deadMobsNumber++;
+                    this.game.sendLoots(dm); 
+                    this.io.emit('deadmob', dm.id);  
+                    if(this.game.deadMobsNumber == this.game.mobs){
+                        this.sendNextLevel();
+                    }  
+                }                
             });
 
             socket.on('playershoot', targetId => {                                                 

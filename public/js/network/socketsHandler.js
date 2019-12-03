@@ -160,7 +160,7 @@ export const initSocksEvents = () => {
     });
 
     socket.on('hitentity', data => {                
-        damageEntity(data.id, data.type);
+        damageEntity(data.id, data.type, data.sender);
     });
 
     socket.on('lootpickup', data => {                      
@@ -173,6 +173,10 @@ export const initSocksEvents = () => {
             player.health = data.health; 
             player.shield = data.shield;
         }
+    });
+
+    socket.on('levelfinished', data => {
+        
     });
 
     socket.on('reposplayer', data => {

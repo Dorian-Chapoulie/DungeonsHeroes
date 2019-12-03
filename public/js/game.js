@@ -41,7 +41,7 @@ export const player2ShootAt = entityId => {
         }
     });
 }
-export const damageEntity = (entityId, type) => {    
+export const damageEntity = (entityId, type, sender) => {
     let target = undefined;
     let projectile = undefined;
 
@@ -69,10 +69,14 @@ export const damageEntity = (entityId, type) => {
                 projectile = new Poison(context, 0, 0);
                 break;
         }
-        projectile.onHit(target);
-    }else {
-        console.log(target, "pas trouvé");
-        mobs.forEach(m => console.log(m.id));
+        if(sender === player.name) {
+            player.projectile.onHit(target);
+        }else if(sender === player2.name) {
+            player2.projectile.onHit(target);
+        }else {
+            projectile.onHit(target);
+        }        
+        
     }
 }
 
@@ -176,9 +180,12 @@ const init = () => {
     requestAnimationFrame(loop);
 
     setInterval(() => {
-        sendMessage('playerpos', { x: player.x, y: player.y });
-        sendMessage('playerhs', { health: player.health, shield: player.shield });
-    }, 2 * 100);
+        sendMessage('playerpos', { x: player.x, y: player.y });        
+    }, 20);
+
+    setInterval(() => {
+        sendMessage('playerhs', { health: player.health, shield: player.shield });       
+    }, 2 * 100);    
 }
 
 const playerMovements = () => {
@@ -215,32 +222,32 @@ const playerMovements = () => {
     if (isKeyPressed("z") && player.canMoveUp) {
         player.dy = -player.speed;
         player.frameY = player.AVANCER;
-        sendMessage('playermove', 'z');
+        //sendMessage('playermove', 'z');
         canSendNy = true;
     } else if (isKeyPressed("s") && player.canMoveDown) {
         player.dy = player.speed;
         player.frameY = player.RECULER;
-        sendMessage('playermove', 's');
+        //sendMessage('playermove', 's');
         canSendNy = true;
     } else if (cansendNy() && canSendNy) {
         player.dy = 0;
-        sendMessage('playermove', 'ny');
+        //sendMessage('playermove', 'ny');
         canSendNy = false;
     }
 
     if (isKeyPressed("q") && player.canMoveLeft) {
         player.dx = -player.speed;
         player.frameY = player.GAUCHE;
-        sendMessage('playermove', 'q');
+        //sendMessage('playermove', 'q');
         canSendNx = true;
     } else if (isKeyPressed("d") && player.canMoveRight) {
         player.dx = player.speed;
         player.frameY = player.DROIT;
-        sendMessage('playermove', 'd');
+        //sendMessage('playermove', 'd');
         canSendNx = true;
     } else if (cansendNx() && canSendNx) {
         player.dx = 0;
-        sendMessage('playermove', 'nx');
+        //sendMessage('playermove', 'nx');
         canSendNx = false;
     }
 }
@@ -371,7 +378,7 @@ const loop = () => {
     }
 
     const endDate = new Date();
-    const delta = (endDate.getTime() - startDate.getTime()) + 1;
+    const delta = 1;//(endDate.getTime() - startDate.getTime()) + 1;
 
     if (player2)
         player2.move(delta);
