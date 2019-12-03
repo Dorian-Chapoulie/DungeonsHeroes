@@ -43,6 +43,8 @@ class Game {
         }
 
         this.shootIds = [];
+        this.deadMobs = 0;
+        this.mobs = 0;
 
         this.socketHanlder = socketHanlder;
         this.map = [];
@@ -50,7 +52,8 @@ class Game {
 
     generateMobs() {
         const ret = [];
-        for(let i = 0; i < this.level * 2 + 1; i++) {            
+        this.mobs = this.level + 1;
+        for(let i = 0; i < this.mobs; i++) {            
             ret.push({
                 mobType: this.mobId[this.getRandomInt(this.mobId.length)],
                 target: this.joueurs[this.getRandomInt(this.joueurs.length)].socketId,
@@ -58,7 +61,7 @@ class Game {
                     x: this.getRandomInt(this.WIDTH - 64),
                     y: this.getRandomInt(this.HEIGHT - 64),
                 },
-                id: Date.now(),
+                id: this.getRandomInt(10000000000000),
             });
         }
         return ret;
@@ -89,7 +92,7 @@ class Game {
                 x: mob.position.x,
                 y: mob.position.y,
             },
-            id: Date.now(),
+            id: this.getRandomInt(10000000000000),
         });
     }
 

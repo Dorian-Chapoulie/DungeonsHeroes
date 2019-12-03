@@ -4,6 +4,17 @@ class SocketsHanlder {
         this.initEvents();
     }    
     
+    sendNextLevel() {
+        this.io.emit('reposplayer', {});                                                 
+        this.game.level++;   
+        this.game.sendMap(); 
+        this.game.mobs = 0;
+        this.game.deadMobs = 0;
+        setTimeout(() => {
+            this.game.sendMobs();
+        }, 5000);
+    }
+
     initEvents() {
         this.io.sockets.on('connection', socket => {        
             this.chat.addEvents(socket);    
@@ -47,10 +58,17 @@ class SocketsHanlder {
                 socket.broadcast.emit('playerpos', data);            
             });
 
-            socket.on('deadmob', dm => {  
-                                     
+            socket.on('playerhs', data => {                                                 
+                socket.broadcast.emit('playerhs', data);            
+            });
+
+            socket.on('deadmob', dm => { 
+                this.game.deadMobs++;
                 this.game.sendLoots(dm); 
-                socket.broadcast.emit('deadmob', dm.id);       
+                this.io.emit('deadmob', dm.id);  
+                if(this.game.deadMobs == this.game.mobs){
+                    this.sendNextLevel();
+                }  
             });
 
             socket.on('playershoot', targetId => {                                                 
@@ -85,7 +103,7 @@ class SocketsHanlder {
                     this.game.shootIds = this.game.shootIds.filter(e => e !== undefined);                    
                 }*/   
                 socket.broadcast.emit('hitentity', data);                                                                   
-            });            
+            }); 
 
             socket.on('disconnect', () => {                                 
                 const disconnectedPlayer = this.game.joueurs.find(p => p.socketId === socket.id);

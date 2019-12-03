@@ -10,9 +10,11 @@ import {
     damageEntity,
     manageDeadMob,
     playerPickUpLoot,
+    getLocalPlayer,
 } from '/js/game.js';
 import { displayMessage, displayNewUser, displayUserDisconnected } from '/js/network/chat.js';
 import { addMob } from '/js/game.js';
+
 //var peer;
 //var localMediaStream;
 
@@ -164,7 +166,25 @@ export const initSocksEvents = () => {
     socket.on('lootpickup', data => {                      
         playerPickUpLoot(data.lootId, data.picker);
     });
-    
+
+    socket.on('playerhs', data => {
+        const player = getNewPlayer();
+        if (player) {
+            player.health = data.health; 
+            player.shield = data.shield;
+        }
+    });
+
+    socket.on('reposplayer', data => {
+        const player = getLocalPlayer();
+        player.x = 500;
+        player.y = 800;
+        player.healthBar.x = 500;
+        player.healthBar.y = 800;
+        player.shieldBar.x = 500;
+        player.shieldBar.y = 800;
+    });
+  
 
     socket.on('playerdisconnected', player => {
         displayUserDisconnected(player.name);

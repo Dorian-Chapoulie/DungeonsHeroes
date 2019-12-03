@@ -55,9 +55,10 @@ export class Entity {
     damage = amount => {
         if (this.shield - amount >= 0) {
             this.shield -= amount;
-        } else
-        if (this.health - amount >= 0) {
+        } else if (this.health - amount >= 0) {
             this.health -= amount;
+        } else {
+            this.health = 0;
         }
     }
 

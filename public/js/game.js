@@ -97,12 +97,13 @@ export const playerPickUpLoot = (lootId, playername) => {
 }
 
 export const manageDeadMob = (mobId) => {
-    if(player.target.id === mobId) {
+    if(player.target && player.target.id === mobId) {
         player.target = undefined;
     }    
-    if(player2.target.id === mobId) {
+    if(player2.target && player2.target.id === mobId) {
         player2.target = undefined;
     }    
+
     mobs = mobs.filter(m => m.id !== mobId);
 }
 export const addMob = (mobType, pos, targetId, id) => {
@@ -150,20 +151,13 @@ function playSound(url){
     document.body.appendChild(audio);
 }*/
 
-const init = () => {
+const init = () => {    
     initSocksEvents();
     initInputsEvent();
     initChat();
 
     canvas = document.getElementById('Canvas');
     context = canvas.getContext('2d');
-
-    /*
-    for(let x = 1; x < 4; x+=2) {
-        for(let y = 0; y < 8; y++) {
-            lights.push(new Torch(x * 100 + 100, y + 64 + y * 100, context));    
-        }        
-    }*/
 
     const pseudo = prompt("votre pseudo:");
     player = new Player(pseudo, 300, 800, undefined, context); 
@@ -183,7 +177,8 @@ const init = () => {
 
     setInterval(() => {
         sendMessage('playerpos', { x: player.x, y: player.y });
-    }, 2 * 1000);
+        sendMessage('playerhs', { health: player.health, shield: player.shield });
+    }, 2 * 100);
 }
 
 const playerMovements = () => {
@@ -250,23 +245,6 @@ const playerMovements = () => {
     }
 }
 
-const randomMobsMovements = (m) => {
-    if (m.x + m.width > canvas.width) {
-        m.dx = -m.speed;
-    }
-    if (m.x <= 0) {
-        m.dx = m.speed;
-    }
-
-    if (m.y + m.width > canvas.height) {
-        m.dy = -m.speed;
-    }
-
-    if (m.y < 0) {
-        m.dy = m.speed;
-    }
-}
-
 const entityCollision = (a, b) => {
     if (a.x >= b.x && a.x <= b.x + b.width) {
         if(a.y >= b.y && a.y <= b.y + b.height) {
@@ -275,16 +253,6 @@ const entityCollision = (a, b) => {
     }
     return false;
 }
-
-/*
-const projectileCollision = (projectile, entity) => {
-    if (entityCollision(projectile, entity)) {
-        entity.damage(projectile.damageValue);
-        entity.draw(context);
-        return true;
-    }
-    return false;
-}*/
 
 const destroyProjectile = projectile => {
     if (projectile.x >= canvas.width - 32 ||
@@ -298,7 +266,14 @@ const destroyProjectile = projectile => {
 
 const loop = () => {
     const startDate = new Date();
-    drawMap(context, mapLevel, tilesSize);    
+    drawMap(context, mapLevel, tilesSize);  
+
+    if(player.target){
+        //console.log("player:", player.target.id);
+    }
+    if(player2 && player2.target){
+        //console.log("player2:", player2.target.id)
+    }
 
     drawEntityAnimation(player);
     /*lights.forEach(l => {
