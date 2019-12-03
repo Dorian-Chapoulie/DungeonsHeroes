@@ -31,6 +31,13 @@ export const setNewPlayer = (newPlayer) => {
 export const getContext = () => context;
 export const getNewPlayer = () => player2;
 export const getLocalPlayer = () => player;
+export const player2ShootAt = entityId => {
+    mobs.forEach(m => {
+        if(m.id === entityId) {
+            player2.target = m;            
+        }
+    });
+}
 
 export const addMob = (id, pos, targetId) => {
     const target = targetId === player2.socketId ? player2 : player;
@@ -266,6 +273,7 @@ const loop = () => {
     if(!player.target) {
         player.target = mobs[getRandomInt(mobs.length)];
     }else {
+        sendMessage('playershoot', player.target.id);
         player.shoot();
     }      
 
@@ -315,6 +323,10 @@ const loop = () => {
         if(player2 && player2.projectile && destroyProjectile(player2.projectile)) {
             player2.projectile = undefined;
             player2.canShoot = true;
+        }
+
+        if(player2.target) {
+            player2.shoot();
         }
     }
 

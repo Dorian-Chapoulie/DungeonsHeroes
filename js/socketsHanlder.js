@@ -51,6 +51,10 @@ class SocketsHanlder {
                 this.game.sendLoots(dm);        
             });
 
+            socket.on('playershoot', targetId => {                                                 
+                socket.broadcast.emit('playershoot', targetId);        
+            });
+
             socket.on('disconnect', () => {                                 
                 const disconnectedPlayer = this.game.joueurs.find(p => p.socketId === socket.id);
                 socket.broadcast.emit('playerdisconnected', disconnectedPlayer);

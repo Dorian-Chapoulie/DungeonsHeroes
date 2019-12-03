@@ -1,7 +1,4 @@
 import { HealthBar } from "/js/graphics/healthBar.js";
-import { Heart } from "/js/loot/heart.js";
-import { Coin } from "/js/loot/coin.js";
-import { Armor } from "/js/loot/armor.js";
 import { ShieldBar } from "/js/graphics/shieldBar.js";
 
 export class Entity {
@@ -29,6 +26,7 @@ export class Entity {
         this.shieldBar = new ShieldBar(this.shield, this.x, this.y);
         this.canDrawNextFrame = true;
         this.drawTime = 100;
+        this.id = Date.now();
     }
 
     nextFrame = () => {
