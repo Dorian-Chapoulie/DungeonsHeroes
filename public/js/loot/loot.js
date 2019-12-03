@@ -1,9 +1,10 @@
 export class Loot {
-    constructor(context, x, y, imageSrc, soundSrc) {
+    constructor(context, x, y, imageSrc, soundSrc, id) {
         this.x = x;
         this.y = y;
         this.context = context;      
-
+        this.id = id;
+        
         this.image = new Image();
         this.image.src = imageSrc;  
         

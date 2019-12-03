@@ -9,6 +9,7 @@ import {
     player2ShootAt,
     damageEntity,
     manageDeadMob,
+    playerPickUpLoot,
 } from '/js/game.js';
 import { displayMessage, displayNewUser, displayUserDisconnected } from '/js/network/chat.js';
 import { addMob } from '/js/game.js';
@@ -145,7 +146,7 @@ export const initSocksEvents = () => {
     });
 
     socket.on('loots', loot => {
-        addLoot(loot.id, loot.position);
+        addLoot(loot.type, loot.position, loot.id);
     });
 
     socket.on('deadmob', id => {
@@ -158,6 +159,10 @@ export const initSocksEvents = () => {
 
     socket.on('hitentity', data => {                
         damageEntity(data.id, data.type);
+    });
+
+    socket.on('lootpickup', data => {                      
+        playerPickUpLoot(data.lootId, data.picker);
     });
     
 

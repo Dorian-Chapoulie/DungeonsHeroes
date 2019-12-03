@@ -84,11 +84,12 @@ class Game {
         const possibleLoots = this.mobsLoots[mob.name];
         this.socketHanlder.sendMessage('loots',
         {
-            id: possibleLoots[this.getRandomInt(possibleLoots.length)],
+            type: possibleLoots[this.getRandomInt(possibleLoots.length)],
             position: {
                 x: mob.position.x,
                 y: mob.position.y,
             },
+            id: Date.now(),
         });
     }
 

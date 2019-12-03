@@ -76,12 +76,34 @@ export const damageEntity = (entityId, type) => {
     }
 }
 
-export const manageDeadMob = (mobId) => {    
-    mobs.forEach(m => {
-        if(m.id === mobId) {
-            m.health = 0;
+export const playerPickUpLoot = (lootId, playername) => {    
+    if(player.name === playername) {
+        for(let i = 0; i < loots.length; i++) {
+            if(loots[i] && loots[i].id === lootId) {                
+                loots[i].onPickUp(player);
+                loots[i] = undefined;
+                break;
+            }
         }
-    })
+    }else if(player2.name === playername) {
+        for(let i = 0; i < loots.length; i++) {
+            if(loots[i] && loots[i].id === lootId) {            
+                loots[i].onPickUp(player2);
+                loots[i] = undefined;
+                break;
+            }
+        }
+    }
+}
+
+export const manageDeadMob = (mobId) => {
+    if(player.target.id === mobId) {
+        player.target = undefined;
+    }    
+    if(player2.target.id === mobId) {
+        player2.target = undefined;
+    }    
+    mobs = mobs.filter(m => m.id !== mobId);
 }
 export const addMob = (mobType, pos, targetId, id) => {
     const target = targetId === player2.socketId ? player2 : player;
@@ -98,16 +120,16 @@ export const addMob = (mobType, pos, targetId, id) => {
     }
 }
 
-export const addLoot = (id, pos) => {
-    switch (id) {
+export const addLoot = (type, pos, id) => {
+    switch (type) {
         case 0: //coin
-            loots.push(new Coin(context, pos.x, pos.y));
+            loots.push(new Coin(context, pos.x, pos.y, id));
             break;
         case 1: //heart
-            loots.push(new Heart(context, pos.x, pos.y));
+            loots.push(new Heart(context, pos.x, pos.y, id));
             break;
         case 2: //armor
-            loots.push(new Armor(context, pos.x, pos.y));
+            loots.push(new Armor(context, pos.x, pos.y, id));
             break;
     }
 }
@@ -303,15 +325,14 @@ const loop = () => {
         sendMessage('deadmob', {name: dm.name, position: {x: dm.x, y: dm.y}, id: dm.id });
     });
     
-    if(loots.length > 0) {        
+    if(loots.length > 0) {   
+        loots = loots.filter(l => l !== undefined);     
         for(let i = 0; i < loots.length; i++) {
             drawEntityAnimation(loots[i]);
-            if(entityCollision(loots[i], player)) {                
-                loots[i].onPickUp(player);                
-                loots[i] = undefined;
+            if(entityCollision(loots[i], player)) {                 
+                sendMessage('lootpickup', {lootId: loots[i].id, picker: player.name});             
             }
-        };    
-        loots = loots.filter(l => l !== undefined);    
+        };                
     }
     mobs = mobs.filter(m => m.health > 0);
 

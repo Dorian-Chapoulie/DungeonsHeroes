@@ -3,8 +3,8 @@ import { Loot } from '/js/loot/loot.js';
 
 
 export class Armor extends Loot {
-    constructor(context, x, y) {
-        super(context, x, y, '/media/shield-sprite.png', '/media/sound/armor.mp3');
+    constructor(context, x, y, id) {
+        super(context, x, y, '/media/shield-sprite.png', '/media/sound/armor.mp3', id);
         this.canDrawNextFrame = true;        
 
         this.width = 64;

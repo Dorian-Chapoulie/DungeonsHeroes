@@ -47,13 +47,18 @@ class SocketsHanlder {
                 socket.broadcast.emit('playerpos', data);            
             });
 
-            socket.on('deadmob', dm => {                                                 
+            socket.on('deadmob', dm => {  
+                                     
                 this.game.sendLoots(dm); 
                 socket.broadcast.emit('deadmob', dm.id);       
             });
 
             socket.on('playershoot', targetId => {                                                 
                 socket.broadcast.emit('playershoot', targetId);        
+            });
+
+            socket.on('lootpickup', data => {                                                               
+                this.io.emit('lootpickup', data);        
             });
 
             socket.on('hitentity', data => { 
