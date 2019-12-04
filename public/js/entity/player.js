@@ -1,5 +1,5 @@
 import { Entity } from "/js/entity/entity.js";
-import { Frost } from "/js/projectiles/Frost.js";
+import { PlayerProjectile } from "/js/projectiles/Playerprojectile.js";
 
 export class Player extends Entity {
     constructor(name, x, y, id, context) {
@@ -23,15 +23,15 @@ export class Player extends Entity {
         this.RECULER = 3;
         this.DROIT = 2;
 
-        this.shield = 100;  
-        this.health = 500;      
+        this.shield = 100;
+        this.health = 500;
     }
 
     shoot = () => {
-        if (this.canShoot && this.target) {   
-            super.shoot();         
+        if (this.canShoot && this.target) {
+            super.shoot();
             this.canShoot = false;
-            this.projectile = new Frost(this.context, this.x + this.width / 2, this.y);
+            this.projectile = new PlayerProjectile(this.context, this.x + this.width / 2, this.y);
             this.projectile.damageValue = 25;
             const Ex = this.target.x;
             const Ey = this.target.y;
