@@ -8,7 +8,7 @@ export class Entity {
         this.width = 64;
         this.height = 64;
         this.scaleX = 64;
-        this.scaleY = 64;  
+        this.scaleY = 64;
         this.dx = 0;
         this.dy = 0;
         this.speed = 1;
@@ -34,7 +34,7 @@ export class Entity {
     }
 
     nextFrame = () => {
-        if(this.canDrawNextFrame) {
+        if (this.canDrawNextFrame) {
             if (this.frameX++ >= this.image.width / this.width - 2) {
                 this.frameX = 0;
             }
@@ -55,10 +55,9 @@ export class Entity {
     damage = amount => {
         if (this.shield - amount >= 0) {
             this.shield -= amount;
-        } else if (this.health - amount >= 0) {
+        }
+        if (this.shield - amount <= 0 && this.health - amount >= 0) {
             this.health -= amount;
-        } else {
-            this.health = 0;
         }
     }
 
