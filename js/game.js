@@ -63,8 +63,8 @@ class Game {
                 mobType: this.mobId[this.getRandomInt(this.mobId.length)],
                 target: this.joueurs[this.getRandomInt(this.joueurs.length)].socketId,
                 position: {
-                    x: this.getRandomInt(128 + this.WIDTH - 256),
-                    y: this.getRandomInt(128 + this.HEIGHT - 256),
+                    x: this.getRandomInt(this.WIDTH - 256),
+                    y: this.getRandomInt(this.HEIGHT - 256),
                 },
                 id: this.getRandomInt(10000000000000),
             });
