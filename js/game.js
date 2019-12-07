@@ -51,16 +51,20 @@ class Game {
         this.map = [];
     }
 
+    getRandomInt(max) {
+        return Math.floor(Math.random() * Math.floor(max));
+    }
+
     generateMobs() {
         const ret = [];
         this.mobs = this.level + 1;
-        for(let i = 0; i < this.mobs; i++) {            
+        for (let i = 0; i < this.mobs; i++) {
             ret.push({
                 mobType: this.mobId[this.getRandomInt(this.mobId.length)],
                 target: this.joueurs[this.getRandomInt(this.joueurs.length)].socketId,
                 position: {
-                    x: this.getRandomInt(this.WIDTH - 64),
-                    y: this.getRandomInt(this.HEIGHT - 64),
+                    x: this.getRandomInt(128 + this.WIDTH - 256),
+                    y: this.getRandomInt(128 + this.HEIGHT - 256),
                 },
                 id: this.getRandomInt(10000000000000),
             });
@@ -68,9 +72,7 @@ class Game {
         return ret;
     }
 
-    getRandomInt(max) {
-        return Math.floor(Math.random() * Math.floor(max));
-    }
+
 
     getRandomTile(forbidenValues) {
         let tile = 0;
@@ -84,14 +86,13 @@ class Game {
         this.socketHanlder.sendMessage('mobs', this.generateMobs());
     }
 
-    sendLoots(mob) {        
+    sendLoots(mob) {
         const possibleLoots = this.mobsLoots[mob.name];
-        this.socketHanlder.sendMessage('loots',
-        {
+        this.socketHanlder.sendMessage('loots', {
             type: possibleLoots[this.getRandomInt(possibleLoots.length)],
             position: {
-                x: mob.position.x,
-                y: mob.position.y,
+                x: mob.position.x + 30,
+                y: mob.position.y + 30,
             },
             id: this.getRandomInt(10000000000000),
         });
