@@ -12,14 +12,14 @@ export class Frost extends Projectile {
         this.context.translate(this.x, this.y);
         this.context.fillStyle = "blue";
         this.context.beginPath();
-        this.context.arc(0, 0, 10, 0, 2 * Math.PI);
+        this.context.arc(0, 0, 8, 0, 2 * Math.PI);
         this.context.fill();
         this.context.restore();
     }
 
     onHit(entity) {
         super.onHit(entity);
-        if(entity.canAffect) {            
+        if (entity.canAffect) {
             entity.canAffect = false;
             const temp = entity.speed;
             entity.speed *= 0.5;
@@ -30,5 +30,5 @@ export class Frost extends Projectile {
             }, 2000);
 
         }
-    }    
+    }
 }

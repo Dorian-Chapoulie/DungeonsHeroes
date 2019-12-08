@@ -3,7 +3,7 @@ import { Frost } from "/js/projectiles/Frost.js";
 
 export class Wizzard extends Entity {
     constructor(x, y, target, context, id) {
-        super(x,y, context);
+        super(x, y, context);
         this.name = "Wizzard";
         this.id = id;
 
@@ -19,13 +19,16 @@ export class Wizzard extends Entity {
         this.GAUCHE = 1;
         this.RECULER = 2;
         this.AVANCER = 3;
+
+        this.width = 29;
+        this.height = 35;
     }
-    
-    shoot() {        
-        if(this.canShoot && this.target) {
+
+    shoot() {
+        if (this.canShoot && this.target) {
             super.shoot();
             this.canShoot = false;
-            this.projectile = new Frost(this.context, this.x + this.width / 2, this.y);
+            this.projectile = new Frost(this.context, this.x + this.width * 2, this.y + this.height);
             const Ex = this.target.x;
             const Ey = this.target.y;
 
@@ -44,7 +47,7 @@ export class Wizzard extends Entity {
         this.context.save();
         this.context.fillStyle = "lightblue";
         this.context.font = "15px Arial";
-        this.context.fillText(this.name, this.x + this.context.measureText(this.name).width / 4, this.y);
+        this.context.fillText(this.name, this.x + 6, this.y);
         this.context.restore();
     }
 };
