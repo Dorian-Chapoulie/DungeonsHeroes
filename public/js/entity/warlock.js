@@ -46,7 +46,7 @@ export class Warlock extends Entity {
             this.projectile.draw();
         }
         this.context.save();
-        this.context.fillStyle = "red";
+        this.context.fillStyle = "rgb(217, 158, 48)";
         this.context.font = "15px Arial";
         this.context.fillText(this.name, this.x + this.context.measureText(this.name).width / 4, this.y);
         this.context.restore();
