@@ -51,8 +51,8 @@ class Game {
         this.map = [];
     }
 
-    getRandomInt(max) {
-        return Math.floor(Math.random() * Math.floor(max));
+    getRandomInt(min, max) {
+        return Math.floor(Math.random() * Math.floor(max - min) + min);
     }
 
     generateMobs() {
@@ -60,13 +60,13 @@ class Game {
         this.mobs = this.level + 1;
         for (let i = 0; i < this.mobs; i++) {
             ret.push({
-                mobType: this.mobId[this.getRandomInt(this.mobId.length)],
-                target: this.joueurs[this.getRandomInt(this.joueurs.length)].socketId,
+                mobType: this.mobId[this.getRandomInt(0, this.mobId.length)],
+                target: this.joueurs[this.getRandomInt(0, this.joueurs.length)].socketId,
                 position: {
-                    x: this.getRandomInt(this.WIDTH - 256),
-                    y: this.getRandomInt(this.HEIGHT - 256),
+                    x: this.getRandomInt(this.TILE_SIZE, this.WIDTH - this.TILE_SIZE * 3),
+                    y: this.getRandomInt(this.TILE_SIZE, this.HEIGHT - this.TILE_SIZE * 3),
                 },
-                id: this.getRandomInt(10000000000000),
+                id: this.getRandomInt(0, 10000000000000),
             });
         }
         return ret;
@@ -77,7 +77,7 @@ class Game {
     getRandomTile(forbidenValues) {
         let tile = 0;
         do {
-            tile = this.tiles[this.getRandomInt(this.tiles.length)];
+            tile = this.tiles[this.getRandomInt(0, this.tiles.length)];
         } while (forbidenValues.find(e => e === tile));
         return tile;
     }
@@ -89,12 +89,12 @@ class Game {
     sendLoots(mob) {
         const possibleLoots = this.mobsLoots[mob.name];
         this.socketHanlder.sendMessage('loots', {
-            type: possibleLoots[this.getRandomInt(possibleLoots.length)],
+            type: possibleLoots[this.getRandomInt(0, possibleLoots.length)],
             position: {
                 x: mob.position.x + 30,
                 y: mob.position.y + 30,
             },
-            id: this.getRandomInt(10000000000000),
+            id: this.getRandomInt(0, 10000000000000),
         });
     }
 
