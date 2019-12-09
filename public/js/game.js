@@ -253,8 +253,8 @@ const playerMovements = () => {
 }
 
 const entityCollision = (a, b) => {
-    if (a.x >= b.x && a.x <= b.x + b.width) {
-        if(a.y >= b.y && a.y <= b.y + b.height) {
+    if (a.x >= b.x && a.x <= b.x + b.scaleX) {
+        if(a.y >= b.y && a.y <= b.y + b.scaleY) {
             return true;
         }
     }
