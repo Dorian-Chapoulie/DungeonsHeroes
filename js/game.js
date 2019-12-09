@@ -20,6 +20,7 @@ class Game {
             0,
             1,
             2,
+            3,
         ];
 
         this.loots = [
@@ -39,6 +40,10 @@ class Game {
             "Witch": [
                 0,
                 1,
+            ],
+            "Warlock": [
+                1,
+                2,
             ],
         }
 

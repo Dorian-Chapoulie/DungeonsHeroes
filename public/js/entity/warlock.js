@@ -1,34 +1,35 @@
 import { Entity } from "/js/entity/entity.js";
-import { Frost } from "/js/projectiles/Frost.js";
+import { Silence } from "/js/projectiles/Silence.js";
 
-export class Wizzard extends Entity {
+export class Warlock extends Entity {
     constructor(x, y, target, context, id) {
-        super(x, y, context);
-        this.name = "Wizzard";
+        super(x,y, context);
+        this.name = "Warlock";
         this.id = id;
 
         this.target = target;
 
+        this.width = 140;        
+        this.height = 112;
+        //this.scaleX = 64 * 2;
+        //this.scaleY = 64 * 2;
+
         this.image = new Image();
-        this.image.src = '/media/wizzard-sprite.png';
-
-        this.projectile = undefined;
-        this.canShoot = true;
-
+        this.image.src = '/media/warlock-sprite.png';
+        this.canShoot = true;     
+        this.projectile = undefined;       
+        
         this.DROIT = 0;
         this.GAUCHE = 1;
         this.RECULER = 2;
         this.AVANCER = 3;
-
-        this.width = 29;
-        this.height = 35;
     }
-
-    shoot() {
-        if (this.canShoot && this.target) {
-            super.shoot();
+    
+    shoot() {        
+        if(this.canShoot && this.target) {     
+            super.shoot();              
             this.canShoot = false;
-            this.projectile = new Frost(this.context, this.x + this.width * 2, this.y);
+            this.projectile = new Silence(this.context, this.x + this.scaleX / 2, this.y + this.scaleY / 2);
             const Ex = this.target.x;
             const Ey = this.target.y;
 
@@ -45,9 +46,9 @@ export class Wizzard extends Entity {
             this.projectile.draw();
         }
         this.context.save();
-        this.context.fillStyle = "lightblue";
+        this.context.fillStyle = "red";
         this.context.font = "15px Arial";
-        this.context.fillText(this.name, this.x + 6, this.y);
+        this.context.fillText(this.name, this.x + this.context.measureText(this.name).width / 4, this.y);
         this.context.restore();
     }
 };

@@ -7,6 +7,7 @@ import { Player } from '/js/entity/player.js';
 import { Skeleton } from '/js/entity/skeleton.js';
 import { Wizzard } from '/js/entity/wizzard.js';
 import { Witch } from '/js/entity/witch.js';
+import { Warlock } from '/js/entity/Warlock.js';
 import { Torch } from '/js/entity/torch.js';
 import { Coin } from '/js/loot/coin.js';
 import { Heart } from '/js/loot/heart.js';
@@ -14,6 +15,7 @@ import { Armor } from '/js/loot/armor.js';
 import { Fire } from '/js/projectiles/Fire.js';
 import { Frost } from '/js/projectiles/Frost.js';
 import { Poison } from '/js/projectiles/Poison.js';
+import { Silence } from '/js/projectiles/Silence.js';
 
 var player, player2;
 var mobs = [];
@@ -68,6 +70,9 @@ export const damageEntity = (entityId, type, sender) => {
             case 2: //poison
                 projectile = new Poison(context, 0, 0);
                 break;
+            case 3: //silence
+                projectile = new Silence(context, 0, 0);
+            break;
         }
         if(sender === player.name) {
             player.projectile.onHit(target);
@@ -121,6 +126,9 @@ export const addMob = (mobType, pos, targetId, id) => {
             break;
         case 2:
             mobs.push(new Witch(pos.x, pos.y, target, context, id));
+            break;
+        case 3:
+            mobs.push(new Warlock(pos.x, pos.y, target, context, id));
             break;
     }
 }

@@ -16,6 +16,7 @@ export class Player extends Entity {
         this.image = new Image();
         this.image.src = '/media/player-sprite.png'
         this.canShoot = true;
+        this.isSilenced = false;
         this.target = undefined;
         this.speed = 2;
         this.AVANCER = 0;
@@ -28,11 +29,10 @@ export class Player extends Entity {
     }
 
     shoot = () => {
-        if (this.canShoot && this.target) {
+        if (this.canShoot && this.target && !this.isSilenced) {
             super.shoot();
             this.canShoot = false;
             this.projectile = new PlayerProjectile(this.context, this.x + this.width / 2, this.y);
-            this.projectile.damageValue = 25;
             const Ex = this.target.x;
             const Ey = this.target.y;
 
