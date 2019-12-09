@@ -55,9 +55,13 @@ export class Entity {
     damage = amount => {
         if (this.shield - amount >= 0) {
             this.shield -= amount;
-        }
-        if (this.shield - amount <= 0 && this.health - amount >= 0) {
-            this.health -= amount;
+        } else if (this.health - amount >= 0) {
+            this.shield = 0;
+            const temp = this.shield - amount;
+            this.health -= -temp;
+        } else {
+            this.shield = 0;
+            this.health = 0;
         }
     }
 
@@ -67,6 +71,17 @@ export class Entity {
         }
         this.healthBar.draw(this.context, this.health);
         this.shieldBar.draw(this.context, this.shield);
+        /*this.context.beginPath();
+        this.context.strokeStyle = "#FF0000";
+        this.context.moveTo(this.x, this.y);
+        this.context.lineTo(this.x + this.scaleX, this.y);
 
+        this.context.lineTo(this.x + this.scaleX, this.y + this.scaleY);
+
+        this.context.moveTo(this.x + this.scaleY, this.y + this.scaleY);
+        this.context.lineTo(this.x, this.y + this.scaleY);
+        this.context.lineTo(this.x, this.y);
+
+        this.context.stroke();*/
     }
 };
