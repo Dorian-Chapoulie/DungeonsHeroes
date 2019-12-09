@@ -2,7 +2,12 @@ import { Projectile } from '/js/projectiles/Projectile.js';
 
 export class Fire extends Projectile {
     constructor(context, x, y) {
-        super(context, x, y, 0);
+        super(context, x, y, 0, '/media/sound/coin.mp3');
+
+        this.image = new Image();
+        this.image.src = '/media/player-projectile-sprite.png';
+        this.width = 64;
+        this.height = 64;
 
         this.damageValue = 1;
         this.dotTime = 3000;
@@ -20,15 +25,5 @@ export class Fire extends Projectile {
             }, this.dotTime);
 
         }
-    }
-
-    draw() {
-        this.context.save();
-        this.context.translate(this.x, this.y);
-        this.context.fillStyle = "orange";
-        this.context.beginPath();
-        this.context.arc(0, 0, 5, 0, 2 * Math.PI);
-        this.context.fill();
-        this.context.restore();
     }
 }

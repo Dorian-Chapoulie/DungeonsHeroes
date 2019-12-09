@@ -11,8 +11,6 @@ export class Warlock extends Entity {
 
         this.width = 140;        
         this.height = 112;
-        //this.scaleX = 64 * 2;
-        //this.scaleY = 64 * 2;
 
         this.image = new Image();
         this.image.src = '/media/warlock-sprite.png';
@@ -29,7 +27,7 @@ export class Warlock extends Entity {
         if(this.canShoot && this.target) {     
             super.shoot();              
             this.canShoot = false;
-            this.projectile = new Silence(this.context, this.x + this.scaleX / 2, this.y + this.scaleY / 2);
+            this.projectile = new Silence(this.context, this.x, this.y);
             const Ex = this.target.x;
             const Ey = this.target.y;
 

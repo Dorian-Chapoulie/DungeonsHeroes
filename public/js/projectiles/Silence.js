@@ -2,20 +2,15 @@ import { Projectile } from '/js/projectiles/Projectile.js';
 
 export class Silence extends Projectile {
     constructor(context, x, y) {
-        super(context, x, y, 3);
+        super(context, x, y, 3, '/media/sound/coin.mp3');
+
+        this.image = new Image();
+        this.image.src = '/media/player-projectile-sprite.png';
+        this.width = 64;
+        this.height = 64;
 
         this.damageValue = 1;
         this.speed = 1;
-    }
-
-    draw() {
-        this.context.save();
-        this.context.translate(this.x, this.y);
-        this.context.fillStyle = "purple";
-        this.context.beginPath();
-        this.context.arc(0, 0, 8, 0, 2 * Math.PI);
-        this.context.fill();
-        this.context.restore();
     }
 
     onHit(entity) {

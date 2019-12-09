@@ -2,19 +2,14 @@ import { Projectile } from '/js/projectiles/Projectile.js';
 
 export class Frost extends Projectile {
     constructor(context, x, y) {
-        super(context, x, y, 1);
+        super(context, x, y, 1, '/media/sound/coin.mp3');
+
+        this.image = new Image();
+        this.image.src = '/media/player-projectile-sprite.png';
+        this.width = 64;
+        this.height = 64;
 
         this.damageValue = 5;
-    }
-
-    draw() {
-        this.context.save();
-        this.context.translate(this.x, this.y);
-        this.context.fillStyle = "blue";
-        this.context.beginPath();
-        this.context.arc(0, 0, 8, 0, 2 * Math.PI);
-        this.context.fill();
-        this.context.restore();
     }
 
     onHit(entity) {

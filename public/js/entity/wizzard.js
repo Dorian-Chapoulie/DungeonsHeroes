@@ -28,7 +28,7 @@ export class Wizzard extends Entity {
         if (this.canShoot && this.target) {
             super.shoot();
             this.canShoot = false;
-            this.projectile = new Frost(this.context, this.x + this.width * 2, this.y);
+            this.projectile = new Frost(this.context, this.x + this.width / 2, this.y);
             const Ex = this.target.x;
             const Ey = this.target.y;
 

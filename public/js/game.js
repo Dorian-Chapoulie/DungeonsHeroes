@@ -16,6 +16,8 @@ import { Fire } from '/js/projectiles/Fire.js';
 import { Frost } from '/js/projectiles/Frost.js';
 import { Poison } from '/js/projectiles/Poison.js';
 import { Silence } from '/js/projectiles/Silence.js';
+import { PlayerProjectile } from '/js/projectiles/PlayerProjectile.js';
+
 
 var player, player2;
 var mobs = [];
@@ -45,7 +47,7 @@ export const player2ShootAt = entityId => {
 }
 export const damageEntity = (entityId, type, sender) => {
     let target = undefined;
-    let projectile = undefined;
+    let projectile = undefined;    
 
     mobs.forEach(m => {
         if(m.id === entityId) {
@@ -59,29 +61,30 @@ export const damageEntity = (entityId, type, sender) => {
         target = player2;
     }
 
-    if(target) {
-        switch(type){
-            case 0: //fire
-                projectile = new Fire(context, 0, 0);
-                break;
-            case 1: //frost
-                projectile = new Frost(context, 0, 0);
-                break;
-            case 2: //poison
-                projectile = new Poison(context, 0, 0);
-                break;
-            case 3: //silence
-                projectile = new Silence(context, 0, 0);
-            break;
-        }
-        if(sender === player.name) {
-            player.projectile.onHit(target);
-        }else if(sender === player2.name) {
-            player2.projectile.onHit(target);
-        }else {
+    if(target !== undefined) {        
+        if(sender === player.name) {            
+            projectile = new PlayerProjectile(context, 0, 0);
             projectile.onHit(target);
-        }        
-        
+        }else if(sender === player2.name) {
+            projectile = new PlayerProjectile(context, 0, 0);
+            projectile.onHit(target);
+        }else {
+            switch(type){
+                case 0: //fire
+                    projectile = new Fire(context, 0, 0);
+                    break;
+                case 1: //frost
+                    projectile = new Frost(context, 0, 0);
+                    break;
+                case 2: //poison
+                    projectile = new Poison(context, 0, 0);
+                    break;
+                case 3: //silence
+                    projectile = new Silence(context, 0, 0);
+                break;
+            }         
+            projectile.onHit(target);
+        }              
     }
 }
 
@@ -261,12 +264,13 @@ const playerMovements = () => {
 }
 
 const entityCollision = (a, b) => {
-    if (a.x >= b.x && a.x <= b.x + b.scaleX) {
-        if(a.y >= b.y && a.y <= b.y + b.scaleY) {
-            return true;
-        }
-    }
-    return false;
+    if (a.x < b.x + b.scaleX &&
+        a.x + a.scaleX > b.x &&
+        a.y < b.y + b.scaleY &&
+        a.scaleY + a.y > b.y) {
+        return true;
+     }
+     return false;
 }
 
 const destroyProjectile = projectile => {
