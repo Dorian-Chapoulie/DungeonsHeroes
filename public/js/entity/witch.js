@@ -23,16 +23,8 @@ export class Witch extends Entity {
 
     shoot() {
         if (this.canShoot && this.target) {
-            super.shoot();
-            this.canShoot = false;
             this.projectile = new Poison(this.context, this.x, this.y);
-            const Ex = this.target.x + this.target.scaleX / 2;
-            const Ey = this.target.y + this.target.scaleY / 2;
-
-            const angleRadians = Math.atan2(Ey - (this.y + this.scaleY / 2), Ex - (this.x + this.scaleX / 2));
-
-            this.projectile.dx = Math.cos(angleRadians) * this.projectile.speed;
-            this.projectile.dy = Math.sin(angleRadians) * this.projectile.speed;
+            super.shoot();
         }
     }
 
