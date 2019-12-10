@@ -183,17 +183,19 @@ const init = () => {
     const pseudo = prompt("votre pseudo:");
     player = new Player(pseudo, 300, 800, undefined, context); 
     door = new Door(500, 500, context);
+    lights.push(new Torch(400, 300, context));
     setTimeout(() => {
         door.canOpen = true;
     }, 2000);
 
     const intervalSong = setInterval(() => {
-            if (isSoungPlayed) {
-                clearInterval(intervalSong);
-            }
-            themeSong.play().then(() => isSoungPlayed = true).catch(() => isSoungPlayed = false);
-        },
-        100);
+        if (isSoungPlayed) {
+            clearInterval(intervalSong);
+        }
+        themeSong.play().then(() => { isSoungPlayed = true; themeSong.volume = 0.3; }).catch(() => isSoungPlayed = false);
+        
+    },
+    100);
 
 
     sendMessage('newplayer', { name: pseudo, x: player.x, y: player.y });
@@ -298,23 +300,19 @@ const loop = () => {
     const startDate = new Date();
     drawMap(context, mapLevel, tilesSize);
 
-    if (player.target) {
-        //console.log("player:", player.target.id);
-    }
-    if (player2 && player2.target) {
-        //console.log("player2:", player2.target.id)
-    }
 
     drawEntityAnimation(player);
     drawEntityAnimation(door);
-    /*lights.forEach(l => {
-        if(l.y >= player.y && l.canProcessLight == false) {
-            l.canProcessLight = true;
-            playSound('/media/sound/torch.mp3');
-        }
-        l.processLight();
-        drawEntityAnimation(l);
-    });*/
+    if(lights.length > 0) {
+        lights.forEach(l => {
+            if(entityCollision(player, l) && l.canProcessLight == false) {
+                l.canProcessLight = true;
+                playSound('/media/sound/torch.mp3');
+            }
+            l.processLight();
+            drawEntityAnimation(l);
+        });
+    }
 
     playerMovements();
 

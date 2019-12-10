@@ -26,8 +26,8 @@ export class LightenEntity extends Entity {
                     for (var p = 0; p < d.length; p+=4) {
                         const newValue = 50 - coucheNumberY * 8 - coucheNumberX * 8;
                         if(newValue > d[p] || newValue > d[p + 1] || newValue > d[p + 2] ) {
-                            d[p] += newValue; //r
-                            //d[p+1] += newValue / 10;//g
+                            d[p] += newValue / 3; //r
+                            //d[p+1] += newValue / 2;//g
                             //d[p+2] += newValue;//b
                         }
                                             
