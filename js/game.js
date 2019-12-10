@@ -27,6 +27,7 @@ class Game {
             0, //coin
             1, //heart
             2, //armor
+            3, //boostSpeed
         ]
 
         this.mobsLoots = {
@@ -34,16 +35,16 @@ class Game {
                 0,
             ],
             "Wizzard": [
-                0,
-                2,
+                1,
+                3,
             ],
             "Witch": [
-                0,
+                3,
                 1,
             ],
             "Warlock": [
                 1,
-                2,
+                0,
             ],
         }
 
