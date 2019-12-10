@@ -6,8 +6,8 @@ export class Fire extends Projectile {
 
         this.image = new Image();
         this.image.src = '/media/player-projectile-sprite.png';
-        this.width = 64;
-        this.height = 64;
+        this.width = 32;
+        this.height = 29;
 
         this.damageValue = 1;
         this.dotTime = 3000;

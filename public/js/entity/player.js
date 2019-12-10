@@ -30,7 +30,7 @@ export class Player extends Entity {
 
     shoot = () => {
         if (this.canShoot && this.target && !this.isSilenced) {            
-            this.projectile = new PlayerProjectile(this.context, this.x, this.y);
+            this.projectile = new PlayerProjectile(this.context, this.x + this.scaleX / 2, this.y + this.scaleY / 2);
             super.shoot();
         }
     }

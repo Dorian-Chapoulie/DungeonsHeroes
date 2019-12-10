@@ -49,8 +49,8 @@ export class Projectile {
       
         this.frameX = 0;
         this.frameY = 0;
-        this.scaleX = 64;
-        this.scaleY = 64;
+        this.scaleX = 32;
+        this.scaleY = 32;
 
         this.drawTime = 50;
         this.canDrawNextFrame = true;
