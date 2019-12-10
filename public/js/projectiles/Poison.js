@@ -2,7 +2,7 @@ import { Projectile } from '/js/projectiles/Projectile.js';
 
 export class Poison extends Projectile {
     constructor(context, x, y) {
-        super(context, x, y, 2, '/media/sound/coin.mp3');
+        super(context, x, y, 2);
 
         this.image = new Image();
         this.image.src = '/media/player-projectile-sprite.png';
