@@ -41,9 +41,9 @@ export class Entity {
         this.projectile.dy = Math.sin(angleRadians) * this.projectile.speed;
     }
 
-    nextFrame = () => {
+    nextFrame() {
         if (this.canDrawNextFrame) {
-            if (this.frameX++ >= this.image.width / this.width - 2) {
+            if (this.frameX++ > this.image.width / this.width - 2) {
                 this.frameX = 0;
             }
             this.canDrawNextFrame = false;

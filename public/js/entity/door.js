@@ -1,18 +1,26 @@
 import { Entity } from "/js/entity/entity.js";
 
-export class Torch extends Entity {
+export class Door extends Entity {
     constructor(x, y, context) {
-        super(x,y, context);
+        super(280,0, context);
         
-        this.width = 54.6;        
-        this.height = 117;
+        this.width = 58;        
+        this.height = 63;
 
-        this.scaleX = 35;
-        this.scaleY = 50;
+        this.scaleX = 64;
+        this.scaleY = 64;
 
         this.drawTime = 200;
+        this.canOpen = false;
 
         this.image = new Image();
-        this.image.src = '/media/torch-sprite.png';   
-    }    
+        this.image.src = '/media/door-sprite.png';   
+        this.drawTime = 60;
+    }
+    
+    nextFrame() {
+        if(this.canOpen && this.frameX * this.width <= 58 * 2) {
+            super.nextFrame();
+        }
+    }
 };
