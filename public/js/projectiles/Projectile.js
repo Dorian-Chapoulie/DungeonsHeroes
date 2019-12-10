@@ -14,21 +14,19 @@ export class Projectile {
         this.frameY = 0;
         this.scaleX = 64;
         this.scaleY = 64;
-
-        /*this.hitSound = document.createElement("audio");        
-        this.hitSound.setAttribute("preload", "auto");
-        this.hitSound.setAttribute("controls", "none");        
-        this.hitSound.style.display = "none";
+        
+        this.hitSound = new Audio();        
         this.hitSound.src = soundSrc;
-        document.body.appendChild(this.hitSound);*/
 
         this.drawTime = 50;
         this.canDrawNextFrame = true;
     }
 
     onHit(entity) {        
-        entity.damage(this.damageValue);        
-        //this.hitSound.play();        
+        entity.damage(this.damageValue);   
+        this.hitSound.addEventListener('canplaythrough', function(){
+            this.play();
+        });
     }
 
     draw() {
