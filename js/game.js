@@ -35,7 +35,7 @@ class Game {
                 0,
             ],
             "Wizzard": [
-                1,
+                2,
                 3,
             ],
             "Witch": [
@@ -44,7 +44,7 @@ class Game {
             ],
             "Warlock": [
                 1,
-                0,
+                2,
             ],
         }
 

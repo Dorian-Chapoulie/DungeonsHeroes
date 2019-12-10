@@ -158,17 +158,17 @@ const getRandomInt = max => {
     return Math.floor(Math.random() * Math.floor(max));
 }
 
-/*
-function playSound(url){
+
+function playSound(url) {
     var audio = document.createElement('audio');
     audio.style.display = "none";
     audio.src = url;
     audio.autoplay = true;
-    audio.onended = function(){
-      audio.remove() //Remove when played.
+    audio.onended = function() {
+        audio.remove() //Remove when played.
     };
     document.body.appendChild(audio);
-}*/
+}
 
 const init = () => {
     initSocksEvents();
@@ -181,12 +181,13 @@ const init = () => {
     const pseudo = prompt("votre pseudo:");
     player = new Player(pseudo, 300, 800, undefined, context);
 
-    /* const intervalSong = setInterval(() => {        
-         if(isSoungPlayed) {
-             clearInterval(intervalSong);
-         }
-         themeSong.play().then(() => isSoungPlayed = true).catch(() => isSoungPlayed = false);
-     }, 100);  */
+    const intervalSong = setInterval(() => {
+            if (isSoungPlayed) {
+                clearInterval(intervalSong);
+            }
+            themeSong.play().then(() => isSoungPlayed = true).catch(() => isSoungPlayed = false);
+        },
+        100);
 
 
     sendMessage('newplayer', { name: pseudo, x: player.x, y: player.y });
