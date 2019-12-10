@@ -60,7 +60,7 @@ export class Entity {
         this.shieldBar.move(this.dx * this.speed * time, this.dy * this.speed * time);
     }
 
-    damage = amount => {
+    damage(amount) {
         if (this.shield - amount >= 0) {
             this.shield -= amount;
         } else if (this.health - amount >= 0) {

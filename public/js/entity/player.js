@@ -26,6 +26,9 @@ export class Player extends Entity {
 
         this.shield = 100;
         this.health = 500;
+
+        this.hitSound = new Audio();   
+        this.hitSound.src = '/media/sound/player-damage.mp3';
     }
 
     shoot = () => {
@@ -40,6 +43,11 @@ export class Player extends Entity {
         if (this.projectile && this.target) {
             this.projectile.move();
         }
+    }
+
+    damage(amount) {
+        this.hitSound.play(); 
+        super.damage(amount);
     }
 
     draw = () => {

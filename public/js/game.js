@@ -9,6 +9,7 @@ import { Wizzard } from '/js/entity/wizzard.js';
 import { Witch } from '/js/entity/witch.js';
 import { Warlock } from '/js/entity/Warlock.js';
 import { Torch } from '/js/entity/torch.js';
+import { Door } from '/js/entity/door.js';
 import { Coin } from '/js/loot/coin.js';
 import { Heart } from '/js/loot/heart.js';
 import { Armor } from '/js/loot/armor.js';
@@ -30,6 +31,7 @@ var canSendNx = false;
 var canSendNy = false;
 var themeSong = document.getElementById('theme');
 var isSoungPlayed = false;
+var door;
 
 document.addEventListener("DOMContentLoaded", () => init());
 
@@ -179,7 +181,11 @@ const init = () => {
     context = canvas.getContext('2d');
 
     const pseudo = prompt("votre pseudo:");
-    player = new Player(pseudo, 300, 800, undefined, context);
+    player = new Player(pseudo, 300, 800, undefined, context); 
+    door = new Door(500, 500, context);
+    setTimeout(() => {
+        door.canOpen = true;
+    }, 2000);
 
     const intervalSong = setInterval(() => {
             if (isSoungPlayed) {
@@ -300,6 +306,7 @@ const loop = () => {
     }
 
     drawEntityAnimation(player);
+    drawEntityAnimation(door);
     /*lights.forEach(l => {
         if(l.y >= player.y && l.canProcessLight == false) {
             l.canProcessLight = true;
