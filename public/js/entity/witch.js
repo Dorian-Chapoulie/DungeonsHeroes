@@ -13,17 +13,20 @@ export class Witch extends Entity {
         this.image.src = '/media/witch-sprite.png';
 
         this.projectile = undefined;
-        this.canShoot = true;   
-        
+        this.canShoot = true;
+
         this.DROIT = 0;
         this.GAUCHE = 1;
         this.RECULER = 2;
         this.AVANCER = 3;
+
+        this.width = 34;
+        this.height = 56;
     }
 
     shoot() {
         if (this.canShoot && this.target) {
-            this.projectile = new Poison(this.context, this.x, this.y);
+            this.projectile = new Poison(this.context, this.x + this.width / 2, this.y + this.height);
             super.shoot();
         }
     }
