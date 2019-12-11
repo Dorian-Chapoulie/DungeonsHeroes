@@ -1,6 +1,51 @@
 import { HealthBar } from "/js/graphics/healthBar.js";
 import { ShieldBar } from "/js/graphics/shieldBar.js";
 
+const hitSoundFire = new Audio();        
+const hitSoundFrost = new Audio();        
+const hitSoundPlayerProjectile = new Audio();        
+const hitSoundPoison = new Audio();        
+const hitSoundSilence = new Audio();        
+
+(function initSounds(){    
+    hitSoundFire.src = '/media/sound/fireball-cast.mp3';
+    hitSoundFrost.src = '/media/sound/ice-cast.mp3';
+    hitSoundPlayerProjectile.src = '/media/sound/player-cast.mp3';
+    hitSoundPoison.src = '/media/sound/poison-cast.mp3';
+    hitSoundSilence.src = '/media/sound/silence-cast.mp3';
+})();
+
+const playSound = type => {
+    const sound = new Audio()    
+    switch(type) {
+        case 0: //Fire        
+        sound.src = '/media/sound/fireball-cast.mp3';
+        sound.volume = 0.6;
+        sound.play();    
+            break;
+        case 1: //Frost        
+        sound.src = '/media/sound/ice-cast.mp3';
+        sound.volume = 0.6;
+        sound.play();    
+            break;
+        case 2: //Poison        
+        sound.src = '/media/sound/poison-cast.mp3';
+        sound.volume = 0.8;
+        sound.play();    
+            break;
+        case 3: //Silence        
+        sound.src = '/media/sound/silence-cast.mp3';
+        sound.volume = 1;
+        sound.play();    
+            break;
+        case 4: //Player        
+        sound.src = '/media/sound/player-cast.mp3';
+        sound.volume = 0.2;
+        sound.play();    
+            break;
+    };
+}
+
 export class Entity {
     constructor(x, y, context) {
         this.x = x;
@@ -27,9 +72,11 @@ export class Entity {
         this.canDrawNextFrame = true;
         this.drawTime = 100;
         this.shootId = 0;
+        this.fireRate = 500;
     }
 
     shoot() {
+        playSound(this.projectile.type);
         this.shootId++;
         this.canShoot = false;        
         const Ex = this.target.x + this.target.scaleX / 2;
@@ -39,6 +86,9 @@ export class Entity {
 
         this.projectile.dx = Math.cos(angleRadians) * this.projectile.speed;
         this.projectile.dy = Math.sin(angleRadians) * this.projectile.speed;
+        setTimeout(() => {
+            this.canShoot = true;
+        }, this.fireRate);
     }
 
     nextFrame() {

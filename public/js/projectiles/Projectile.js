@@ -1,42 +1,4 @@
 import { drawEntityAnimation } from '/js/graphics/graphics.js';
-
-const hitSoundFire = new Audio();        
-const hitSoundFrost = new Audio();        
-const hitSoundPlayerProjectile = new Audio();        
-const hitSoundPoison = new Audio();        
-const hitSoundSilence = new Audio();        
-
-(function initSounds(){
-    hitSoundFire.src = '/media/sound/coin.mp3';
-    hitSoundFrost.src = '/media/sound/coin.mp3';
-    hitSoundPlayerProjectile.src = '/media/sound/coin.mp3';
-    hitSoundPoison.src = '/media/sound/coin.mp3';
-    hitSoundSilence.src = '/media/sound/coin.mp3';
-})();
-
-const playSound = type => {
-    switch(type) {
-        case 0: //Fire
-        hitSoundFire.play();    
-            break;
-        case 1: //Frost
-        hitSoundFire.play();  
-            break;
-        case 2: //Poison
-        hitSoundFire.play();  
-            break;
-        case 3: //Silence
-        hitSoundFire.play();  
-            break;
-        case 4: //Player
-        hitSoundFire.play();  
-            break;
-    };
-}
-/*this.hitSound.addEventListener('canplaythrough', function(){
-            this.play();
-        });*/
-
 export class Projectile {
     constructor(context, x, y, type) {
         this.x = x;
@@ -58,7 +20,6 @@ export class Projectile {
 
     onHit(entity) {        
         entity.damage(this.damageValue);
-        playSound(this.type);           
     }
 
     draw() {

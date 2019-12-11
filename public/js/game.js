@@ -7,7 +7,7 @@ import { Player } from '/js/entity/player.js';
 import { Skeleton } from '/js/entity/skeleton.js';
 import { Wizzard } from '/js/entity/wizzard.js';
 import { Witch } from '/js/entity/witch.js';
-import { Warlock } from '/js/entity/Warlock.js';
+import { Warlock } from '/js/entity/warlock.js';
 import { Torch } from '/js/entity/torch.js';
 import { Door } from '/js/entity/door.js';
 import { Coin } from '/js/loot/coin.js';
@@ -18,7 +18,7 @@ import { Fire } from '/js/projectiles/Fire.js';
 import { Frost } from '/js/projectiles/Frost.js';
 import { Poison } from '/js/projectiles/Poison.js';
 import { Silence } from '/js/projectiles/Silence.js';
-import { PlayerProjectile } from '/js/projectiles/PlayerProjectile.js';
+import { PlayerProjectile } from '/js/projectiles/Playerprojectile.js';
 
 
 var player, player2;
@@ -192,7 +192,7 @@ const init = () => {
         if (isSoungPlayed) {
             clearInterval(intervalSong);
         }
-        themeSong.play().then(() => { isSoungPlayed = true; themeSong.volume = 0.3; }).catch(() => isSoungPlayed = false);
+        themeSong.play().then(() => { isSoungPlayed = true; themeSong.volume = 0.4; }).catch(() => isSoungPlayed = false);
         
     },
     100);
@@ -353,13 +353,13 @@ const loop = () => {
         m.shoot();
 
         if (player.projectile && entityCollision(player.projectile, m)) {
-            player.canShoot = true;
+            //player.canShoot = true;
             sendMessage('hitentity', { id: m.id, type: player.projectile.type, shootId: player.shootId, sender: player.name });
             player.projectile = undefined;
         }
 
         if (player2 && player2.projectile && entityCollision(player2.projectile, m)) {
-            player2.canShoot = true;
+            //player2.canShoot = true;
             sendMessage('hitentity', { id: m.id, type: player2.projectile.type, shootId: player2.shootId, sender: player2.name });
             player2.projectile = undefined;
         }
@@ -367,17 +367,17 @@ const loop = () => {
         if (m.projectile !== undefined) {
             m.projectile.move();
             if (entityCollision(m.projectile, player)) {
-                m.canShoot = true;
+                //m.canShoot = true;
                 sendMessage('hitentity', { id: player.name, type: m.projectile.type, shootId: m.shootId, sender: m.id });
             }
 
             if (player2 && entityCollision(m.projectile, player2)) {
-                m.canShoot = true;
+                //m.canShoot = true;
                 sendMessage('hitentity', { id: player2.name, type: m.projectile.type, shootId: m.shootId, sender: m.id });
             }
 
             if (destroyProjectile(m.projectile)) {
-                m.canShoot = true;
+                //m.canShoot = true;
                 m.projectile = undefined;
             }
         }
@@ -391,7 +391,7 @@ const loop = () => {
 
         if (player2 && player2.projectile && destroyProjectile(player2.projectile)) {
             player2.projectile = undefined;
-            player2.canShoot = true;
+            //player2.canShoot = true;
         }
 
         if (player2.target) {
@@ -408,7 +408,7 @@ const loop = () => {
     player.move(delta);
     if (player.projectile && destroyProjectile(player.projectile)) {
         player.projectile = undefined;
-        player.canShoot = true;
+        //player.canShoot = true;
     }
 
 
