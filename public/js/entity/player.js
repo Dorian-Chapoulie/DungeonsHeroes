@@ -29,6 +29,8 @@ export class Player extends Entity {
 
         this.hitSound = new Audio();   
         this.hitSound.src = '/media/sound/player-damage.mp3';
+        this.hitSound.volume = 0.6;
+        this.canPlayHitSound = true;
     }
 
     shoot = () => {
@@ -46,7 +48,13 @@ export class Player extends Entity {
     }
 
     damage(amount) {
-        this.hitSound.play(); 
+        if(this.canPlayHitSound) {
+            this.canPlayHitSound = false;
+            this.hitSound.play(); 
+            setTimeout(() => {
+                this.canPlayHitSound = true;
+            }, 1000);
+        }
         super.damage(amount);
     }
 
