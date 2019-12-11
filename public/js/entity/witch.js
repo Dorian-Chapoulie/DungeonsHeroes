@@ -17,6 +17,9 @@ export class Witch extends Entity {
         this.GAUCHE = 1;
         this.RECULER = 2;
         this.AVANCER = 3;
+
+        this.width = 34;
+        this.height = 56;
     }
 
     shoot() {
