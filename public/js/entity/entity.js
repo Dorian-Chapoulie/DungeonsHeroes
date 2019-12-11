@@ -47,7 +47,7 @@ const playSound = type => {
 }
 
 export class Entity {
-    constructor(x, y, context) {
+    constructor(x, y, context, projectilesType) {
         this.x = x;
         this.y = y;
         this.width = 64;
@@ -72,11 +72,13 @@ export class Entity {
         this.canDrawNextFrame = true;
         this.drawTime = 100;
         this.shootId = 0;
-        this.fireRate = 500;
+        this.fireRate = 1500;
+        this.projectiles = [];
+        this.projectilesType = projectilesType;
     }
 
     shoot() {
-        playSound(this.projectile.type);
+        playSound(this.projectilesType);
         this.shootId++;
         this.canShoot = false;        
         const Ex = this.target.x + this.target.scaleX / 2;
@@ -84,8 +86,8 @@ export class Entity {
 
         const angleRadians = Math.atan2(Ey - (this.y + this.scaleY / 2), Ex - (this.x + this.scaleX / 2));
 
-        this.projectile.dx = Math.cos(angleRadians) * this.projectile.speed;
-        this.projectile.dy = Math.sin(angleRadians) * this.projectile.speed;
+        this.projectiles[this.projectiles.length - 1].dx = Math.cos(angleRadians) * this.projectiles[this.projectiles.length - 1].speed;
+        this.projectiles[this.projectiles.length - 1].dy = Math.sin(angleRadians) * this.projectiles[this.projectiles.length - 1].speed;
         setTimeout(() => {
             this.canShoot = true;
         }, this.fireRate);
@@ -108,6 +110,13 @@ export class Entity {
         this.y += (this.dy * this.speed * time);
         this.healthBar.move(this.dx * this.speed * time, this.dy * this.speed * time);
         this.shieldBar.move(this.dx * this.speed * time, this.dy * this.speed * time);
+
+        if (this.projectiles.length > 0 && this.target) {
+            this.projectiles.forEach(p => {
+                if(p)
+                    p.move();
+            });            
+        }
     }
 
     damage(amount) {
@@ -129,6 +138,12 @@ export class Entity {
         }
         this.healthBar.draw(this.context, this.health);
         this.shieldBar.draw(this.context, this.shield);
+        if (this.target && this.projectiles.length > 0) {
+            this.projectiles.forEach(p => {
+                if(p)
+                    p.draw();
+            });            
+        }
         /*this.context.beginPath();
         this.context.strokeStyle = "#FF0000";
         this.context.moveTo(this.x, this.y);

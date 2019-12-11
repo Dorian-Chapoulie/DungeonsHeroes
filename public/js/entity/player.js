@@ -35,15 +35,8 @@ export class Player extends Entity {
 
     shoot = () => {
         if (this.canShoot && this.target && !this.isSilenced) {            
-            this.projectile = new PlayerProjectile(this.context, this.x + this.scaleX / 2, this.y + this.scaleY / 2);
+            this.projectiles.push(new PlayerProjectile(this.context, this.x + this.scaleX / 2, this.y + this.scaleY / 2));
             super.shoot();
-        }
-    }
-
-    move(time) {
-        super.move(time);
-        if (this.projectile && this.target) {
-            this.projectile.move();
         }
     }
 
@@ -60,9 +53,6 @@ export class Player extends Entity {
 
     draw = () => {
         super.draw();
-        if (this.target && this.projectile) {
-            this.projectile.draw();
-        }
         this.context.save();
         this.context.fillStyle = "white";
         this.context.font = "20px Arial";

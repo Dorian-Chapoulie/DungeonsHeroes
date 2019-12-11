@@ -1,8 +1,11 @@
 import { Projectile } from '/js/projectiles/Projectile.js';
 
 export class Silence extends Projectile {
+
+    static type = 3;
+
     constructor(context, x, y) {
-        super(context, x, y, 3);
+        super(context, x, y, Silence.type);
 
         this.image = new Image();
         this.image.src = '/media/player-projectile-sprite.png';

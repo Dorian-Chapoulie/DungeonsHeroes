@@ -3,7 +3,7 @@ import { Fire } from "/js/projectiles/Fire.js";
 
 export class Skeleton extends Entity {
     constructor(x, y, target, context, id) {
-        super(x,y, context);
+        super(x,y, context, Fire.type);
         this.name = "Skeleton";
         this.id = id;
 
@@ -12,8 +12,7 @@ export class Skeleton extends Entity {
         this.image = new Image();
         this.image.src = '/media/skeleton-sprite.png';
         this.canShoot = true;     
-        this.projectile = undefined;       
-        
+        this.fireRate = 2000;
         this.DROIT = 0;
         this.GAUCHE = 1;
         this.RECULER = 2;
@@ -22,16 +21,13 @@ export class Skeleton extends Entity {
     
     shoot() {        
         if(this.canShoot && this.target) {     
-            this.projectile = new Fire(this.context, this.x, this.y);
+            this.projectiles.push(new Fire(this.context, this.x, this.y));
             super.shoot();       
         }
     }
 
     draw = () => {
         super.draw();
-        if (this.projectile !== undefined) {
-            this.projectile.draw();
-        }
         this.context.save();
         this.context.fillStyle = "red";
         this.context.font = "15px Arial";

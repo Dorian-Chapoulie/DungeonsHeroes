@@ -351,36 +351,41 @@ const loop = () => {
         drawEntityAnimation(m);
         m.draw();
         m.shoot();
-
-        if (player.projectile && entityCollision(player.projectile, m)) {
-            //player.canShoot = true;
-            sendMessage('hitentity', { id: m.id, type: player.projectile.type, shootId: player.shootId, sender: player.name });
-            player.projectile = undefined;
-        }
-
-        if (player2 && player2.projectile && entityCollision(player2.projectile, m)) {
-            //player2.canShoot = true;
-            sendMessage('hitentity', { id: m.id, type: player2.projectile.type, shootId: player2.shootId, sender: player2.name });
-            player2.projectile = undefined;
-        }
-
-        if (m.projectile !== undefined) {
-            m.projectile.move();
-            if (entityCollision(m.projectile, player)) {
-                //m.canShoot = true;
-                sendMessage('hitentity', { id: player.name, type: m.projectile.type, shootId: m.shootId, sender: m.id });
-            }
-
-            if (player2 && entityCollision(m.projectile, player2)) {
-                //m.canShoot = true;
-                sendMessage('hitentity', { id: player2.name, type: m.projectile.type, shootId: m.shootId, sender: m.id });
-            }
-
-            if (destroyProjectile(m.projectile)) {
-                //m.canShoot = true;
-                m.projectile = undefined;
+        for(let i = 0; i < player.projectiles.length; i++) {
+            if (player.projectiles[i] && entityCollision(player.projectiles[i], m)) {
+                //player.canShoot = true;
+                sendMessage('hitentity', { id: m.id, type: player.projectiles[i].type, shootId: player.shootId, sender: player.name });
+                player.projectiles[i] = undefined;
             }
         }
+        for(let i = 0; i < player2.projectiles.length; i++) {
+            if (player2 && player2.projectiles[i] && entityCollision(player2.projectiles[i], m)) {
+                //player2.canShoot = true;
+                sendMessage('hitentity', { id: m.id, type: player2.projectiles[i].type, shootId: player2.shootId, sender: player2.name });
+                player2.projectiles[i] = undefined;
+            }
+        }
+
+        for(let i = 0; i < m.projectiles.length; i++) {            
+                //m.projectiles[i].move();
+            if (m.projectiles[i] && entityCollision(m.projectiles[i], player)) {
+                //m.canShoot = true;
+                sendMessage('hitentity', { id: player.name, type: m.projectiles[i].type, shootId: m.shootId, sender: m.id });
+                m.projectiles[i] = undefined;
+            }
+
+            if (player2 && m.projectiles[i] && entityCollision(m.projectiles[i], player2)) {
+                //m.canShoot = true;
+                sendMessage('hitentity', { id: player2.name, type: m.projectiles[i].type, shootId: m.shootId, sender: m.id });
+                m.projectiles[i] = undefined;
+            }
+
+            if (m.projectiles[i] && destroyProjectile(m.projectiles[i])) {
+                //m.canShoot = true;
+                m.projectiles[i] = undefined;
+            }            
+        }
+        m.projectiles = m.projectiles.filter(p => p != undefined);
         //randomMobsMovements(m);        
     })
 
@@ -389,10 +394,15 @@ const loop = () => {
         player2.draw();
         drawEntityAnimation(player2);
 
-        if (player2 && player2.projectile && destroyProjectile(player2.projectile)) {
-            player2.projectile = undefined;
-            //player2.canShoot = true;
+
+        
+        for(let i = 0; i < player2.projectiles.length; i++) {
+            if (player2.projectiles[i] && destroyProjectile(player2.projectiles[i])) {
+                player2.projectiles[i] = undefined;
+                //player.canShoot = true;
+            }
         }
+        player2.projectiles = player2.projectiles.filter(p => p !== undefined);
 
         if (player2.target) {
             player2.shoot();
@@ -406,10 +416,13 @@ const loop = () => {
         player2.move(delta);
 
     player.move(delta);
-    if (player.projectile && destroyProjectile(player.projectile)) {
-        player.projectile = undefined;
-        //player.canShoot = true;
+    for(let i = 0; i < player.projectiles.length; i++) {
+        if (player.projectiles[i] && destroyProjectile(player.projectiles[i])) {
+            player.projectiles[i] = undefined;
+            //player.canShoot = true;
+        }
     }
+    player.projectiles = player.projectiles.filter(p => p !== undefined);
 
 
     mobs.forEach(m => {

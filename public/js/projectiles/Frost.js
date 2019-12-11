@@ -1,8 +1,11 @@
 import { Projectile } from '/js/projectiles/Projectile.js';
 
 export class Frost extends Projectile {
+
+    static type = 1;
+
     constructor(context, x, y) {
-        super(context, x, y, 1);
+        super(context, x, y, Frost.type);
 
         this.image = new Image();
         this.image.src = '/media/player-projectile-sprite.png';

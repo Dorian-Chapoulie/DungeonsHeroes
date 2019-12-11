@@ -3,7 +3,7 @@ import { Poison } from "/js/projectiles/Poison.js";
 
 export class Witch extends Entity {
     constructor(x, y, target, context, id) {
-        super(x, y, context);
+        super(x, y, context, Poison.type);
         this.name = "Witch";
         this.id = id;
 
@@ -11,10 +11,8 @@ export class Witch extends Entity {
 
         this.image = new Image();
         this.image.src = '/media/witch-sprite.png';
-
-        this.projectile = undefined;
         this.canShoot = true;   
-        
+        this.fireRate = 2000;
         this.DROIT = 0;
         this.GAUCHE = 1;
         this.RECULER = 2;
@@ -23,16 +21,13 @@ export class Witch extends Entity {
 
     shoot() {
         if (this.canShoot && this.target) {
-            this.projectile = new Poison(this.context, this.x, this.y);
+            this.projectiles.push(new Poison(this.context, this.x, this.y));
             super.shoot();
         }
     }
 
     draw = () => {
         super.draw();
-        if (this.projectile !== undefined) {
-            this.projectile.draw();
-        }
         this.context.save();
         this.context.fillStyle = 'rgb(230, 45, 240)';
         this.context.font = "15px Arial";
