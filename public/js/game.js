@@ -181,7 +181,7 @@ const init = () => {
     context = canvas.getContext('2d');
 
     const pseudo = prompt("votre pseudo:");
-    player = new Player(pseudo, 300, 800, undefined, context); 
+    player = new Player(pseudo, 300, 800, undefined, context);
     door = new Door(500, 500, context);
     lights.push(new Torch(400, 300, context));
     setTimeout(() => {
@@ -189,13 +189,16 @@ const init = () => {
     }, 2000);
 
     const intervalSong = setInterval(() => {
-        if (isSoungPlayed) {
-            clearInterval(intervalSong);
-        }
-        themeSong.play().then(() => { isSoungPlayed = true; themeSong.volume = 0.4; }).catch(() => isSoungPlayed = false);
-        
-    },
-    100);
+            if (isSoungPlayed) {
+                clearInterval(intervalSong);
+            }
+            themeSong.play().then(() => {
+                isSoungPlayed = true;
+                themeSong.volume = 0.7;
+            }).catch(() => isSoungPlayed = false);
+
+        },
+        100);
 
 
     sendMessage('newplayer', { name: pseudo, x: player.x, y: player.y });
@@ -303,9 +306,9 @@ const loop = () => {
 
     drawEntityAnimation(player);
     drawEntityAnimation(door);
-    if(lights.length > 0) {
+    if (lights.length > 0) {
         lights.forEach(l => {
-            if(entityCollision(player, l) && l.canProcessLight == false) {
+            if (entityCollision(player, l) && l.canProcessLight == false) {
                 l.canProcessLight = true;
                 playSound('/media/sound/torch.mp3');
             }
@@ -351,14 +354,14 @@ const loop = () => {
         drawEntityAnimation(m);
         m.draw();
         m.shoot();
-        for(let i = 0; i < player.projectiles.length; i++) {
+        for (let i = 0; i < player.projectiles.length; i++) {
             if (player.projectiles[i] && entityCollision(player.projectiles[i], m)) {
                 //player.canShoot = true;
                 sendMessage('hitentity', { id: m.id, type: player.projectiles[i].type, shootId: player.shootId, sender: player.name });
                 player.projectiles[i] = undefined;
             }
         }
-        for(let i = 0; i < player2.projectiles.length; i++) {
+        for (let i = 0; i < player2.projectiles.length; i++) {
             if (player2 && player2.projectiles[i] && entityCollision(player2.projectiles[i], m)) {
                 //player2.canShoot = true;
                 sendMessage('hitentity', { id: m.id, type: player2.projectiles[i].type, shootId: player2.shootId, sender: player2.name });
@@ -366,8 +369,8 @@ const loop = () => {
             }
         }
 
-        for(let i = 0; i < m.projectiles.length; i++) {            
-                //m.projectiles[i].move();
+        for (let i = 0; i < m.projectiles.length; i++) {
+            //m.projectiles[i].move();
             if (m.projectiles[i] && entityCollision(m.projectiles[i], player)) {
                 //m.canShoot = true;
                 sendMessage('hitentity', { id: player.name, type: m.projectiles[i].type, shootId: m.shootId, sender: m.id });
@@ -383,7 +386,7 @@ const loop = () => {
             if (m.projectiles[i] && destroyProjectile(m.projectiles[i])) {
                 //m.canShoot = true;
                 m.projectiles[i] = undefined;
-            }            
+            }
         }
         m.projectiles = m.projectiles.filter(p => p != undefined);
         //randomMobsMovements(m);        
@@ -395,8 +398,8 @@ const loop = () => {
         drawEntityAnimation(player2);
 
 
-        
-        for(let i = 0; i < player2.projectiles.length; i++) {
+
+        for (let i = 0; i < player2.projectiles.length; i++) {
             if (player2.projectiles[i] && destroyProjectile(player2.projectiles[i])) {
                 player2.projectiles[i] = undefined;
                 //player.canShoot = true;
@@ -416,7 +419,7 @@ const loop = () => {
         player2.move(delta);
 
     player.move(delta);
-    for(let i = 0; i < player.projectiles.length; i++) {
+    for (let i = 0; i < player.projectiles.length; i++) {
         if (player.projectiles[i] && destroyProjectile(player.projectiles[i])) {
             player.projectiles[i] = undefined;
             //player.canShoot = true;

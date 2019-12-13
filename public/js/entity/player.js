@@ -27,23 +27,23 @@ export class Player extends Entity {
         this.shield = 100;
         this.health = 500;
 
-        this.hitSound = new Audio();   
-        this.hitSound.src = '/media/sound/player-damage.mp3';
+        this.hitSound = new Audio();
+        this.hitSound.src = '/media/sound/hihi.mp3';
         this.hitSound.volume = 0.6;
         this.canPlayHitSound = true;
     }
 
     shoot = () => {
-        if (this.canShoot && this.target && !this.isSilenced) {            
+        if (this.canShoot && this.target && !this.isSilenced) {
             this.projectiles.push(new PlayerProjectile(this.context, this.x + this.scaleX / 2, this.y + this.scaleY / 2));
             super.shoot();
         }
     }
 
     damage(amount) {
-        if(this.canPlayHitSound) {
+        if (this.canPlayHitSound) {
             this.canPlayHitSound = false;
-            this.hitSound.play(); 
+            this.hitSound.play();
             setTimeout(() => {
                 this.canPlayHitSound = true;
             }, 1000);
