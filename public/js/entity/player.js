@@ -3,7 +3,7 @@ import { PlayerProjectile } from "/js/projectiles/Playerprojectile.js";
 
 export class Player extends Entity {
     constructor(name, x, y, id, context) {
-        super(x, y, context);
+        super(x, y, context, PlayerProjectile.type);
         this.name = name;
 
         this.canMoveUp = true;
@@ -28,7 +28,7 @@ export class Player extends Entity {
         this.health = 500;
 
         this.hitSound = new Audio();
-        this.hitSound.src = '/media/sound/hihi.mp3';
+        this.hitSound.src = '/media/sound/player-damage.mp3';
         this.hitSound.volume = 0.6;
         this.canPlayHitSound = true;
     }

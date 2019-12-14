@@ -118,9 +118,9 @@ class Game {
                     row = [];
                 }
 
-                if (y == 0 && x != Math.ceil((this.WIDTH / this.TILE_SIZE) / 2) - 1) {
+                if (y == 0 || y == this.HEIGHT / this.TILE_SIZE - 1) {
                     row.push(this.tiles[3]);
-                } else if (x != Math.ceil((this.WIDTH / this.TILE_SIZE) / 2) - 1 && y == this.HEIGHT / this.TILE_SIZE - 1 || x == 0 || x == this.WIDTH / this.TILE_SIZE - 1) {
+                } else if (x == 0 || x == this.WIDTH / this.TILE_SIZE - 1) {
                     row.push(this.tiles[3]);
                 } else {
                     row.push(this.getRandomTile([4]));

@@ -1,8 +1,8 @@
-import { Entity } from "/js/entity/entity.js";
+import { Entity, playSound } from "/js/entity/entity.js";
 
 export class Door extends Entity {
     constructor(x, y, context) {
-        super(280,0, context);
+        super(x, y, context);
         
         this.width = 58;        
         this.height = 63;
@@ -16,6 +16,21 @@ export class Door extends Entity {
         this.image = new Image();
         this.image.src = '/media/door-sprite.png';   
         this.drawTime = 60;
+        this.soundId = 5;
+        this.maxFrameY = 2;
+    }
+
+    open() {
+        this.canOpen = true;
+        playSound(this.soundId);
+    }
+
+    close() {
+        this.canOpen = false;
+        this.frameX = 0;
+        if(this.frameY++ == this.maxFrameY) {
+            this.frameY = 0;
+        }        
     }
     
     nextFrame() {

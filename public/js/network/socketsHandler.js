@@ -11,6 +11,7 @@ import {
     manageDeadMob,
     playerPickUpLoot,
     getLocalPlayer,
+    getDoor,
 } from '/js/game.js';
 import { displayMessage, displayNewUser, displayUserDisconnected } from '/js/network/chat.js';
 import { addMob } from '/js/game.js';
@@ -176,17 +177,20 @@ export const initSocksEvents = () => {
     });
 
     socket.on('levelfinished', data => {
-        
+        getDoor().open();
     });
 
     socket.on('reposplayer', data => {
-        const player = getLocalPlayer();
-        player.x = 500;
-        player.y = 800;
-        player.healthBar.x = 500;
-        player.healthBar.y = 800;
-        player.shieldBar.x = 500;
-        player.shieldBar.y = 800;
+       if(data.socketId === socket.id) {           
+            getDoor().close();
+            const player = getLocalPlayer();
+            player.x = data.x;
+            player.y = data.y;
+            player.healthBar.x = data.x;
+            player.healthBar.y = data.y;
+            player.shieldBar.x = data.x;
+            player.shieldBar.y = data.y;
+       }
     });
   
 

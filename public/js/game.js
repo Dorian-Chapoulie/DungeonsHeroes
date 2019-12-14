@@ -156,6 +156,8 @@ export const addLoot = (type, pos, id) => {
     }
 }
 
+export const getDoor = () => door;
+
 const getRandomInt = max => {
     return Math.floor(Math.random() * Math.floor(max));
 }
@@ -182,11 +184,8 @@ const init = () => {
 
     const pseudo = prompt("votre pseudo:");
     player = new Player(pseudo, 300, 800, undefined, context);
-    door = new Door(500, 500, context);
+    door = new Door(280, -1, context);
     lights.push(new Torch(400, 300, context));
-    setTimeout(() => {
-        door.canOpen = true;
-    }, 2000);
 
     const intervalSong = setInterval(() => {
             if (isSoungPlayed) {
@@ -303,12 +302,14 @@ const loop = () => {
     const startDate = new Date();
     drawMap(context, mapLevel, tilesSize);
 
-
     drawEntityAnimation(player);
     drawEntityAnimation(door);
+    if(door.canOpen && entityCollision(player, door)) {        
+        sendMessage('enternextlevel', {});        
+    }
     if (lights.length > 0) {
         lights.forEach(l => {
-            if (entityCollision(player, l) && l.canProcessLight == false) {
+            if ( (entityCollision(player, l) || (player2 && entityCollision(player2, l))) && l.canProcessLight == false) {
                 l.canProcessLight = true;
                 playSound('/media/sound/torch.mp3');
             }
