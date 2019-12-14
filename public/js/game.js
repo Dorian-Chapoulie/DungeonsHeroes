@@ -65,11 +65,12 @@ export const damageEntity = (entityId, type, sender) => {
     }
 
     if (target !== undefined) {
+        //target.name
         if (sender === player.name) {
-            projectile = new PlayerProjectile(context, 0, 0);
+            projectile = new PlayerProjectile(context, 0, 0, player.damageCoef);
             projectile.onHit(target);
         } else if (sender === player2.name) {
-            projectile = new PlayerProjectile(context, 0, 0);
+            projectile = new PlayerProjectile(context, 0, 0, player2.damageCoef);            
             projectile.onHit(target);
         } else {
             switch (type) {
@@ -186,6 +187,15 @@ const init = () => {
     player = new Player(pseudo, 300, 800, undefined, context);
     door = new Door(280, -1, context);
     lights.push(new Torch(400, 300, context));
+
+    //const btn = document.getElementById('sendchat');
+    //btn.addEventListener('click', () => {
+        //player.damageCoef *= 2;
+        //player.speed *= 2;
+
+        //player.healthBar.maxHealth *= 2;  | need protocol
+        //player.maxHealth *= 2;            |
+    //});
 
     const intervalSong = setInterval(() => {
             if (isSoungPlayed) {

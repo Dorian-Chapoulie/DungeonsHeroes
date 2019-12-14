@@ -70,7 +70,9 @@ export class Entity {
         this.canAffect = true;
 
         this.health = 100;
+        this.maxHealth = 100;
         this.shield = 0;
+
         this.healthBar = new HealthBar(this.health, this.x, this.y);
         this.shieldBar = new ShieldBar(this.shield, this.x, this.y);
         this.canDrawNextFrame = true;
@@ -137,8 +139,8 @@ export class Entity {
     }
 
     draw() {
-        if (this.health > 100) {
-            this.health = 100;
+        if (this.health > this.maxHealth) {
+            this.health = this.maxHealth;
         }
         this.healthBar.draw(this.context, this.health);
         this.shieldBar.draw(this.context, this.shield);

@@ -24,8 +24,11 @@ export class Player extends Entity {
         this.RECULER = 3;
         this.DROIT = 2;
 
-        this.shield = 100;
-        this.health = 500;
+        this.shield = 50;
+        this.health = 100;
+        this.maxHealth = 100;
+        
+        this.damageCoef = 1;
 
         this.hitSound = new Audio();
         this.hitSound.src = '/media/sound/player-damage.mp3';
@@ -35,7 +38,7 @@ export class Player extends Entity {
 
     shoot = () => {
         if (this.canShoot && this.target && !this.isSilenced) {
-            this.projectiles.push(new PlayerProjectile(this.context, this.x + this.scaleX / 2, this.y + this.scaleY / 2));
+            this.projectiles.push(new PlayerProjectile(this.context, this.x + this.scaleX / 2, this.y + this.scaleY / 2, this.damageCoef));
             super.shoot();
         }
     }

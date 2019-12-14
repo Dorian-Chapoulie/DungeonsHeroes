@@ -13,9 +13,9 @@ export class HealthBar {
     draw = (context, health) => {
         context.save();
         context.fillStyle = "red";
-        context.fillRect(this.x, this.y - 25, this.maxHealth * 0.64, 7);
+        context.fillRect(this.x, this.y - 25, 64, 7);
         context.fillStyle = "green";
-        context.fillRect(this.x, this.y - 25, health * 0.64, 7);
+        context.fillRect(this.x, this.y - 25, 64 / (this.maxHealth / health), 7);
         context.restore();
     }
 };

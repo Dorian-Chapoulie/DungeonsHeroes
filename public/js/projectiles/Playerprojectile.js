@@ -4,7 +4,7 @@ export class PlayerProjectile extends Projectile {
 
     static type = 4;
 
-    constructor(context, x, y) {
+    constructor(context, x, y, coef) {
         super(context, x, y, PlayerProjectile.type);
 
         this.image = new Image();
@@ -14,7 +14,7 @@ export class PlayerProjectile extends Projectile {
         this.scaleX = 18;
         this.scaleY = 18;
 
-        this.damageValue = 15;
+        this.damageValue = 15 * coef;
     }
 
     onHit(entity) {
