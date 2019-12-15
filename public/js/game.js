@@ -42,11 +42,13 @@ export const getContext = () => context;
 export const getNewPlayer = () => player2;
 export const getLocalPlayer = () => player;
 export const player2ShootAt = entityId => {
-    mobs.forEach(m => {
-        if (m.id === entityId) {
-            player2.target = m;
-        }
-    });
+    if(player2) {
+        mobs.forEach(m => {
+            if (m.id === entityId) {
+                player2.target = m;
+            }
+        });
+    }
 }
 export const damageEntity = (entityId, type, sender) => {
     let target = undefined;
@@ -57,19 +59,19 @@ export const damageEntity = (entityId, type, sender) => {
             target = m;
         }
     })
-    if (player.name == entityId) {
+    if (player && player.name == entityId) {
         target = player;
     }
-    if (player2.name == entityId) {
+    if (player2 && player2.name == entityId) {
         target = player2;
     }
 
     if (target !== undefined) {
         //target.name
-        if (sender === player.name) {
+        if (player && sender === player.name) {
             projectile = new PlayerProjectile(context, 0, 0, player.damageCoef);
             projectile.onHit(target);
-        } else if (sender === player2.name) {
+        } else if (player2 && sender === player2.name) {
             projectile = new PlayerProjectile(context, 0, 0, player2.damageCoef);            
             projectile.onHit(target);
         } else {
@@ -87,13 +89,13 @@ export const damageEntity = (entityId, type, sender) => {
                     projectile = new Silence(context, 0, 0);
                     break;
             }
-            projectile.onHit(target);
+            if(target) projectile.onHit(target);
         }
     }
 }
 
 export const playerPickUpLoot = (lootId, playername) => {
-    if (player.name === playername) {
+    if (player && player.name === playername) {
         for (let i = 0; i < loots.length; i++) {
             if (loots[i] && loots[i].id === lootId) {
                 loots[i].onPickUp(player);
@@ -101,7 +103,7 @@ export const playerPickUpLoot = (lootId, playername) => {
                 break;
             }
         }
-    } else if (player2.name === playername) {
+    } else if (player2 && player2.name === playername) {
         for (let i = 0; i < loots.length; i++) {
             if (loots[i] && loots[i].id === lootId) {
                 loots[i].onPickUp(player2);
@@ -113,17 +115,23 @@ export const playerPickUpLoot = (lootId, playername) => {
 }
 
 export const manageDeadMob = (mobId) => {
-    if (player.target && player.target.id === mobId) {
+    if (player && player.target && player.target.id === mobId) {
         player.target = undefined;
     }
-    if (player2.target && player2.target.id === mobId) {
+    if (player2 && player2.target && player2.target.id === mobId) {
         player2.target = undefined;
     }
 
     mobs = mobs.filter(m => m.id !== mobId);
 }
 export const addMob = (mobType, pos, targetId, id) => {
-    const target = targetId === player2.socketId ? player2 : player;
+    let target = undefined;    
+    if(player2 && player2.socketId === targetId) {
+        target = player2;
+    }else if(player && player.socketId === targetId){
+        target = player;
+    }    
+
     switch (mobType) {
         case 0:
             mobs.push(new Skeleton(pos.x, pos.y, target, context, id));
@@ -159,6 +167,14 @@ export const addLoot = (type, pos, id) => {
 
 export const getDoor = () => door;
 
+export const respawnPlayer = data => {
+    if(player && player.socketId !== data.id) {
+        player2 = new Player(data.name, 36, 762, data.id, context);      
+    }else if(player2 && player2.socketId !== data.id){
+        player = new Player(data.name, 36, 762, data.id, context);
+    }    
+}
+
 const getRandomInt = max => {
     return Math.floor(Math.random() * Math.floor(max));
 }
@@ -188,27 +204,20 @@ const init = () => {
     door = new Door(280, -1, context);
     lights.push(new Torch(400, 300, context));
 
-    //const btn = document.getElementById('sendchat');
-    //btn.addEventListener('click', () => {
-        //player.damageCoef *= 2;
-        //player.speed *= 2;
-
-        //player.healthBar.maxHealth *= 2;  | need protocol
-        //player.maxHealth *= 2;            |
-    //});
-
     const intervalSong = setInterval(() => {
-            if (isSoungPlayed) {
-                clearInterval(intervalSong);
-            }
-            themeSong.play().then(() => {
-                isSoungPlayed = true;
-                themeSong.volume = 0.7;
-            }).catch(() => isSoungPlayed = false);
+        if (isSoungPlayed) {
+            clearInterval(intervalSong);
+        }
+        themeSong.play().then(() => {
+            isSoungPlayed = true;
+            themeSong.volume = 0.7;
+        }).catch(() => isSoungPlayed = false);
 
-        },
-        100);
+    }, 100);
 
+    /*setInterval(() => {
+        if(player) player.incrementUlti(5);        
+    }, 500);*/
 
     sendMessage('newplayer', { name: pseudo, x: player.x, y: player.y });
 
@@ -216,11 +225,11 @@ const init = () => {
     requestAnimationFrame(loop);
 
     setInterval(() => {
-        sendMessage('playerpos', { x: player.x, y: player.y });
+        if(player) sendMessage('playerpos', { x: player.x, y: player.y });
     }, 20);
 
     setInterval(() => {
-        sendMessage('playerhs', { health: player.health, shield: player.shield });
+        if(player) sendMessage('playerhs', { health: player.health, shield: player.shield });
     }, 2 * 100);
 }
 
@@ -308,18 +317,26 @@ const destroyProjectile = projectile => {
     return false;
 }
 
-const loop = () => {
-    const startDate = new Date();
+const loop = () => {    
     drawMap(context, mapLevel, tilesSize);
 
-    drawEntityAnimation(player);
+    if(player) {
+        drawEntityAnimation(player);
+        playerMovements();
+        player.draw();
+        if(isKeyPressed("a") && player.ulti >= 100) {
+            sendMessage('respawnplayer', {});   
+            player.ulti = 0;
+        }
+    }
+
     drawEntityAnimation(door);
-    if(door.canOpen && entityCollision(player, door)) {        
+    if(door.canOpen && player && entityCollision(player, door)) {        
         sendMessage('enternextlevel', {});        
     }
     if (lights.length > 0) {
         lights.forEach(l => {
-            if ( (entityCollision(player, l) || (player2 && entityCollision(player2, l))) && l.canProcessLight == false) {
+            if (((player && entityCollision(player, l)) || (player2 && entityCollision(player2, l))) && l.canProcessLight == false) {
                 l.canProcessLight = true;
                 playSound('/media/sound/torch.mp3');
             }
@@ -328,16 +345,12 @@ const loop = () => {
         });
     }
 
-    playerMovements();
-
-    player.draw();
-
     const deadMobs = mobs.filter(m => m.health <= 0);
     deadMobs.forEach(dm => {
-        if (player.target === dm) {
+        if (player && player.target === dm) {
             player.target = undefined;
         }
-        if (player2.target === dm) {
+        if (player2 && player2.target === dm) {
             player2.target = undefined;
         }
         sendMessage('deadmob', { name: dm.name, position: { x: dm.x, y: dm.y }, id: dm.id });
@@ -347,16 +360,16 @@ const loop = () => {
         loots = loots.filter(l => l !== undefined);
         for (let i = 0; i < loots.length; i++) {
             drawEntityAnimation(loots[i]);
-            if (entityCollision(loots[i], player)) {
+            if (player && entityCollision(loots[i], player)) {
                 sendMessage('lootpickup', { lootId: loots[i].id, picker: player.name });
             }
         };
     }
     mobs = mobs.filter(m => m.health > 0);
 
-    if (!player.target) {
+    if (player && !player.target) {
         player.target = mobs[getRandomInt(mobs.length)];
-    } else {
+    } else if (player && player.target) {
         sendMessage('playershoot', player.target.id);
         player.shoot();
     }
@@ -365,14 +378,17 @@ const loop = () => {
         drawEntityAnimation(m);
         m.draw();
         m.shoot();
-        for (let i = 0; i < player.projectiles.length; i++) {
-            if (player.projectiles[i] && entityCollision(player.projectiles[i], m)) {
+        const playerProjectiles = player ? player.projectiles.length : 0;
+        const player2Projectiles = player2 ? player2.projectiles.length : 0;
+
+        for (let i = 0; i < playerProjectiles; i++) {
+            if (player && player.projectiles[i] && entityCollision(player.projectiles[i], m)) {
                 //player.canShoot = true;
                 sendMessage('hitentity', { id: m.id, type: player.projectiles[i].type, shootId: player.shootId, sender: player.name });
                 player.projectiles[i] = undefined;
             }
         }
-        for (let i = 0; i < player2.projectiles.length; i++) {
+        for (let i = 0; i < player2Projectiles; i++) {
             if (player2 && player2.projectiles[i] && entityCollision(player2.projectiles[i], m)) {
                 //player2.canShoot = true;
                 sendMessage('hitentity', { id: m.id, type: player2.projectiles[i].type, shootId: player2.shootId, sender: player2.name });
@@ -382,7 +398,7 @@ const loop = () => {
 
         for (let i = 0; i < m.projectiles.length; i++) {
             //m.projectiles[i].move();
-            if (m.projectiles[i] && entityCollision(m.projectiles[i], player)) {
+            if (player && m.projectiles[i] && entityCollision(m.projectiles[i], player)) {
                 //m.canShoot = true;
                 sendMessage('hitentity', { id: player.name, type: m.projectiles[i].type, shootId: m.shootId, sender: m.id });
                 m.projectiles[i] = undefined;
@@ -409,7 +425,6 @@ const loop = () => {
         drawEntityAnimation(player2);
 
 
-
         for (let i = 0; i < player2.projectiles.length; i++) {
             if (player2.projectiles[i] && destroyProjectile(player2.projectiles[i])) {
                 player2.projectiles[i] = undefined;
@@ -421,27 +436,35 @@ const loop = () => {
         if (player2.target) {
             player2.shoot();
         }
-    }
 
-    const endDate = new Date();
-    const delta = 1; //(endDate.getTime() - startDate.getTime()) + 1;
+        if(player2.health <= 0) {
+            player2 = undefined;
+        }
+    }
+    
+    const delta = 1;
 
     if (player2)
         player2.move(delta);
 
-    player.move(delta);
-    for (let i = 0; i < player.projectiles.length; i++) {
-        if (player.projectiles[i] && destroyProjectile(player.projectiles[i])) {
-            player.projectiles[i] = undefined;
-            //player.canShoot = true;
+    if(player) {
+        player.move(delta);
+        for (let i = 0; i < player.projectiles.length; i++) {
+            if (player.projectiles[i] && destroyProjectile(player.projectiles[i])) {
+                player.projectiles[i] = undefined;
+                //player.canShoot = true;
+            }
         }
+        player.projectiles = player.projectiles.filter(p => p !== undefined);
     }
-    player.projectiles = player.projectiles.filter(p => p !== undefined);
-
 
     mobs.forEach(m => {
         m.move(delta);
     })
+
+    if(player && player.health <= 0) {
+        player = undefined;
+    }
 
     requestAnimationFrame(loop);
 }

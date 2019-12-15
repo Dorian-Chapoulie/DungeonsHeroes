@@ -24,6 +24,8 @@ export class Player extends Entity {
         this.RECULER = 3;
         this.DROIT = 2;
 
+        this.ulti = 100;
+        
         this.shield = 50;
         this.health = 100;
         this.maxHealth = 100;
@@ -40,6 +42,12 @@ export class Player extends Entity {
         if (this.canShoot && this.target && !this.isSilenced) {
             this.projectiles.push(new PlayerProjectile(this.context, this.x + this.scaleX / 2, this.y + this.scaleY / 2, this.damageCoef));
             super.shoot();
+        }
+    }
+
+    incrementUlti(value) {
+        if(this.ulti < 100) {
+            this.ulti += value;
         }
     }
 

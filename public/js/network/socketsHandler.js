@@ -12,6 +12,7 @@ import {
     playerPickUpLoot,
     getLocalPlayer,
     getDoor,
+    respawnPlayer,
 } from '/js/game.js';
 import { displayMessage, displayNewUser, displayUserDisconnected } from '/js/network/chat.js';
 import { addMob } from '/js/game.js';
@@ -39,7 +40,7 @@ const askPermissions = (elementId) => {
 export const initSocksEvents = () => {
     sendMessage('playerlist');
     socket.on('connect', () => {
-
+        getLocalPlayer().socketId = socket.id;
     });
     /*
     socket.on('connect', () => {
@@ -69,9 +70,14 @@ export const initSocksEvents = () => {
         saveMap(map);
     });
 
-    socket.on('updatechat', (data) => {
+    socket.on('updatechat', data => {
         displayMessage(data);
     });
+
+    socket.on('respawnplayer', data => {
+        respawnPlayer(data);
+    });
+
 
     socket.on('newplayer', player => {
         setNewPlayer(new Player(player.name, player.x, player.y, player.socketId, getContext()));
@@ -181,7 +187,7 @@ export const initSocksEvents = () => {
     });
 
     socket.on('reposplayer', data => {
-       if(data.socketId === socket.id) {           
+       if(data.socketId === socket.id && getLocalPlayer()) {           
             getDoor().close();
             const player = getLocalPlayer();
             player.x = data.x;
@@ -195,7 +201,8 @@ export const initSocksEvents = () => {
   
 
     socket.on('playerdisconnected', player => {
-        displayUserDisconnected(player.name);
+        if(player)
+            displayUserDisconnected(player.name);
         setNewPlayer(undefined);
     });
 }

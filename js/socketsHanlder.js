@@ -120,6 +120,11 @@ class SocketsHanlder {
                 socket.broadcast.emit('hitentity', data);                                                                   
             }); 
 
+            socket.on('respawnplayer', () => {      
+                const playerToRespawn = this.game.joueurs.filter(j => j.socketId !== socket.id)[0];                                           
+                this.io.emit('respawnplayer', {name: playerToRespawn.name, id: playerToRespawn.socketId});            
+            });
+
             socket.on('disconnect', () => {                                 
                 const disconnectedPlayer = this.game.joueurs.find(p => p.socketId === socket.id);
                 socket.broadcast.emit('playerdisconnected', disconnectedPlayer);

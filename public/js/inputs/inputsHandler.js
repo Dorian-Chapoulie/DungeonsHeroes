@@ -19,6 +19,11 @@ const pressedKeys = [
         canSend: true,
         value: 'd',
     },
+    {
+        state: false,
+        canSend: true,
+        value: 'a',
+    },
 ];
 
 export const initInputsEvent = () => {    
