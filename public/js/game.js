@@ -70,7 +70,7 @@ export const damageEntity = (entityId, type, sender) => {
             projectile = new PlayerProjectile(context, 0, 0, player.damageCoef);
             projectile.onHit(target);
         } else if (sender === player2.name) {
-            projectile = new PlayerProjectile(context, 0, 0, player2.damageCoef);            
+            projectile = new PlayerProjectile(context, 0, 0, player2.damageCoef);
             projectile.onHit(target);
         } else {
             switch (type) {
@@ -190,11 +190,11 @@ const init = () => {
 
     //const btn = document.getElementById('sendchat');
     //btn.addEventListener('click', () => {
-        //player.damageCoef *= 2;
-        //player.speed *= 2;
+    //player.damageCoef *= 2;
+    //player.speed *= 2;
 
-        //player.healthBar.maxHealth *= 2;  | need protocol
-        //player.maxHealth *= 2;            |
+    //player.healthBar.maxHealth *= 2;  | need protocol
+    //player.maxHealth *= 2;            |
     //});
 
     const intervalSong = setInterval(() => {
@@ -314,12 +314,13 @@ const loop = () => {
 
     drawEntityAnimation(player);
     drawEntityAnimation(door);
-    if(door.canOpen && entityCollision(player, door)) {        
-        sendMessage('enternextlevel', {});        
+    if (door.canOpen && entityCollision(player, door)) {
+        door.canOpen = false;
+        sendMessage('enternextlevel', {});
     }
     if (lights.length > 0) {
         lights.forEach(l => {
-            if ( (entityCollision(player, l) || (player2 && entityCollision(player2, l))) && l.canProcessLight == false) {
+            if ((entityCollision(player, l) || (player2 && entityCollision(player2, l))) && l.canProcessLight == false) {
                 l.canProcessLight = true;
                 playSound('/media/sound/torch.mp3');
             }
