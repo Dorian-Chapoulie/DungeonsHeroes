@@ -14,6 +14,7 @@ import { Coin } from '/js/loot/coin.js';
 import { Heart } from '/js/loot/heart.js';
 import { Armor } from '/js/loot/armor.js';
 import { BoostSpeed } from '/js/loot/boostSpeed.js';
+import { BoostDamage } from '/js/loot/boostDamage.js';
 import { Fire } from '/js/projectiles/Fire.js';
 import { Frost } from '/js/projectiles/Frost.js';
 import { Poison } from '/js/projectiles/Poison.js';
@@ -153,6 +154,9 @@ export const addLoot = (type, pos, id) => {
             break;
         case 3: //boostSpeed
             loots.push(new BoostSpeed(context, pos.x, pos.y, id));
+            break;
+        case 4:
+            loots.push(new BoostDamage(context, pos.x, pos.y, id));
             break;
     }
 }

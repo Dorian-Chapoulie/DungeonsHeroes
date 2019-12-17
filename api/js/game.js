@@ -23,28 +23,34 @@ class Game {
             3,
         ];
 
-        this.loots = [
-            0, //coin
-            1, //heart
-            2, //armor
-            3, //boostSpeed
-        ]
+        this.loots = {
+            Coin: 0,
+            Heart: 1,
+            Armor: 2,
+            boostSpeed: 3,
+            boostDamage: 4
+        };
 
         this.mobsLoots = {
             "Skeleton": [
-                0,
+                this.loots.Coin,
+                this.loots.Heart,
+                this.loots.Armor,
             ],
             "Wizzard": [
-                2,
-                3,
+                this.loots.boostDamage,
+                this.loots.boostSpeed,
+                this.loots.Heart,
             ],
             "Witch": [
-                3,
-                1,
+                this.loots.Armor,
+                this.loots.Heart,
+                this.loots.boostDamage,
             ],
             "Warlock": [
-                1,
-                2,
+                this.loots.boostDamage,
+                this.loots.boostSpeed,
+                this.loots.Coin,
             ],
         }
 

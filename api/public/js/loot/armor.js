@@ -9,6 +9,7 @@ export class Armor extends Loot {
         this.height = 42;
         this.scaleX = 32;
         this.scaleY = 32;
+        this.drawTime = 350;
     }
 
     onPickUp(entity) {
