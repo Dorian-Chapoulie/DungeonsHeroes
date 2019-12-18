@@ -1,8 +1,10 @@
 import { Loot } from './loot.js';
+import { sprites, spritesIds } from '../graphics/assets';
 
 export class Heart extends Loot {
     constructor(context, x, y, id) {
-        super(context, x, y, '/assets/heart-sprite.png', '/assets/sound/heart.mp3', id);
+        super(context, x, y, '/assets/sound/heart.mp3', id);
+        this.image = sprites[spritesIds.heart];
         this.canDrawNextFrame = true;
         this.width = 64;
         this.height = 64;

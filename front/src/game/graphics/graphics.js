@@ -1,4 +1,4 @@
-import { sprites, spritesIds } from './assets';
+import { getMapTileFromId } from './assets';
 const mapTiles = [];
 
 export const drawFrame = (entity) => {      
@@ -24,9 +24,9 @@ export const drawEntityAnimation = (entity) => {
 
 export const drawImage = (context, x, y, tileID, tilesSize) => {  
     if(mapTiles[tileID] === undefined) {  
-        //mapTiles[tileID]                
+        mapTiles[tileID] = getMapTileFromId(tileID);              
     }
-    //context.drawImage(mapTiles[tileID], x, y, tilesSize, tilesSize);
+    context.drawImage(mapTiles[tileID], x, y, tilesSize, tilesSize);
 }
 
 export const drawMap = (context, map, tilesSize) => {

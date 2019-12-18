@@ -20,6 +20,22 @@ export const spritesIds = {
     wizzard: 17,
 }
 export const sprites = [];
+export const getMapTileFromId = id => {
+    switch(id) {
+        case 1:
+            return sprites[spritesIds.tile1];            
+        case 2:
+            return sprites[spritesIds.tile2];
+        case 3:
+            return sprites[spritesIds.tile3];
+        case 4:
+            return sprites[spritesIds.tile4];
+        default:
+            return sprites[spritesIds.tile1];
+    };
+}
+
+
 const spritesNumber = 17;
 let loadedSprites = 0;
 

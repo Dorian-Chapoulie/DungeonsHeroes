@@ -1,4 +1,5 @@
 import { Projectile } from '../projectiles/Projectile.js';
+import { sprites, spritesIds } from '../graphics/assets';
 
 export class Silence extends Projectile {
 
@@ -7,8 +8,7 @@ export class Silence extends Projectile {
     constructor(context, x, y) {
         super(context, x, y, Silence.type);
 
-        this.image = new Image();
-        this.image.src = '/assets/player-projectile-sprite.png';
+        this.image = sprites[spritesIds.playerProjectile];
         this.width = 32;
         this.height = 29;
 

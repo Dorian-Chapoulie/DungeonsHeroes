@@ -1,12 +1,9 @@
 export class Loot {
-    constructor(context, x, y, imageSrc, soundSrc, id) {
+    constructor(context, x, y, soundSrc, id) {
         this.x = x;
         this.y = y;
         this.context = context;      
         this.id = id;
-        
-        this.image = new Image();
-        this.image.src = imageSrc;  
         
         this.pickUpSound = document.createElement("audio");
         this.pickUpSound.src = soundSrc;

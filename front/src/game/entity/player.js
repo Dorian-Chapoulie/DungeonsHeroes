@@ -13,7 +13,6 @@ export class Player extends Entity {
         this.canMoveLeft = true;
 
         this.socketId = id;
-        console.log(sprites[3])
         this.image = sprites[spritesIds.player];
         this.canShoot = true;
         this.isSilenced = false;

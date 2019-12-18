@@ -1,8 +1,10 @@
 import { Loot } from './loot.js';
+import { sprites, spritesIds } from '../graphics/assets';
 
 export class BoostSpeed extends Loot {
     constructor(context, x, y, id) {
-        super(context, x, y, '/assets/boostSpeed-sprite.png', '/assets/sound/boostSpeed.mp3', id);
+        super(context, x, y, '/assets/sound/boostSpeed.mp3', id);
+        this.image = sprites[spritesIds.boostSpeed];
         this.canDrawNextFrame = true;
         this.width = 355;
         this.height = 504;
