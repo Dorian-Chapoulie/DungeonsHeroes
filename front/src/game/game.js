@@ -186,16 +186,16 @@ function playSound(url) {
 }
 
 export const init = async () => {
-    initSocksEvents();
-    initInputsEvent();     
-    await loadSprites();     
-    //initChat();
-
+    await loadSprites();
+    const pseudo = prompt("votre pseudo:");
     canvas = document.getElementById('Canvas');    
     context = canvas.getContext('2d');
-
-    const pseudo = prompt("votre pseudo:");
     player = new Player(pseudo, 300, 800, undefined, context);
+
+    initSocksEvents();
+    initInputsEvent();     
+    //initChat();
+
     door = new Door(280, -1, context);
     lights.push(new Torch(400, 300, context));
 
@@ -312,7 +312,7 @@ const destroyProjectile = projectile => {
 }
 
 const loop = () => {    
-    context.clearRect(0, 0, canvas.width, canvas.height);
+    //context.clearRect(0, 0, canvas.width, canvas.height);
     drawMap(context, mapLevel, tilesSize);
 
     if(player)

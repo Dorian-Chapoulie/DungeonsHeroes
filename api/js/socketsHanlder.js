@@ -24,6 +24,7 @@ class SocketsHanlder {
 
             socket.on('newplayer', (data) => {  
                 const {name, x, y} = data;
+                socket.emit('getid', {id: socket.id});
                 socket.broadcast.emit('newplayer', {name, x, y, socketId: socket.id}); 
                 socket.emit('playerlist', this.game.joueurs);                  
                 this.game.joueurs.push({name: data.name, x: data.x, y: data.y, socketId: socket.id});  

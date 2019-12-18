@@ -41,8 +41,7 @@ let loadedSprites = 0;
 
 const createImage = (id, url) => {
     const image = new Image();             
-    image.onload = () => {                               
-        console.log("loaded", url);            
+    image.onload = () => {                                               
         createImageBitmap(image, 0, 0, image.width, image.height)
             .then(data => {               
                 sprites[id] = data;      

@@ -21,8 +21,8 @@ const socket = io.connect('http://localhost:8080');
 
 export const initSocksEvents = () => {
     sendMessage('playerlist');
-    socket.on('connect', () => {
-        getLocalPlayer().socketId = socket.id;
+    socket.on('getid', (data) => {        
+        getLocalPlayer().socketId = data.id;
     });
    
     socket.on('map', map => {
@@ -35,7 +35,6 @@ export const initSocksEvents = () => {
 
     socket.on('newplayer', player => {
         setNewPlayer(new Player(player.name, player.x, player.y, player.socketId, getContext()));
-
         displayNewUser(player.name);
     });
 
