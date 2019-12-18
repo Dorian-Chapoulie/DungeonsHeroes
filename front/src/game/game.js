@@ -180,10 +180,8 @@ function playSound(url) {
 
 export const init = async () => {
     initSocksEvents();
-    initInputsEvent(); 
-    console.log("loading assets");
-    await loadSprites(); 
-    console.log("assets loaded");  
+    initInputsEvent();     
+    await loadSprites();     
     //initChat();
 
     canvas = document.getElementById('Canvas');    

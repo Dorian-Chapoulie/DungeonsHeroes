@@ -20,43 +20,51 @@ export const spritesIds = {
     wizzard: 17,
 }
 export const sprites = [];
+const spritesNumber = 17;
+let loadedSprites = 0;
 
-
-const createImage = (id, url) => {    
-    const image = new Image();        
-    image.src = url;        
-
-    return new Promise(function(resolve, reject) {                
-        image.onload = () => {                               
-            console.log("loaded", url);
-
-            createImageBitmap(image, 0, 0, image.width, image.height)
+const createImage = (id, url) => {
+    const image = new Image();             
+    image.onload = () => {                               
+        console.log("loaded", url);            
+        createImageBitmap(image, 0, 0, image.width, image.height)
             .then(data => {               
-                sprites[id] = data;                            
-            });
-            resolve("ok")
-        };
-    });                              
+                sprites[id] = data;      
+                loadedSprites++;                      
+            });            
+    };
+    image.src = url;     
 }
-     
-export const loadSprites = async () => {    
-    sprites.boostDamage = await createImage(spritesIds.boostDamage, '/assets/boostDamage-shield.png');    
-    sprites.boostSpeed = await createImage(spritesIds.boostSpeed, '/assets/boostSpeed-sprite.png');
-    sprites.coin = await createImage(spritesIds.coin, '/assets/coin-sprite.png');
-    sprites.door = await createImage(spritesIds.door, '/assets/door-sprite.png');
-    sprites.heart = await createImage(spritesIds.heart, '/assets/heart-sprite.png');
-    sprites.playerProjectile = await createImage(spritesIds.playerProjectile, '/assets/player-projectile-sprite.png');
-    sprites.player = await createImage(spritesIds.player, '/assets/player-sprite.png');
-    sprites.shield = await createImage(spritesIds.shield, '/assets/shield-sprite.png');
-    sprites.skeleton = await createImage(spritesIds.skeleton, '/assets/skeleton-sprite.png');
-    sprites.fireball = await createImage(spritesIds.fireball, '/assets/skeleton-fireball-sprite.png');
-    sprites.tile1 = await createImage(spritesIds.tile1, '/assets/tile1.png');
-    sprites.tile2 = await createImage(spritesIds.tile2, '/assets/tile2.png');
-    sprites.tile3 = await createImage(spritesIds.tile3, '/assets/tile3.png');
-    sprites.tile4 = await createImage(spritesIds.tile4, '/assets/tile4.png');
-    sprites.torch = await createImage(spritesIds.torch, '/assets/torch-sprite.png');
-    sprites.warlock = await createImage(spritesIds.warlock, '/assets/warlock-sprite.png');
-    sprites.witch = await createImage(spritesIds.witch, '/assets/witch-sprite.png');
-    sprites.wizzard = await createImage(spritesIds.wizzard, '/assets/wizzard-sprite.png');
-    console.log("done")
+  
+const check = () => {
+    return new Promise(resolve => {
+        const interval = setInterval(() => {            
+            if(loadedSprites == spritesNumber) {
+                clearInterval(interval);
+                resolve(true);
+            }
+        }, 200);           
+    });
+}
+  
+export const loadSprites = async () => {         
+    sprites.boostDamage = createImage(spritesIds.boostDamage, '/assets/boostDamage-shield.png');    
+    sprites.boostSpeed = createImage(spritesIds.boostSpeed, '/assets/boostSpeed-sprite.png');
+    sprites.coin = createImage(spritesIds.coin, '/assets/coin-sprite.png');
+    sprites.door = createImage(spritesIds.door, '/assets/door-sprite.png');
+    sprites.heart = createImage(spritesIds.heart, '/assets/heart-sprite.png');
+    sprites.playerProjectile = createImage(spritesIds.playerProjectile, '/assets/player-projectile-sprite.png');
+    sprites.player = createImage(spritesIds.player, '/assets/player-sprite.png');
+    sprites.shield = createImage(spritesIds.shield, '/assets/shield-sprite.png');
+    sprites.skeleton = createImage(spritesIds.skeleton, '/assets/skeleton-sprite.png');
+    sprites.fireball = createImage(spritesIds.fireball, '/assets/skeleton-fireball-sprite.png');
+    sprites.tile1 = createImage(spritesIds.tile1, '/assets/tile1.png');
+    sprites.tile2 = createImage(spritesIds.tile2, '/assets/tile2.png');
+    sprites.tile3 = createImage(spritesIds.tile3, '/assets/tile3.png');
+    sprites.tile4 = createImage(spritesIds.tile4, '/assets/tile4.png');
+    sprites.torch = createImage(spritesIds.torch, '/assets/torch-sprite.png');
+    sprites.warlock = createImage(spritesIds.warlock, '/assets/warlock-sprite.png');
+    sprites.witch = createImage(spritesIds.witch, '/assets/witch-sprite.png');
+    sprites.wizzard = createImage(spritesIds.wizzard, '/assets/wizzard-sprite.png');   
+    await check(); 
 }
