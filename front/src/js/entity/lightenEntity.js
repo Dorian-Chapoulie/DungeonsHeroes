@@ -1,4 +1,4 @@
-import { Entity } from "/js/entity/entity.js";
+import { Entity } from "./entity.js";
 
 export class LightenEntity extends Entity {
     constructor(x, y, context) {

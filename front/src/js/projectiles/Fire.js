@@ -1,4 +1,4 @@
-import { Projectile } from '/js/projectiles/Projectile.js';
+import { Projectile } from '../projectiles/Projectile.js';
 
 export class Fire extends Projectile {
 

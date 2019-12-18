@@ -10,7 +10,8 @@ import {
 
 import Home from './screen/home/Home';
 import Login from './screen/login/login';
-import Inscription from './screen/inscription/Inscription'
+import Inscription from './screen/inscription/Inscription';
+import Game from './screen/game/Game';
 
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -26,6 +27,9 @@ function App() {
         </Route>
         <Route path="/inscription">
           <Inscription />
+        </Route>
+        <Route path="/game">
+          <Game />
         </Route>
         <Route path="/">
           <Home />

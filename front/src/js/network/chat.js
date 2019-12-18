@@ -1,5 +1,5 @@
-import { sendMessage } from '/js/network/socketsHandler.js';
-import { getLocalPlayer } from '/js/game.js';
+import { sendMessage } from './socketsHandler.js';
+import { getLocalPlayer } from '../game.js';
 
 export const initChat = () => {
     const chatButton = document.getElementById('sendchat');

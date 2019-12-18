@@ -1,4 +1,4 @@
-import { drawEntityAnimation } from '/js/graphics/graphics.js';
+import { drawEntityAnimation } from '../graphics/graphics.js';
 export class Projectile {
     constructor(context, x, y, type) {
         this.x = x;

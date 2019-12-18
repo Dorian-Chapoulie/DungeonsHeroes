@@ -1,33 +1,31 @@
-import { Projectile } from '/js/projectiles/Projectile.js';
+import { Projectile } from '../projectiles/Projectile.js';
 
-export class Poison extends Projectile {
+export class Frost extends Projectile {
 
-    static type = 2;
+    static type = 1;
 
     constructor(context, x, y) {
-        super(context, x, y, Poison.type);
+        super(context, x, y, Frost.type);
 
         this.image = new Image();
         this.image.src = '/media/player-projectile-sprite.png';
         this.width = 32;
         this.height = 29;
 
-
-        this.damageValue = 1;
-        this.speed = 1;
+        this.damageValue = 5;
     }
 
     onHit(entity) {
         super.onHit(entity);
-        if(entity.canAffect) {                        
+        if (entity.canAffect) {
             entity.canAffect = false;
             const temp = entity.speed;
-            entity.speed = 0;
+            entity.speed *= 0.5;
 
             setTimeout(() => {
                 entity.canAffect = true;
                 entity.speed = temp;
-            }, 1000);
+            }, 2000);
 
         }
     }

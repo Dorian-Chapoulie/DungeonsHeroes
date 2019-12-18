@@ -1,4 +1,4 @@
-import { LightenEntity } from "/js/entity/lightenEntity.js";
+import { LightenEntity } from "./lightenEntity.js";
 
 export class Torch extends LightenEntity {
     constructor(x, y, context) {

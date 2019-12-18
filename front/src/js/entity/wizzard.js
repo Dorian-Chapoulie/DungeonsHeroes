@@ -1,5 +1,5 @@
-import { Entity } from "/js/entity/entity.js";
-import { Frost } from "/js/projectiles/Frost.js";
+import { Entity } from "./entity.js";
+import { Frost } from "../projectiles/Frost.js";
 
 export class Wizzard extends Entity {
     constructor(x, y, target, context, id) {

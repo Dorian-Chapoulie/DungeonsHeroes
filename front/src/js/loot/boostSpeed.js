@@ -1,8 +1,8 @@
-import { Loot } from '/js/loot/loot.js';
+import { Loot } from './loot.js';
 
-export class BoostDamage extends Loot {
+export class BoostSpeed extends Loot {
     constructor(context, x, y, id) {
-        super(context, x, y, '/media/boostDamage-sprite.png', '/media/sound/boostSpeed.mp3', id);
+        super(context, x, y, '/media/boostSpeed-sprite.png', '/media/sound/boostSpeed.mp3', id);
         this.canDrawNextFrame = true;
         this.width = 355;
         this.height = 504;
@@ -13,6 +13,6 @@ export class BoostDamage extends Loot {
 
     onPickUp(entity) {
         super.onPickUp();
-        entity.damageCoef += 0.1;
+        entity.speed += 0.01;
     }
 }

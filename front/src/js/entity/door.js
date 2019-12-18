@@ -1,4 +1,4 @@
-import { Entity, playSound } from "/js/entity/entity.js";
+import { Entity, playSound } from "./entity.js";
 
 export class Door extends Entity {
     constructor(x, y, context) {

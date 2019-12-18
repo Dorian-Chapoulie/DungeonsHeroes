@@ -1,5 +1,5 @@
-import { HealthBar } from "/js/graphics/healthBar.js";
-import { ShieldBar } from "/js/graphics/shieldBar.js";
+import { HealthBar } from "../graphics/healthBar.js";
+import { ShieldBar } from "../graphics/shieldBar.js";
 
 const hitSoundFire = new Audio();        
 const hitSoundFrost = new Audio();        

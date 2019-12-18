@@ -1,4 +1,4 @@
-import { Loot } from '/js/loot/loot.js';
+import { Loot } from './loot.js';
 
 export class Coin extends Loot {
     constructor(context, x, y, id) {

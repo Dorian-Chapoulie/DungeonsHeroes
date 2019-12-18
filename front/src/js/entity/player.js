@@ -1,5 +1,5 @@
-import { Entity } from "/js/entity/entity.js";
-import { PlayerProjectile } from "/js/projectiles/Playerprojectile.js";
+import { Entity } from "./entity.js";
+import { PlayerProjectile } from "../projectiles/Playerprojectile.js";
 
 export class Player extends Entity {
     constructor(name, x, y, id, context) {

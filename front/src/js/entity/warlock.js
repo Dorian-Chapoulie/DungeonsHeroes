@@ -1,5 +1,5 @@
-import { Entity } from "/js/entity/entity.js";
-import { Silence } from "/js/projectiles/Silence.js";
+import { Entity } from "./entity.js";
+import { Silence } from "../projectiles/Silence.js";
 
 export class Warlock extends Entity {
     constructor(x, y, target, context, id) {

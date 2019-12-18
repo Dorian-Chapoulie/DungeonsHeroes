@@ -1,6 +1,6 @@
 const socket = io.connect();
-import { saveMap } from '/js/network/map.js';
-import { Player } from '/js/entity/player.js';
+import { saveMap } from './map.js';
+import { Player } from '../entity/player.js';
 import {
     setNewPlayer,
     getNewPlayer,
