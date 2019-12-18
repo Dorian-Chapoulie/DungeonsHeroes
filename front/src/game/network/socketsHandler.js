@@ -1,4 +1,4 @@
-const socket = io.connect();
+import io from 'socket.io-client';
 import { saveMap } from './map.js';
 import { Player } from '../entity/player.js';
 import {
@@ -6,65 +6,25 @@ import {
     getNewPlayer,
     getContext,
     addLoot,
+    addMob,
     player2ShootAt,
     damageEntity,
     manageDeadMob,
     playerPickUpLoot,
     getLocalPlayer,
     getDoor,
-} from '/js/game.js';
-import { displayMessage, displayNewUser, displayUserDisconnected } from '/js/network/chat.js';
-import { addMob } from '/js/game.js';
+} from '../game.js';
+import { displayMessage, displayNewUser, displayUserDisconnected } from './chat.js';
 
-//var peer;
-//var localMediaStream;
+const socket = io.connect();
 
-const askPermissions = (elementId) => {
-    navigator.getUserMedia = navigator.getUserMedia ||
-        navigator.webkitGetUserMedia ||
-        navigator.mozGetUserMedia;
-
-    var constraints = { audio: true };
-
-    navigator.mediaDevices.getUserMedia(constraints).then(function(mediaStream) {
-        localMediaStream = mediaStream;
-        var video = document.getElementById(elementId);
-        video.srcObject = mediaStream;
-        video.onloadedmetadata = function(e) {
-            //video.play();
-        };
-    }).catch(function(err) { console.log(err.name + ": " + err.message); });
-}
 
 export const initSocksEvents = () => {
     sendMessage('playerlist');
     socket.on('connect', () => {
-
+        //id
     });
-    /*
-    socket.on('connect', () => {
-        peer = new Peer(socket.id);
-
-        console.log("Mon id: ", peer.id);
-
-        peer.on('call', function(call) {
-           
-            askPermissions('video');
-
-            console.log("JE REPOND AU CALL");            
-
-            call.on('stream', function(inStream) {
-                var videoPartner = document.getElementById('video2');
-                videoPartner.srcObject = inStream;
-                videoPartner.onloadedmetadata = function(e) {
-                    videoPartner.play();
-                };
-            });
-
-            call.answer(localMediaStream);
-        });
-    });*/
-
+   
     socket.on('map', map => {
         saveMap(map);
     });
@@ -75,30 +35,6 @@ export const initSocksEvents = () => {
 
     socket.on('newplayer', player => {
         setNewPlayer(new Player(player.name, player.x, player.y, player.socketId, getContext()));
-
-        /*askPermissions('video');
-
-        const createEmptyAudioTrack = () => {
-            const ctx = new AudioContext();
-            const oscillator = ctx.createOscillator();
-            const dst = oscillator.connect(ctx.createMediaStreamDestination());
-            oscillator.start();
-            const track = dst.stream.getAudioTracks()[0];
-            return Object.assign(track, { enabled: false });
-          };
-        const audioTrack = createEmptyAudioTrack();
-        const mediaStream = new MediaStream([audioTrack]);
-          
-        console.log("JE CALL: ", player.socketId);
-        var call = peer.call(player.socketId, mediaStream);  
-        //
-        call.on('stream', function(stream) {
-            var videoPartner = document.getElementById('video2');
-            videoPartner.srcObject = stream;
-            videoPartner.onloadedmetadata = function(e) {
-                videoPartner.play();
-            };
-        });*/
 
         displayNewUser(player.name);
     });
