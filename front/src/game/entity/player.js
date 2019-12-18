@@ -1,5 +1,6 @@
 import { Entity } from "./entity.js";
 import { PlayerProjectile } from "../projectiles/Playerprojectile.js";
+import { sprites, spritesIds } from '../graphics/assets';
 
 export class Player extends Entity {
     constructor(name, x, y, id, context) {
@@ -12,9 +13,8 @@ export class Player extends Entity {
         this.canMoveLeft = true;
 
         this.socketId = id;
-
-        this.image = new Image();
-        this.image.src = '/assets/player-sprite.png'
+        console.log(sprites[3])
+        this.image = sprites[spritesIds.player];
         this.canShoot = true;
         this.isSilenced = false;
         this.target = undefined;

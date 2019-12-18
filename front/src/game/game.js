@@ -20,7 +20,7 @@ import { Frost } from './projectiles/Frost.js';
 import { Poison } from './projectiles/Poison.js';
 import { Silence } from './projectiles/Silence.js';
 import { PlayerProjectile } from './projectiles/Playerprojectile.js';
-
+import { loadSprites } from './graphics/assets';
 
 var player, player2;
 var mobs = [];
@@ -178,9 +178,12 @@ function playSound(url) {
     document.body.appendChild(audio);
 }
 
-export const init = () => {
+export const init = async () => {
     initSocksEvents();
-    initInputsEvent();
+    initInputsEvent(); 
+    console.log("loading assets");
+    await loadSprites(); 
+    console.log("assets loaded");  
     //initChat();
 
     canvas = document.getElementById('Canvas');    

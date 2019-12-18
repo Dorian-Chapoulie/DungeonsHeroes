@@ -1,5 +1,6 @@
 import { Entity } from "./entity.js";
 import { Silence } from "../projectiles/Silence.js";
+import { sprites, spritesIds } from '../graphics/assets';
 
 export class Warlock extends Entity {
     constructor(x, y, target, context, id) {
@@ -12,8 +13,7 @@ export class Warlock extends Entity {
         this.width = 140;        
         this.height = 112;
 
-        this.image = new Image();
-        this.image.src = '/assets/warlock-sprite.png';
+        this.image = sprites[spritesIds.warlock];
         this.canShoot = true;    
         this.fireRate = 3000;       
         

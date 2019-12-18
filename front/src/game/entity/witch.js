@@ -1,5 +1,6 @@
 import { Entity } from "./entity.js";
 import { Poison } from "../projectiles/Poison.js";
+import { sprites, spritesIds } from '../graphics/assets';
 
 export class Witch extends Entity {
     constructor(x, y, target, context, id) {
@@ -9,8 +10,7 @@ export class Witch extends Entity {
 
         this.target = target;
 
-        this.image = new Image();
-        this.image.src = '/assets/witch-sprite.png';
+        this.image = sprites[spritesIds.witch];
         this.canShoot = true;   
         this.fireRate = 2000;
         this.DROIT = 0;

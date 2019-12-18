@@ -1,4 +1,5 @@
 import { Entity, playSound } from "./entity.js";
+import { sprites, spritesIds } from '../graphics/assets';
 
 export class Door extends Entity {
     constructor(x, y, context) {
@@ -13,8 +14,7 @@ export class Door extends Entity {
         this.drawTime = 200;
         this.canOpen = false;
 
-        this.image = new Image();
-        this.image.src = '/assets/door-sprite.png';   
+        this.image = sprites[spritesIds.door];  
         this.drawTime = 60;
         this.soundId = 5;
         this.maxFrameY = 2;

@@ -1,4 +1,5 @@
 import { LightenEntity } from "./lightenEntity.js";
+import { sprites, spritesIds } from '../graphics/assets';
 
 export class Torch extends LightenEntity {
     constructor(x, y, context) {
@@ -13,7 +14,6 @@ export class Torch extends LightenEntity {
 
         this.drawTime = 200;
 
-        this.image = new Image();
-        this.image.src = '/assets/torch-sprite.png';   
+        this.image = sprites[spritesIds.torch];   
     }    
 };

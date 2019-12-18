@@ -5,7 +5,9 @@ import './Game.scss';
 class Game extends React.Component {
   constructor() {
     super();
-    setTimeout(() => init(), 1000);
+    window.onload=function(){
+      init();
+    }
   }
 
   render() {            

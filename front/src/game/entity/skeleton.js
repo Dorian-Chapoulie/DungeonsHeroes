@@ -1,5 +1,6 @@
 import { Entity } from "./entity.js";
 import { Fire } from "../projectiles/Fire.js";
+import { sprites, spritesIds } from '../graphics/assets';
 
 export class Skeleton extends Entity {
     constructor(x, y, target, context, id) {
@@ -9,8 +10,7 @@ export class Skeleton extends Entity {
 
         this.target = target;
 
-        this.image = new Image();
-        this.image.src = '/assets/skeleton-sprite.png';
+        this.image = sprites[spritesIds.skeleton];
 
         this.width = 30;
         this.height = 47;

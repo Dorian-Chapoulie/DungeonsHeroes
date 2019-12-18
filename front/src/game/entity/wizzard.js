@@ -1,5 +1,6 @@
 import { Entity } from "./entity.js";
 import { Frost } from "../projectiles/Frost.js";
+import { sprites, spritesIds } from '../graphics/assets';
 
 export class Wizzard extends Entity {
     constructor(x, y, target, context, id) {
@@ -9,8 +10,7 @@ export class Wizzard extends Entity {
 
         this.target = target;
 
-        this.image = new Image();
-        this.image.src = '/assets/wizzard-sprite.png';
+        this.image = sprites[spritesIds.wizzard];
         
         this.canShoot = true;
         this.fireRate = 1800;
