@@ -22,7 +22,7 @@ const socket = io.connect('http://localhost:8080');
 export const initSocksEvents = () => {
     sendMessage('playerlist');
     socket.on('connect', () => {
-        //id
+        getLocalPlayer().socketId = socket.id;
     });
    
     socket.on('map', map => {
@@ -117,9 +117,9 @@ export const initSocksEvents = () => {
     });
 
     socket.on('reposplayer', data => {
-       if(data.socketId === socket.id) {           
+        const player = getLocalPlayer();
+        if(data.socketId === socket.id && player) {           
             getDoor().close();
-            const player = getLocalPlayer();
             player.x = data.x;
             player.y = data.y;
             player.healthBar.x = data.x;
@@ -131,7 +131,8 @@ export const initSocksEvents = () => {
   
 
     socket.on('playerdisconnected', player => {
-        displayUserDisconnected(player.name);
+        if(player)
+            displayUserDisconnected(player.name);
         setNewPlayer(undefined);
     });
 }

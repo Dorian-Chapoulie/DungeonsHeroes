@@ -60,6 +60,10 @@ class SocketsHanlder {
                 socket.broadcast.emit('playerpos', data);            
             });
 
+            socket.on('getmap', () => {                                                 
+                socket.emit('map', this.game.map);            
+            });
+
             socket.on('playerhs', data => {                                                 
                 socket.broadcast.emit('playerhs', data);            
             });
