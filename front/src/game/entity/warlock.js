@@ -13,7 +13,7 @@ export class Warlock extends Entity {
         this.height = 112;
 
         this.image = new Image();
-        this.image.src = '/media/warlock-sprite.png';
+        this.image.src = '/assets/warlock-sprite.png';
         this.canShoot = true;    
         this.fireRate = 3000;       
         

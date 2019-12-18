@@ -8,7 +8,7 @@ export class Fire extends Projectile {
         super(context, x, y, Fire.type);
 
         this.image = new Image();
-        this.image.src = '/media/skeleton-fireball-sprite.png';
+        this.image.src = '/assets/skeleton-fireball-sprite.png';
         this.width = 65;
         this.height = 64;
 

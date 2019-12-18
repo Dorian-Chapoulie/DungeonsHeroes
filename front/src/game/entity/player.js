@@ -14,7 +14,7 @@ export class Player extends Entity {
         this.socketId = id;
 
         this.image = new Image();
-        this.image.src = '/media/player-sprite.png'
+        this.image.src = '/assets/player-sprite.png'
         this.canShoot = true;
         this.isSilenced = false;
         this.target = undefined;
@@ -31,7 +31,7 @@ export class Player extends Entity {
         this.damageCoef = 1;
 
         this.hitSound = new Audio();
-        this.hitSound.src = '/media/sound/player-damage.mp3';
+        this.hitSound.src = '/assets/sound/player-damage.mp3';
         this.hitSound.volume = 0.6;
         this.canPlayHitSound = true;
     }

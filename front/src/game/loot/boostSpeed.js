@@ -2,7 +2,7 @@ import { Loot } from './loot.js';
 
 export class BoostSpeed extends Loot {
     constructor(context, x, y, id) {
-        super(context, x, y, '/media/boostSpeed-sprite.png', '/media/sound/boostSpeed.mp3', id);
+        super(context, x, y, '/assets/boostSpeed-sprite.png', '/assets/sound/boostSpeed.mp3', id);
         this.canDrawNextFrame = true;
         this.width = 355;
         this.height = 504;

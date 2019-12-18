@@ -10,7 +10,7 @@ export class Witch extends Entity {
         this.target = target;
 
         this.image = new Image();
-        this.image.src = '/media/witch-sprite.png';
+        this.image.src = '/assets/witch-sprite.png';
         this.canShoot = true;   
         this.fireRate = 2000;
         this.DROIT = 0;

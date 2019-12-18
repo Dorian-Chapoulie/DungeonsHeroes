@@ -9,12 +9,12 @@ const hitSoundSilence = new Audio();
 const soundDoor = new Audio();        
 
 (function initSounds(){    
-    hitSoundFire.src = '/media/sound/fireball-cast.mp3';
-    hitSoundFrost.src = '/media/sound/ice-cast.mp3';
-    hitSoundPlayerProjectile.src = '/media/sound/player-cast.mp3';
-    hitSoundPoison.src = '/media/sound/poison-cast.mp3';
-    hitSoundSilence.src = '/media/sound/silence-cast.mp3';
-    soundDoor.src = '/media/sound/door.mp3';
+    hitSoundFire.src = '/assets/sound/fireball-cast.mp3';
+    hitSoundFrost.src = '/assets/sound/ice-cast.mp3';
+    hitSoundPlayerProjectile.src = '/assets/sound/player-cast.mp3';
+    hitSoundPoison.src = '/assets/sound/poison-cast.mp3';
+    hitSoundSilence.src = '/assets/sound/silence-cast.mp3';
+    soundDoor.src = '/assets/sound/door.mp3';
 })();
 
 export const playSound = type => {        

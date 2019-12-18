@@ -8,7 +8,7 @@ export class PlayerProjectile extends Projectile {
         super(context, x, y, PlayerProjectile.type);
 
         this.image = new Image();
-        this.image.src = '/media/player-projectile-sprite.png';
+        this.image.src = '/assets/player-projectile-sprite.png';
         this.width = 32;
         this.height = 29;
         this.scaleX = 18;

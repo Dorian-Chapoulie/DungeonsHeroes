@@ -10,7 +10,7 @@ export class Wizzard extends Entity {
         this.target = target;
 
         this.image = new Image();
-        this.image.src = '/media/wizzard-sprite.png';
+        this.image.src = '/assets/wizzard-sprite.png';
         
         this.canShoot = true;
         this.fireRate = 1800;

@@ -2,7 +2,7 @@ import { Loot } from './loot.js';
 
 export class BoostDamage extends Loot {
     constructor(context, x, y, id) {
-        super(context, x, y, '/media/boostDamage-sprite.png', '/media/sound/boostSpeed.mp3', id);
+        super(context, x, y, '/assets/boostDamage-sprite.png', '/assets/sound/boostSpeed.mp3', id);
         this.canDrawNextFrame = true;
         this.width = 355;
         this.height = 504;

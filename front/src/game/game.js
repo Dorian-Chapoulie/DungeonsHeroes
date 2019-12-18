@@ -316,7 +316,7 @@ const loop = () => {
         lights.forEach(l => {
             if ((entityCollision(player, l) || (player2 && entityCollision(player2, l))) && l.canProcessLight == false) {
                 l.canProcessLight = true;
-                playSound('/media/sound/torch.mp3');
+                playSound('/assets/sound/torch.mp3');
             }
             l.processLight();
             drawEntityAnimation(l);

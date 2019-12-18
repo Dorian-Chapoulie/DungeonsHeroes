@@ -14,6 +14,6 @@ export class Torch extends LightenEntity {
         this.drawTime = 200;
 
         this.image = new Image();
-        this.image.src = '/media/torch-sprite.png';   
+        this.image.src = '/assets/torch-sprite.png';   
     }    
 };

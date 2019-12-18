@@ -10,7 +10,7 @@ export class Skeleton extends Entity {
         this.target = target;
 
         this.image = new Image();
-        this.image.src = '/media/skeleton-sprite.png';
+        this.image.src = '/assets/skeleton-sprite.png';
 
         this.width = 30;
         this.height = 47;

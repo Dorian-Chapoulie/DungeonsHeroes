@@ -16,7 +16,7 @@ import {
 } from '../game.js';
 import { displayMessage, displayNewUser, displayUserDisconnected } from './chat.js';
 
-const socket = io.connect();
+const socket = io.connect('http://localhost:8080');
 
 
 export const initSocksEvents = () => {
