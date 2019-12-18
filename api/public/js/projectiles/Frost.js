@@ -8,9 +8,9 @@ export class Frost extends Projectile {
         super(context, x, y, Frost.type);
 
         this.image = new Image();
-        this.image.src = '/media/player-projectile-sprite.png';
-        this.width = 32;
-        this.height = 29;
+        this.image.src = '/media/frost-sprite.png';
+        this.width = 24;
+        this.height = 24;
 
         this.damageValue = 5;
     }

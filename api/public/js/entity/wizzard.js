@@ -11,7 +11,7 @@ export class Wizzard extends Entity {
 
         this.image = new Image();
         this.image.src = '/media/wizzard-sprite.png';
-        
+
         this.canShoot = true;
         this.fireRate = 1800;
         this.DROIT = 0;
@@ -25,7 +25,7 @@ export class Wizzard extends Entity {
 
     shoot() {
         if (this.canShoot && this.target) {
-            this.projectiles.push(new Frost(this.context, this.x, this.y));
+            this.projectiles.push(new Frost(this.context, this.x + this.width, this.y));
             super.shoot();
         }
     }
