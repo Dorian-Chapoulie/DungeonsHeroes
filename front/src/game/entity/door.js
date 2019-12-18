@@ -14,7 +14,7 @@ export class Door extends Entity {
         this.canOpen = false;
 
         this.image = new Image();
-        this.image.src = '/media/door-sprite.png';   
+        this.image.src = '/assets/door-sprite.png';   
         this.drawTime = 60;
         this.soundId = 5;
         this.maxFrameY = 2;

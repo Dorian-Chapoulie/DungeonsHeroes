@@ -1,17 +1,19 @@
 const mapTiles = [];
 
 export const drawFrame = (entity) => {
-    entity.context.drawImage(
-        entity.image,
-        entity.frameX * entity.width,
-        entity.frameY * entity.height,
-        entity.width,
-        entity.height,
-        entity.x,
-        entity.y,
-        entity.scaleX,
-        entity.scaleY,
-    );
+    entity.image.onload = () => {
+        entity.context.drawImage(
+            entity.image,
+            entity.frameX * entity.width,
+            entity.frameY * entity.height,
+            entity.width,
+            entity.height,
+            entity.x,
+            entity.y,
+            entity.scaleX,
+            entity.scaleY,
+        );
+    }
 }
 
 export const drawEntityAnimation = (entity) => {    

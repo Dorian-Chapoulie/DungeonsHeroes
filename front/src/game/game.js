@@ -34,7 +34,7 @@ var themeSong = document.getElementById('theme');
 var isSoungPlayed = false;
 var door;
 
-document.addEventListener("DOMContentLoaded", () => init());
+//document.addEventListener("DOMContentLoaded", () => init());
 
 export const setNewPlayer = (newPlayer) => {
     player2 = newPlayer;
@@ -167,7 +167,6 @@ const getRandomInt = max => {
     return Math.floor(Math.random() * Math.floor(max));
 }
 
-
 function playSound(url) {
     var audio = document.createElement('audio');
     audio.style.display = "none";
@@ -179,12 +178,12 @@ function playSound(url) {
     document.body.appendChild(audio);
 }
 
-const init = () => {
+export const init = () => {
     initSocksEvents();
     initInputsEvent();
-    initChat();
+    //initChat();
 
-    canvas = document.getElementById('Canvas');
+    canvas = document.getElementById('Canvas');    
     context = canvas.getContext('2d');
 
     const pseudo = prompt("votre pseudo:");
@@ -192,16 +191,7 @@ const init = () => {
     door = new Door(280, -1, context);
     lights.push(new Torch(400, 300, context));
 
-    //const btn = document.getElementById('sendchat');
-    //btn.addEventListener('click', () => {
-    //player.damageCoef *= 2;
-    //player.speed *= 2;
-
-    //player.healthBar.maxHealth *= 2;  | need protocol
-    //player.maxHealth *= 2;            |
-    //});
-
-    const intervalSong = setInterval(() => {
+    /*const intervalSong = setInterval(() => {
             if (isSoungPlayed) {
                 clearInterval(intervalSong);
             }
@@ -211,7 +201,7 @@ const init = () => {
             }).catch(() => isSoungPlayed = false);
 
         },
-        100);
+        100);*/
 
 
     sendMessage('newplayer', { name: pseudo, x: player.x, y: player.y });
@@ -312,8 +302,8 @@ const destroyProjectile = projectile => {
     return false;
 }
 
-const loop = () => {
-    const startDate = new Date();
+const loop = () => {    
+    context.clearRect(0, 0, canvas.width, canvas.height);
     drawMap(context, mapLevel, tilesSize);
 
     drawEntityAnimation(player);
@@ -427,8 +417,7 @@ const loop = () => {
             player2.shoot();
         }
     }
-
-    const endDate = new Date();
+    
     const delta = 1; //(endDate.getTime() - startDate.getTime()) + 1;
 
     if (player2)
@@ -446,7 +435,6 @@ const loop = () => {
 
     mobs.forEach(m => {
         m.move(delta);
-    })
-
+    })    
     requestAnimationFrame(loop);
 }
