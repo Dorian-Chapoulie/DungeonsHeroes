@@ -8,16 +8,9 @@ export class Frost extends Projectile {
     constructor(context, x, y) {
         super(context, x, y, Frost.type);
 
-<<<<<<< HEAD:api/public/js/projectiles/Frost.js
-        this.image = new Image();
-        this.image.src = '/media/frost-sprite.png';
-        this.width = 24;
-        this.height = 24;
-=======
         this.image = sprites[spritesIds.playerProjectile];
         this.width = 32;
         this.height = 29;
->>>>>>> master:front/src/game/projectiles/Frost.js
 
         this.damageValue = 5;
     }
