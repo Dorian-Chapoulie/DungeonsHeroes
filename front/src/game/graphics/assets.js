@@ -18,6 +18,7 @@ export const spritesIds = {
     warlock: 15,
     witch: 16,
     wizzard: 17,
+    frost: 18,
 }
 export const sprites = [];
 export const getMapTileFromId = id => {
@@ -36,7 +37,7 @@ export const getMapTileFromId = id => {
 }
 
 
-const spritesNumber = 17;
+const spritesNumber = 18;
 let loadedSprites = 0;
 
 const createImage = (id, url) => {
@@ -80,6 +81,7 @@ export const loadSprites = async () => {
     sprites.torch = createImage(spritesIds.torch, '/assets/torch-sprite.png');
     sprites.warlock = createImage(spritesIds.warlock, '/assets/warlock-sprite.png');
     sprites.witch = createImage(spritesIds.witch, '/assets/witch-sprite.png');
-    sprites.wizzard = createImage(spritesIds.wizzard, '/assets/wizzard-sprite.png');   
+    sprites.wizzard = createImage(spritesIds.wizzard, '/assets/wizzard-sprite.png'); 
+    sprites.frost = createImage(spritesIds.frost, '/assets/frost-sprite.png');   
     await check(); 
 }
