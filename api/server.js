@@ -1,7 +1,7 @@
 const config = require('./config/config');
 const http = require('http'); 
 const express = require('express');  
-const path = require("path");
+const bodyParser = require('body-parser');
 
 const app = express();
 const server = http.createServer(app);
@@ -19,14 +19,9 @@ socketsHanlder.game = game;
 socketsHanlder.chat = chat;
   
 server.listen(config.port);
-
-//app.use('/api', require('./routes/index').router);
-
-/* TEMPORAIRE, IL FAUT FINIR LES ROUTES !!!!*/
-app.use(express.static(__dirname + '/public'));
-app.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname + '/public/html/index.html'));
-});
+app.use(bodyParser.json());
+app.use('/api', require('./routes/index').router);
+app.use('/api/player', require('./routes/player').router);
 
 
 console.log('Server running at http://localhost:' + config.port);  
