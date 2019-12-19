@@ -3,8 +3,15 @@ const config = {
     mysql: {
         host: "localhost",
         user: "root",
-        password: "hp4111sA&",
+        password: "",
         database: 'dungeonheroes',
     },
 };
+
+/*mysql: {
+    host: "2a02:4780:bad:c0de::14",
+    user: "id11999135_dorian",
+    password: "buffadungeonheroes06",
+    database: 'id11999135_dungeonheroes',
+},*/
 module.exports = config;

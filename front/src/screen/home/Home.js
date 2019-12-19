@@ -1,12 +1,20 @@
 import React from 'react';
-import { Card, CardBody, CardHeader, CardImg, CardTitle, CardSubtitle, CardText, Button, CardFooter } from 'reactstrap';
+import {
+    Card,
+    CardBody,
+    CardHeader,
+    CardTitle,
+    CardText,
+    Button,
+    CardFooter,
+} from 'reactstrap';
 
 import './Home.scss';
 
 class Home extends React.Component {
     render() {      
       return (
-        <>
+        <div className="home">
             <img className="imgHome" src='/images/logo.png' />
             <div className="d-flex justify-content-center">            
                 <Card className="mr-5" style={{width: '18em'}}>
@@ -25,7 +33,7 @@ class Home extends React.Component {
                     </CardFooter>
                 </Card>
 
-                <Card style={{width: '18em'}}>    
+                <Card className="mr-5" style={{width: '18em'}}>    
                     <CardHeader>
                         <CardTitle>
                             <h5>Inscription</h5>
@@ -38,8 +46,22 @@ class Home extends React.Component {
                         <Button href="/inscription" color="primary">S'inscrire</Button>
                     </CardFooter>
                 </Card>
+
+                <Card style={{width: '18em'}}>    
+                    <CardHeader>
+                        <CardTitle>
+                            <h5>Invité</h5>
+                        </CardTitle>                    
+                    </CardHeader>
+                    <CardBody>                    
+                        <CardText>Jouez en tant qu'invité</CardText>                   
+                    </CardBody>
+                    <CardFooter>
+                        <Button href="/main/invited" color="primary">Jouer</Button>
+                    </CardFooter>
+                </Card>
             </div>
-        </>
+        </div>
       );
     }
 }

@@ -31,6 +31,9 @@ function App() {
         <Route path="/game">
           <Game />
         </Route>
+        <Route path="/main/invited">
+          <MainPage isShopDisabled={true} isProfileDisabled={true} />
+        </Route>
         <Route path="/main">
           <MainPage />
         </Route>

@@ -1,10 +1,39 @@
-body {
-    background-image: url("/images/background.jpg");   
-    width: 95%; 
+.mainBody {
+    background-image: url("/images/background.jpg") ;                
+}
+
+.imgMain {
+    display: flex;
+    width: 700px;
+    height: 400px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .mainPage {
     font-family: dungeon !important;   
-    font-size: 8em !important;
-    border: none;
+    font-size: 8em !important;    
 }
+
+.bodyNext {   
+    background: none;      
+    background-color: black;
+}
+
+.imgMainAnimation {
+    opacity: 0;
+    width: 700px;
+    height: 400px;
+}
+.imgMainAnimationFadeIn {
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    width: 700px;
+    height: 400px;
+    transition: opacity 2s linear; 
+    -moz-transition: opacity 2s linear;  
+    -webkit-transition: opacity 2s linear; 
+    -ms-transition: opacity 2s linear;
+}
+ 

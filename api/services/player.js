@@ -1,4 +1,4 @@
-const mysql = require('../config/sql');
+const mysql = require('../lib/sql');
 
 const checkCredentials = async (email, passwd) => {
     const resultat = await new Promise(resolve => {
