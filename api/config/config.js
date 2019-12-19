@@ -3,7 +3,7 @@ const config = {
     mysql: {
         host: "localhost",
         user: "root",
-        password: "passwd",
+        password: "hp4111sA&",
         database: 'dungeonheroes',
     },
 };

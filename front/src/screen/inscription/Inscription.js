@@ -9,6 +9,6 @@ class ScreenInscription extends React.Component {
         </>
       );
     }
-  }
+}
 
 export default ScreenInscription;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { init } from '../../game/game'
+import { init } from '../../game/game';
 import './Game.scss';
 
 class Game extends React.Component {

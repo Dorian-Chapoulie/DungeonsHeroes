@@ -2,6 +2,7 @@ const config = require('./config/config');
 const http = require('http'); 
 const express = require('express');  
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 const app = express();
 const server = http.createServer(app);
@@ -19,6 +20,7 @@ socketsHanlder.game = game;
 socketsHanlder.chat = chat;
   
 server.listen(config.port);
+app.use(cors());
 app.use(bodyParser.json());
 app.use('/api', require('./routes/index').router);
 app.use('/api/player', require('./routes/player').router);
