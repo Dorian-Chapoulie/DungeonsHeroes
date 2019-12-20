@@ -10,6 +10,59 @@
     margin-right: auto;
 }
 
+.bannierePseudo {
+    position: fixed;
+    width: 300px;
+    height: 70px;
+    background:red;
+    right: 0px;  
+    top: 40px;   
+    opacity: 0.1;   
+}
+
+.banniereImage {
+    position: fixed;
+    z-index: 1;    
+    right: 0px;  
+    top: 40px;           
+}
+
+.contenu {          
+    color: white;
+    font-family: dungeon !important;   
+    font-size: 50px !important; 
+    position: fixed;
+    z-index: 1;    
+    right: 0px;  
+    top: 40px; 
+}
+
+.colContenu {
+    right: 75px;
+    color: #ffc107;
+}
+
+.colContenu2 {    
+    color: white;
+    right: 75px;
+}
+
+.colContenu a:visited {    
+    color: #ffc107;
+}
+
+.colContenu2 a {    
+    color: white;    
+}
+
+.colContenu2 a:hover {    
+    color: red;
+}
+
+.colContenu a:hover {    
+    color: red;
+}
+
 .mainPage {
     font-family: dungeon !important;   
     font-size: 8em !important;    

@@ -8,8 +8,14 @@ router.post('/login', async (req, res) => {
         //res.sendStatus(400)
         res.end(JSON.stringify({error: 'bad request'}));
     }
-    const ret = await playerService.checkCredentials(email, password);          
-    res.end(JSON.stringify({connected: !!ret}));        
+    const result = await playerService.checkCredentials(email, password);    
+    if(result && !result.error && !!result)    {
+        const resultPseudo = await playerService.getPseudoFromEmail(email);
+        const resultMoney = await playerService.getMoneyFromEmail(email);         
+        res.end(JSON.stringify({connected: !!result, pseudo: resultPseudo.pseudo, money: resultMoney.money}));
+    }else {
+        res.end(JSON.stringify({connected: false}));
+    }                      
 });
 
 router.put('/register', async (req, res) => {       

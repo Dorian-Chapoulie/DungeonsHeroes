@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { Redirect, Link } from 'react-router-dom';
 import {
     Button,
     Col,
@@ -19,7 +20,8 @@ class MainPage extends React.Component {
             imageClass: 'imgMainAnimation',
             animationSong: new Audio('/assets/sound/gameStart.mp3'),
         };        
-        document.body.classList.add('mainBody');               
+        document.body.classList.add('mainBody'); 
+        document.body.classList.remove('bodyNext');                     
     }
 
 
@@ -40,11 +42,28 @@ class MainPage extends React.Component {
     
     render() {    
         const { drawAnimation, imageClass, redirect } = this.state; 
-        const { isProfileDisabled, isShopDisabled } = this.props; 
+        const { isProfileDisabled, isShopDisabled, pseudo, money } = this.props; 
         return (               
                 <div className="back-row-toggle splat-toggle">
                     {redirect && <Redirect push to="/game" />}
-                    {!drawAnimation && <img className="imgMain" src='/images/logo2.png'/>}
+                    {!drawAnimation &&
+                        <>
+                            <img className="imgMain" src='/images/logo2.png'/>
+
+                            <img className="banniereImage" width={70} height={70} src='https://cdn.dribbble.com/users/15785/screenshots/4038010/sword.gif'/>                                                            
+                            <div className="contenu">
+                                <Row>
+                                    <Col className="colContenu2">
+                                        <Link to='/profile'>{pseudo}</Link>
+                                    </Col>
+                                    <Col className="colContenu">                                        
+                                        <Link to='/shop'>{money}</Link>
+                                    </Col>
+                                </Row>                                                                
+                            </div>                            
+                            <div className="bannierePseudo" />
+                        </>
+                    }
                     {!drawAnimation &&                         
                         <Container className="jusitfy-content-center">
                             <Row>      
@@ -98,4 +117,11 @@ MainPage.defaultProps = {
     isProfileDisabled: false,
 }
 
-export default MainPage;
+const mapStateToProps = (state) => {
+    return {
+      pseudo: state.player.pseudo,
+      money: state.player.money,
+    }
+}
+
+export default connect(mapStateToProps)(MainPage);
