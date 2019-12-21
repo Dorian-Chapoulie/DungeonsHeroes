@@ -2,7 +2,14 @@ import React from 'react';
 import  { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchLogin } from '../../lib/fetch';
-import { setLoggedInAction, setPseudoAction, setMoneyAction } from '../../actions/player';
+import {
+  setLoggedInAction,
+  setPseudoAction,
+  setMoneyAction,
+  setLootBoxesAction,
+  setEmailAction,
+  setSkinIdAction,
+} from '../../actions/player';
 import ComponentLogin from '../../component/login/login';
 
 class ScreenLogin extends React.Component {
@@ -17,10 +24,13 @@ class ScreenLogin extends React.Component {
   handleClickLogin = async (email, password) => {    
     const request = await fetchLogin(email, password);        
     if(request.connected) {   
-      const { setLoggedIn, setPseudo, setMoney } = this.props;   
+      const { setLoggedIn, setPseudo, setMoney, setLootBoxes, setEmail, setSkinId } = this.props;   
       setLoggedIn();
       setPseudo(request.pseudo);
       setMoney(request.money);
+      setLootBoxes(request.lootboxes);
+      setEmail(request.email);
+      setSkinId(request.skinId);
       this.setState({canRedirect: true});
     } else {
       this.setState({isError: true});
@@ -50,6 +60,9 @@ const mapDispatchToProps = (dispatch) => {
     setLoggedIn: () => dispatch(setLoggedInAction()),
     setPseudo: pseudo => dispatch(setPseudoAction(pseudo)),
     setMoney: money => dispatch(setMoneyAction(money)),
+    setLootBoxes: lootBoxes => dispatch(setLootBoxesAction(lootBoxes)),
+    setEmail: email => dispatch(setEmailAction(email)),
+    setSkinId: id => dispatch(setSkinIdAction(id)),
   }
 }
 

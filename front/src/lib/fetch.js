@@ -3,6 +3,7 @@ const URLS = {
     player: {
         login: '/player/login',
         register: '/player/register',
+        buy: '/player/buy',
     },
 };
 
@@ -42,6 +43,21 @@ const tryRegister = async (email, password, pseudo) => {
     return data;
 }
 
+const tryBuyCase = async (email, ammount, price) => {
+    const result = await fetch(API + URLS.player.buy, {
+        method: 'POST',
+        headers: 
+            new Headers({
+                'Content-Type': 'application/json',    
+                'Access-Control-Allow-Origin': '*',            
+            }),
+        mode: 'cors',
+        body: JSON.stringify({email, ammount, price}),
+    });   
+    const data = await result.json();
+    return data;
+}
 
+module.exports.tryBuyCase = tryBuyCase;
 module.exports.fetchLogin = fetchLogin;
 module.exports.tryRegister = tryRegister;

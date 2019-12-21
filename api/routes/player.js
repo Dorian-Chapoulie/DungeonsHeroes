@@ -12,7 +12,16 @@ router.post('/login', async (req, res) => {
     if(result && !result.error && !!result)    {
         const resultPseudo = await playerService.getPseudoFromEmail(email);
         const resultMoney = await playerService.getMoneyFromEmail(email);         
-        res.end(JSON.stringify({connected: !!result, pseudo: resultPseudo.pseudo, money: resultMoney.money}));
+        const resultLootBoxes = await playerService.getLootBoxesFromEmail(email);   
+        const resultSkinId = await playerService.getSkinIdFromEmail(email);      
+        res.end(JSON.stringify({
+            connected: !!result,
+            email,
+            pseudo: resultPseudo.pseudo,
+            money: resultMoney.money,
+            lootboxes: resultLootBoxes.lootbox,
+            skinId: resultSkinId.skinid,
+        }));
     }else {
         res.end(JSON.stringify({connected: false}));
     }                      
@@ -31,6 +40,30 @@ router.put('/register', async (req, res) => {
     }else {
         res.end(JSON.stringify({registered: !!ret}));        
     }
+});
+
+router.post('/buy', async (req, res) => {       
+    const { email, ammount, price } = req.body;    
+    if(!email || !ammount || !price) {
+        //res.sendStatus(400)
+        res.end(JSON.stringify({error: 'bad request'}));
+    }
+
+    const resultMoney = await playerService.getMoneyFromEmail(email);           
+    if(resultMoney.money < price) {
+        res.end(JSON.stringify({error: "money"}));
+    }else {
+        const resultLootBoxes = await playerService.getLootBoxesFromEmail(email); 
+        const totalLootBoxes = parseInt(resultLootBoxes.lootbox, 10) + parseInt(ammount, 10);
+        const newMoney = parseInt(resultMoney.money,10) - parseInt(price, 10);
+        const ret = await playerService.buyLootBoxesFromEmail(email, totalLootBoxes, newMoney);            
+        if(ret.error) {
+            //res.sendStatus(400) 
+            res.end(JSON.stringify({ret}));
+         }else {
+            res.end(JSON.stringify({transaction: !!ret, money: newMoney, lootboxes: totalLootBoxes}));        
+         }
+    }            
 });
 
 module.exports.router = router;

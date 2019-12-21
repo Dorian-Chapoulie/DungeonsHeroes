@@ -3,7 +3,10 @@ const initialState = {
         isLoggedIn: false,
         isGuest: true,
         pseudo: 'Guest_' + new Date().getTime(),
+        email: '',
         money: 0,
+        lootboxes: 0,
+        skinId: 0,
     }
 }
 
@@ -17,6 +20,9 @@ const rootReducer = (state = initialState, action) => {
                     isGuest: false,                    
                     pseudo: state.player.pseudo,
                     money: state.player.money,
+                    email: state.player.email,
+                    lootboxes: state.player.lootboxes,
+                    skinId: state.player.skinId,
                 },                                   
             }
         case 'UPADTE_PLAYER_NAME':                        
@@ -26,6 +32,9 @@ const rootReducer = (state = initialState, action) => {
                     isGuest: state.player.isGuest,
                     pseudo: action.value,
                     money: state.player.money,
+                    email: state.player.email,
+                    lootboxes: state.player.lootboxes,
+                    skinId: state.player.skinId,
                 },                                   
             } 
         case 'UPADTE_PLAYER_MONEY':                    
@@ -35,6 +44,45 @@ const rootReducer = (state = initialState, action) => {
                 isGuest: state.player.isGuest,
                 money: action.value,
                 pseudo: state.player.pseudo,
+                email: state.player.email,
+                lootboxes: state.player.lootboxes,
+                skinId: state.player.skinId,
+            },                                   
+        }
+        case 'UPADTE_PLAYER_EMAIL':                    
+        return {
+            player: {
+                isLoggedIn: state.player.isLoggedIn,
+                isGuest: state.player.isGuest,
+                money: state.player.money,
+                pseudo: state.player.pseudo,
+                email: action.value,
+                lootboxes: state.player.lootboxes,
+                skinId: state.player.skinId,
+            },                                   
+        }    
+        case 'UPADTE_PLAYER_LOOTBOXES':                    
+        return {
+            player: {
+                isLoggedIn: state.player.isLoggedIn,
+                isGuest: state.player.isGuest,
+                money: state.player.money,
+                pseudo: state.player.pseudo,
+                email: state.player.email,
+                lootboxes: action.value,
+                skinId: state.player.skinId,
+            },                                   
+        }   
+        case 'UPADTE_PLAYER_SKINID':                    
+        return {
+            player: {
+                isLoggedIn: state.player.isLoggedIn,
+                isGuest: state.player.isGuest,
+                money: state.player.money,
+                pseudo: state.player.pseudo,
+                email: state.player.email,
+                lootboxes: state.player.lootboxes,
+                skinId: action.value,
             },                                   
         }        
         default:

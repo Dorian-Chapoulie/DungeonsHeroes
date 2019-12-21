@@ -17,6 +17,8 @@ class MainPage extends React.Component {
         this.state = {
             drawAnimation: false,
             redirect: false,
+            redirectShop: false,
+            redirectProfile: false,
             imageClass: 'imgMainAnimation',
             animationSong: new Audio('/assets/sound/gameStart.mp3'),
         };        
@@ -38,18 +40,29 @@ class MainPage extends React.Component {
                 this.setState({redirect: true});
             }, 2000);
         }, 500);     
+    }    
+
+    handleClickShop = () => {
+        this.setState({redirectShop: true});
     }
 
+    handleClickProfile = () => {
+        console.log("pkpk")
+        this.setState({redirectProfile: true});
+    }
+    
     getWidthFromPseudo = pseudo => {
         return 120 + 20 * pseudo.length;
     }
     
     render() {    
-        const { drawAnimation, imageClass, redirect } = this.state; 
+        const { drawAnimation, imageClass, redirect, redirectShop, redirectProfile } = this.state; 
         const { pseudo, money, isGuest } = this.props; 
         return (               
                 <div className="back-row-toggle splat-toggle">
                     {redirect && <Redirect push to="/game" />}
+                    {redirectShop && <Redirect push to="/shop" />}
+                    {redirectProfile && <Redirect push to="/profile" />}
                     {!drawAnimation &&
                         <>
                             <img className="imgMain" src='/images/logo2.png'/>
@@ -88,6 +101,7 @@ class MainPage extends React.Component {
                                         className="mainPage"
                                         color={isGuest ? "danger" : "warning"}
                                         disabled={isGuest}
+                                        onClick={this.handleClickProfile}
                                     >
                                         Profil
                                     </Button>   
@@ -98,6 +112,7 @@ class MainPage extends React.Component {
                                         className="mainPage"
                                         color={isGuest ? "danger" : "warning"}
                                         disabled={isGuest}
+                                        onClick={this.handleClickShop}
                                     >
                                         Boutique
                                     </Button>

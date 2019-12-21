@@ -13,6 +13,8 @@ import Login from './screen/login/login';
 import Inscription from './screen/inscription/Inscription';
 import Game from './screen/game/Game';
 import MainPage from './screen/home/MainPage';
+import Shop from './screen/shop/shop';
+import Profile from './screen/profile/profile'
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
@@ -36,6 +38,12 @@ function App() {
         </Route>
         <Route path="/main">
           <MainPage />
+        </Route>
+        <Route path="/shop">
+          <Shop />
+        </Route>
+        <Route path="/profile">
+          <Profile />
         </Route>
         <Route path="/">
           <Home />
