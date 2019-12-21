@@ -39,10 +39,14 @@ class MainPage extends React.Component {
             }, 2000);
         }, 500);     
     }
+
+    getWidthFromPseudo = pseudo => {
+        return 120 + 20 * pseudo.length;
+    }
     
     render() {    
         const { drawAnimation, imageClass, redirect } = this.state; 
-        const { isProfileDisabled, isShopDisabled, pseudo, money } = this.props; 
+        const { pseudo, money, isGuest } = this.props; 
         return (               
                 <div className="back-row-toggle splat-toggle">
                     {redirect && <Redirect push to="/game" />}
@@ -61,7 +65,7 @@ class MainPage extends React.Component {
                                     </Col>
                                 </Row>                                                                
                             </div>                            
-                            <div className="bannierePseudo" />
+                            <div className="bannierePseudo" style={{width: this.getWidthFromPseudo(pseudo)}} />
                         </>
                     }
                     {!drawAnimation &&                         
@@ -82,8 +86,8 @@ class MainPage extends React.Component {
                                     <Button
                                         outline
                                         className="mainPage"
-                                        color={isProfileDisabled ? "danger" : "warning"}
-                                        disabled={isProfileDisabled}
+                                        color={isGuest ? "danger" : "warning"}
+                                        disabled={isGuest}
                                     >
                                         Profil
                                     </Button>   
@@ -92,8 +96,8 @@ class MainPage extends React.Component {
                                     <Button
                                         outline
                                         className="mainPage"
-                                        color={isShopDisabled ? "danger" : "warning"}
-                                        disabled={isShopDisabled}
+                                        color={isGuest ? "danger" : "warning"}
+                                        disabled={isGuest}
                                     >
                                         Boutique
                                     </Button>
@@ -107,20 +111,11 @@ class MainPage extends React.Component {
     }
 }
 
-MainPage.propTypes = {
-    isShopDisabled: PropTypes.bool,
-    isProfileDisabled : PropTypes.bool,
-};
-
-MainPage.defaultProps = {
-    isShopDisabled: false,
-    isProfileDisabled: false,
-}
-
 const mapStateToProps = (state) => {
     return {
       pseudo: state.player.pseudo,
       money: state.player.money,
+      isGuest: state.player.isGuest,
     }
 }
 

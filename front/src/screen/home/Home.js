@@ -57,7 +57,7 @@ class Home extends React.Component {
                         <CardText>Jouez en tant qu'invité</CardText>                   
                     </CardBody>
                     <CardFooter>
-                        <Button href="/main/invited" color="primary">Jouer</Button>
+                        <Button href="/main" color="primary">Jouer</Button>
                     </CardFooter>
                 </Card>
             </div>

@@ -1,7 +1,8 @@
 const initialState = {    
     player: {
         isLoggedIn: false,
-        pseudo: '',
+        isGuest: true,
+        pseudo: 'Guest_' + new Date().getTime(),
         money: 0,
     }
 }
@@ -13,6 +14,7 @@ const rootReducer = (state = initialState, action) => {
             return {
                 player: {                    
                     isLoggedIn: action.value,
+                    isGuest: false,                    
                     pseudo: state.player.pseudo,
                     money: state.player.money,
                 },                                   
@@ -21,6 +23,7 @@ const rootReducer = (state = initialState, action) => {
             return {
                 player: {
                     isLoggedIn: state.player.isLoggedIn,
+                    isGuest: state.player.isGuest,
                     pseudo: action.value,
                     money: state.player.money,
                 },                                   
@@ -29,6 +32,7 @@ const rootReducer = (state = initialState, action) => {
         return {
             player: {
                 isLoggedIn: state.player.isLoggedIn,
+                isGuest: state.player.isGuest,
                 money: action.value,
                 pseudo: state.player.pseudo,
             },                                   
