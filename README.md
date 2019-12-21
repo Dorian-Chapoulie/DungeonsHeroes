@@ -70,6 +70,14 @@ Note : a chat system has been implemented to allow a communication between the t
 + Html5 / CSS
 + Node JS
 
+# Run 
+Local database (mySQL) 
+  - script in /lib/sql/player.sql
+Start react
+  - npm i & npm run
+Start the API
+  - node server.js
+
 # Authors
 
 + CHAPOULIE Dorian  [github](https://github.com/none06)
