@@ -7,6 +7,7 @@ const initialState = {
         money: 0,
         lootboxes: 0,
         skinId: 0,
+        availableSkins: [],
     }
 }
 
@@ -23,6 +24,7 @@ const rootReducer = (state = initialState, action) => {
                     email: state.player.email,
                     lootboxes: state.player.lootboxes,
                     skinId: state.player.skinId,
+                    availableSkins: state.player.availableSkins, 
                 },                                   
             }
         case 'UPADTE_PLAYER_NAME':                        
@@ -35,6 +37,7 @@ const rootReducer = (state = initialState, action) => {
                     email: state.player.email,
                     lootboxes: state.player.lootboxes,
                     skinId: state.player.skinId,
+                    availableSkins: state.player.availableSkins, 
                 },                                   
             } 
         case 'UPADTE_PLAYER_MONEY':                    
@@ -47,6 +50,7 @@ const rootReducer = (state = initialState, action) => {
                 email: state.player.email,
                 lootboxes: state.player.lootboxes,
                 skinId: state.player.skinId,
+                availableSkins: state.player.availableSkins, 
             },                                   
         }
         case 'UPADTE_PLAYER_EMAIL':                    
@@ -59,6 +63,7 @@ const rootReducer = (state = initialState, action) => {
                 email: action.value,
                 lootboxes: state.player.lootboxes,
                 skinId: state.player.skinId,
+                availableSkins: state.player.availableSkins, 
             },                                   
         }    
         case 'UPADTE_PLAYER_LOOTBOXES':                    
@@ -71,6 +76,7 @@ const rootReducer = (state = initialState, action) => {
                 email: state.player.email,
                 lootboxes: action.value,
                 skinId: state.player.skinId,
+                availableSkins: state.player.availableSkins, 
             },                                   
         }   
         case 'UPADTE_PLAYER_SKINID':                    
@@ -83,8 +89,23 @@ const rootReducer = (state = initialState, action) => {
                 email: state.player.email,
                 lootboxes: state.player.lootboxes,
                 skinId: action.value,
+                availableSkins: state.player.availableSkins, 
             },                                   
-        }        
+        }
+        case 'UPADTE_PLAYER_SKINS':                    
+        state.player.availableSkins.push(action.value);
+        return {
+            player: {
+                isLoggedIn: state.player.isLoggedIn,
+                isGuest: state.player.isGuest,
+                money: state.player.money,
+                pseudo: state.player.pseudo,
+                email: state.player.email,
+                lootboxes: state.player.lootboxes,
+                skinId: state.player.skinId,
+                availableSkins: state.player.availableSkins,                
+            },                                   
+        }              
         default:
             return state;
     }

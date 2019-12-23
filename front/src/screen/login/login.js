@@ -9,6 +9,7 @@ import {
   setLootBoxesAction,
   setEmailAction,
   setSkinIdAction,
+  addSkinAction,
 } from '../../actions/player';
 import ComponentLogin from '../../component/login/login';
 
@@ -24,13 +25,14 @@ class ScreenLogin extends React.Component {
   handleClickLogin = async (email, password) => {    
     const request = await fetchLogin(email, password);        
     if(request.connected) {   
-      const { setLoggedIn, setPseudo, setMoney, setLootBoxes, setEmail, setSkinId } = this.props;   
+      const { setLoggedIn, setPseudo, setMoney, setLootBoxes, setEmail, setSkinId, addSkin } = this.props;   
       setLoggedIn();
       setPseudo(request.pseudo);
       setMoney(request.money);
       setLootBoxes(request.lootboxes);
       setEmail(request.email);
       setSkinId(request.skinId);
+      request.skins.forEach(s => addSkin(s));
       this.setState({canRedirect: true});
     } else {
       this.setState({isError: true});
@@ -63,6 +65,7 @@ const mapDispatchToProps = (dispatch) => {
     setLootBoxes: lootBoxes => dispatch(setLootBoxesAction(lootBoxes)),
     setEmail: email => dispatch(setEmailAction(email)),
     setSkinId: id => dispatch(setSkinIdAction(id)),
+    addSkin: skinId => dispatch(addSkinAction(skinId)),
   }
 }
 

@@ -65,6 +65,18 @@ const getSkinIdFromEmail = async (email) => {
     return resultat;
 }
 
+const getInventorySkinsFromEmail = async (email) => {
+    const resultat = await new Promise(resolve => {
+        mysql.connection.query(`SELECT skinid FROM inventory where playerid IN (SELECT id from player where email like '${email}')`, (error, results, fields) => {    
+            if(error) {
+                console.log("ERREUR: ", error);
+                resolve({error: error.sqlMessage});
+            }            
+            resolve(results ? results : []);
+        });
+    });    
+    return resultat;
+}
 
 const buyLootBoxesFromEmail = async (email, ammount, money) => {
     const resultat = await new Promise(resolve => {
@@ -92,6 +104,19 @@ const register = async (email, passwd, pseudo) => {
     return resultat;
 }
 
+const setActivatedSkin = async (email, skinId) => {
+    const resultat = await new Promise(resolve => {
+        mysql.connection.query(`UPDATE player SET skinid = '${skinId}' where email like '${email}'`, (error, results, fields) => {    
+            if(error) {
+                console.log("ERREUR: ", error);
+                resolve({error: error.sqlMessage});
+            }
+            resolve(true);
+        });
+    });    
+    return resultat;
+}
+
 module.exports.checkCredentials = checkCredentials;
 module.exports.register = register;
 module.exports.getPseudoFromEmail = getPseudoFromEmail;
@@ -99,3 +124,5 @@ module.exports.getMoneyFromEmail = getMoneyFromEmail;
 module.exports.getLootBoxesFromEmail = getLootBoxesFromEmail;
 module.exports.buyLootBoxesFromEmail = buyLootBoxesFromEmail;
 module.exports.getSkinIdFromEmail = getSkinIdFromEmail;
+module.exports.getInventorySkinsFromEmail = getInventorySkinsFromEmail;
+module.exports.setActivatedSkin = setActivatedSkin;

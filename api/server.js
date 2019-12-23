@@ -24,6 +24,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use('/api', require('./routes/index').router);
 app.use('/api/player', require('./routes/player').router);
+app.use('/api/skins', require('./routes/skins').router);
 
 
 console.log('Server running at http://localhost:' + config.port);  

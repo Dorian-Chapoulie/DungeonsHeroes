@@ -14,13 +14,15 @@ router.post('/login', async (req, res) => {
         const resultMoney = await playerService.getMoneyFromEmail(email);         
         const resultLootBoxes = await playerService.getLootBoxesFromEmail(email);   
         const resultSkinId = await playerService.getSkinIdFromEmail(email);      
+        const resultSkinsInventory = await playerService.getInventorySkinsFromEmail(email);      
         res.end(JSON.stringify({
             connected: !!result,
             email,
             pseudo: resultPseudo.pseudo,
             money: resultMoney.money,
             lootboxes: resultLootBoxes.lootbox,
-            skinId: resultSkinId.skinid,
+            skinId: resultSkinId.skinid,   
+            skins: resultSkinsInventory.map(e => e.skinid),         
         }));
     }else {
         res.end(JSON.stringify({connected: false}));
@@ -64,6 +66,22 @@ router.post('/buy', async (req, res) => {
             res.end(JSON.stringify({transaction: !!ret, money: newMoney, lootboxes: totalLootBoxes}));        
          }
     }            
+});
+
+router.post('/setskin', async (req, res) => {       
+    const { email, skinId } = req.body;    
+    if(!email || !skinId) {
+        //res.sendStatus(400)
+        res.end(JSON.stringify({error: 'bad request'}));
+    }
+    const ret = await playerService.setActivatedSkin(email, skinId);             
+    if(ret.error) {
+        //res.sendStatus(400) 
+        res.end(JSON.stringify({ret}));
+    }else {
+        res.end(JSON.stringify({activatedSkin: !!ret}));        
+    }
+        
 });
 
 module.exports.router = router;

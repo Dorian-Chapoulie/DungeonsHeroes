@@ -27,3 +27,8 @@ export const setSkinIdAction = (skinId) => ({
     type: 'UPADTE_PLAYER_SKINID',
     value: skinId,
 });
+
+export const addSkinAction = (skinId) => ({
+    type: 'UPADTE_PLAYER_SKINS',
+    value: skinId,
+});
