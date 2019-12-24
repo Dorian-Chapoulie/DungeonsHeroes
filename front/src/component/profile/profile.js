@@ -48,7 +48,7 @@ class Profile extends React.Component {
     }
 
     render() {
-        const { pseudo, money, lootboxes, skins } = this.props;        
+        const { pseudo, money, lootboxes, skins, skinId } = this.props;        
         const { allSkins, mainViewSkinId } = this.state;                
         const slider = (
             <AwesomeSlider 
@@ -66,7 +66,7 @@ class Profile extends React.Component {
                 })
             }  
             </AwesomeSlider> 
-        );
+        );        
         return (
             <div>
                 <Card className="login mt-5" style={{width: '18em'}}>    
@@ -105,7 +105,7 @@ class Profile extends React.Component {
                         <Button
                             color="success"
                             className="d-flex justify-content-center"
-                            disabled={skins.find(e => e === mainViewSkinId) === undefined ? true : false}
+                            disabled={mainViewSkinId === skinId || (skins.find(e => e === mainViewSkinId) === undefined ? true : false)}
                             onClick={this.handleClickActivate}
                         >
                             Activer
