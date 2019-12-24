@@ -40,7 +40,7 @@ export const initSocksEvents = () => {
 
     socket.on('playerlist', list => {
         if (list.length > 0) {
-            setNewPlayer(new Player(list[0].name, list[0].x, list[0].y, list[0].socketId, getContext()));
+            setNewPlayer(new Player(list[0].name, list[0].x, list[0].y, list[0].socketId, getContext(), list[0].skinId));
         }
     });
 

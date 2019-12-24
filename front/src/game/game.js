@@ -184,11 +184,10 @@ function playSound(url) {
     document.body.appendChild(audio);
 }
 
-export const init = async () => {
-    const pseudo = prompt("votre pseudo:");
+export const init = (pseudo, skinId) => {
     canvas = document.getElementById('Canvas');    
     context = canvas.getContext('2d');
-    player = new Player(pseudo, 300, 800, undefined, context);
+    player = new Player(pseudo, 300, 800, undefined, context, skinId);
 
     initSocksEvents();
     initInputsEvent();     
@@ -210,7 +209,7 @@ export const init = async () => {
         100);*/
 
 
-    sendMessage('newplayer', { name: pseudo, x: player.x, y: player.y });
+    sendMessage('newplayer', { name: pseudo, x: player.x, y: player.y, skinId});
     sendMessage('getmap');
 
     drawMap(context, mapLevel, tilesSize);

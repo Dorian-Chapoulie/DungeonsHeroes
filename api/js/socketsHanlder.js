@@ -23,11 +23,11 @@ class SocketsHanlder {
             this.game.sendMap();    
 
             socket.on('newplayer', (data) => {  
-                const {name, x, y} = data;
+                const {name, x, y, skinId} = data;
                 socket.emit('getid', {id: socket.id});
-                socket.broadcast.emit('newplayer', {name, x, y, socketId: socket.id}); 
+                socket.broadcast.emit('newplayer', {name, x, y, socketId: socket.id, skinId}); 
                 socket.emit('playerlist', this.game.joueurs);                  
-                this.game.joueurs.push({name: data.name, x: data.x, y: data.y, socketId: socket.id});  
+                this.game.joueurs.push({name: data.name, x: data.x, y: data.y, socketId: socket.id, skinId});  
 
                 if(this.game.joueurs.length == 2) {
                     setTimeout(() => {
@@ -127,6 +127,7 @@ class SocketsHanlder {
 
             socket.on('disconnect', () => {                                 
                 const disconnectedPlayer = this.game.joueurs.find(p => p.socketId === socket.id);
+                console.log(disconnectedPlayer)
                 socket.broadcast.emit('playerdisconnected', disconnectedPlayer);
                 this.game.joueurs = this.game.joueurs.filter(j => j !== disconnectedPlayer);                                
             });

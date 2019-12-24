@@ -49,8 +49,8 @@ class MainPage extends React.Component {
             this.setState({spritesLoaded: loadedSprites});
         }, 50);
 
-        await loadSprites();
-        //this.setState({redirect: true});
+        await loadSprites();        
+        this.setState({redirect: true});       
     }    
 
     handleClickShop = () => {

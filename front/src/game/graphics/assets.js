@@ -7,18 +7,21 @@ export const spritesIds = {
     heart: 4,
     playerProjectile: 5,
     player: 6,
-    shield: 7,
-    skeleton: 8,
-    fireball: 9,
-    tile1: 10,
-    tile2: 11,
-    tile3: 12,
-    tile4: 13,
-    torch: 14,
-    warlock: 15,
-    witch: 16,
-    wizzard: 17,
-    frost: 18,
+    player2: 7,
+    player3: 8,
+    player4: 9,
+    shield: 10,
+    skeleton: 11,
+    fireball: 12,
+    tile1: 13,
+    tile2: 14,
+    tile3: 15,
+    tile4: 16,
+    torch: 17,
+    warlock: 18,
+    witch: 19,
+    wizzard: 20,
+    frost: 21,
 }
 export const sprites = [];
 export const getMapTileFromId = id => {
@@ -36,8 +39,22 @@ export const getMapTileFromId = id => {
     };
 }
 
+export const getPlayerSkinFromId = id => {
+    switch(id) {
+        case 1:
+            return sprites[spritesIds.player];            
+        case 2:
+            return sprites[spritesIds.player2];
+        case 3:
+            return sprites[spritesIds.player3];
+        case 4:
+            return sprites[spritesIds.player4];
+        default:
+            return sprites[spritesIds.player];
+    };
+}
 
-export const spritesNumber = 18;
+export const spritesNumber = 21;
 export let loadedSprites = 0;
 
 const createImage = (id, url) => {
@@ -57,6 +74,7 @@ const check = () => {
         const interval = setInterval(() => {            
             if(loadedSprites == spritesNumber) {
                 clearInterval(interval);
+                loadedSprites = 0;
                 resolve(true);
             }
         }, 200);           
@@ -71,6 +89,9 @@ export const loadSprites = async () => {
     sprites.heart = createImage(spritesIds.heart, '/assets/heart-sprite.png');
     sprites.playerProjectile = createImage(spritesIds.playerProjectile, '/assets/player-projectile-sprite.png');
     sprites.player = createImage(spritesIds.player, '/assets/player-sprite.png');
+    sprites.player2 = createImage(spritesIds.player2, '/assets/player-sprite-2.png');
+    sprites.player3 = createImage(spritesIds.player3, '/assets/player-sprite-3.png');
+    sprites.player4 = createImage(spritesIds.player4, '/assets/player-sprite-4.png');
     sprites.shield = createImage(spritesIds.shield, '/assets/shield-sprite.png');
     sprites.skeleton = createImage(spritesIds.skeleton, '/assets/skeleton-sprite.png');
     sprites.fireball = createImage(spritesIds.fireball, '/assets/skeleton-fireball-sprite.png');
