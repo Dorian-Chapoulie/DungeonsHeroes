@@ -88,4 +88,10 @@
     -webkit-transition: opacity 2s linear; 
     -ms-transition: opacity 2s linear;
 }
- 
+
+.loader {
+    display: flex !important;
+    justify-content: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}

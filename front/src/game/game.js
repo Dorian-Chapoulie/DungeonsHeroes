@@ -20,7 +20,6 @@ import { Frost } from './projectiles/Frost.js';
 import { Poison } from './projectiles/Poison.js';
 import { Silence } from './projectiles/Silence.js';
 import { PlayerProjectile } from './projectiles/Playerprojectile.js';
-import { loadSprites } from './graphics/assets';
 
 var player, player2;
 var mobs = [];
@@ -186,7 +185,6 @@ function playSound(url) {
 }
 
 export const init = async () => {
-    await loadSprites();
     const pseudo = prompt("votre pseudo:");
     canvas = document.getElementById('Canvas');    
     context = canvas.getContext('2d');

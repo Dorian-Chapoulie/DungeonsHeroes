@@ -8,7 +8,10 @@ import {
     Row,
     Container,
 } from 'reactstrap';
+import { loadSprites, spritesNumber, loadedSprites } from '../../game/graphics/assets';
+import Loader from 'react-loader-spinner';
 
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import './MainPage.scss';
 
 class MainPage extends React.Component {
@@ -21,33 +24,40 @@ class MainPage extends React.Component {
             redirectProfile: false,
             imageClass: 'imgMainAnimation',
             animationSong: new Audio('/assets/sound/gameStart.mp3'),
+            spritesLoaded: 0,
         };        
         document.body.classList.add('mainBody'); 
         document.body.classList.remove('bodyNext');                     
     }
 
 
-    handleClickPlay = () => {      
+    handleClickPlay = async () => {      
         document.body.classList.remove('mainBody');
         document.body.classList.add('bodyNext');
         this.setState({drawAnimation: true});     
   
-        setTimeout(() => {
+        setTimeout(async () => {
             this.setState({imageClass: 'imgMainAnimationFadeIn'})
             const { animationSong } = this.state;
-            animationSong.play();
-            setTimeout(() => {
-                this.setState({redirect: true});
-            }, 2000);
-        }, 500);     
+            animationSong.play();           
+        }, 500);
+
+        const interval = setInterval(() => {            
+            if(loadedSprites === spritesNumber) {                
+                clearInterval(interval);
+            }
+            this.setState({spritesLoaded: loadedSprites});
+        }, 50);
+
+        await loadSprites();
+        //this.setState({redirect: true});
     }    
 
     handleClickShop = () => {
         this.setState({redirectShop: true});
     }
 
-    handleClickProfile = () => {
-        console.log("pkpk")
+    handleClickProfile = () => {        
         this.setState({redirectProfile: true});
     }
     
@@ -56,7 +66,14 @@ class MainPage extends React.Component {
     }
     
     render() {    
-        const { drawAnimation, imageClass, redirect, redirectShop, redirectProfile } = this.state; 
+        const {
+            drawAnimation,
+            imageClass,
+            redirect,
+            redirectShop,
+            redirectProfile,
+            spritesLoaded,
+        } = this.state; 
         const { pseudo, money, isGuest } = this.props; 
         return (               
                 <div className="back-row-toggle splat-toggle">
@@ -120,7 +137,21 @@ class MainPage extends React.Component {
                             </Row>
                         </Container>
                     }
-                    {drawAnimation && <img className={imageClass} src='/images/logo2.png'/>}
+                    {drawAnimation &&
+                        <div>
+                            <img className={imageClass} src='/images/logo2.png'/>
+                            <span className="loader">
+                                <Loader
+                                    type="Triangle"
+                                    color="#D99E30"
+                                    height={100}
+                                    width={100}
+                                    timeout={3000000}
+                                />
+                                <h3 className="mainPage">{spritesLoaded + "/" + spritesNumber}</h3>                                
+                            </span>                            
+                        </div>
+                    }
                 </div>
         );
     }

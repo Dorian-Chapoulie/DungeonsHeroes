@@ -37,8 +37,8 @@ export const getMapTileFromId = id => {
 }
 
 
-const spritesNumber = 18;
-let loadedSprites = 0;
+export const spritesNumber = 18;
+export let loadedSprites = 0;
 
 const createImage = (id, url) => {
     const image = new Image();             
