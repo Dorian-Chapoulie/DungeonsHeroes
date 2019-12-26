@@ -84,4 +84,20 @@ router.post('/setskin', async (req, res) => {
         
 });
 
+router.put('/addskin', async (req, res) => {       
+    const { email, skinId } = req.body;    
+    if(!email || !skinId) {
+        //res.sendStatus(400)
+        res.end(JSON.stringify({error: 'bad request'}));
+    }
+    const ret = await playerService.addSkin(email, skinId);             
+    if(ret.error) {
+        //res.sendStatus(400) 
+        res.end(JSON.stringify({ret}));
+    }else {
+        res.end(JSON.stringify({activatedSkin: !!ret}));        
+    }
+        
+});
+
 module.exports.router = router;

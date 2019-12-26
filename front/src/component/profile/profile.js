@@ -15,11 +15,12 @@ import {
   Row,
 } from 'reactstrap';
 import { connect } from 'react-redux';
-import { setLootBoxesAction, setSkinIdAction } from '../../actions/player';
-import { tryGetAllSkins, setActivatedSkin } from '../../lib/fetch';
+import Rodal from 'rodal';
+import { setLootBoxesAction, setSkinIdAction, addSkinAction } from '../../actions/player';
+import { tryGetAllSkins, setActivatedSkin, addSkin } from '../../lib/fetch';
 import AwesomeSlider from 'react-awesome-slider';
 import 'react-awesome-slider/dist/styles.css';
-
+import 'rodal/lib/rodal.css';
 import './profile.scss';
 
 class Profile extends React.Component {
@@ -28,6 +29,8 @@ class Profile extends React.Component {
       this.state = {
           allSkins: [],
           mainViewSkinId: 0,
+          showNewSkin: false,
+          newSkin: '',
       }
       this.getAllSkins();
     }
@@ -47,9 +50,30 @@ class Profile extends React.Component {
         }
     }
 
+    getRandomInt = max => {
+        return Math.floor(Math.random() * Math.floor(max));
+    }
+
+    handleClickOpenLootBox = () => {
+        const { allSkins } = this.state;
+        const { skins, email, lootboxes, addSkinToProps, setLootBoxes } = this.props;
+        
+        const newSkin = allSkins[this.getRandomInt(allSkins.length)];         
+        
+        if(skins.find(e => e === newSkin.id) === undefined) {           
+            addSkinToProps(newSkin.id);
+            addSkin(email, newSkin.id);            
+        }
+        
+        setLootBoxes(lootboxes - 1);
+        this.setState({showNewSkin: true});
+        this.setState({newSkin: newSkin.path});
+       
+    }
+
     render() {
         const { pseudo, money, lootboxes, skins, skinId } = this.props;        
-        const { allSkins, mainViewSkinId } = this.state;                
+        const { allSkins, mainViewSkinId, showNewSkin, newSkin } = this.state;                
         const slider = (
             <AwesomeSlider 
                 onTransitionEnd={e => {
@@ -79,6 +103,16 @@ class Profile extends React.Component {
                         <p>Loot boxes: {lootboxes}</p>
                     </CardBody>     
                 </Card>
+                <Rodal visible={showNewSkin} onClose={() => {
+                    this.setState({showNewSkin: false})
+                }}>
+                    <div>
+                        <h5>Nouvau Skin:</h5>
+                        <AwesomeSlider>                                                                                                    
+                            <div data-src={newSkin} key={newSkin}/>                                  
+                        </AwesomeSlider>
+                    </div>
+                </Rodal>
                 { lootboxes > 0 && 
                     <Card className="login mt-5" style={{width: '18em'}}>    
                         <CardHeader>
@@ -87,7 +121,13 @@ class Profile extends React.Component {
 
                         <CardBody>
                             <CardImg src="/images/chest.png" />
-                            <Button color="success" className="d-flex justify-content-center">Ouvrir</Button>
+                            <Button
+                                color="success"
+                                className="d-flex justify-content-center"
+                                onClick={this.handleClickOpenLootBox}
+                            >
+                                Ouvrir
+                            </Button>
                         </CardBody>     
                     </Card>
                 }
@@ -133,6 +173,7 @@ const mapDispatchToProps = (dispatch) => {
     return {      
       setLootBoxes: lootBoxes => dispatch(setLootBoxesAction(lootBoxes)),
       setSkinId: id => dispatch(setSkinIdAction(id)),
+      addSkinToProps: skinId => dispatch(addSkinAction(skinId)),
     }
 }
 
