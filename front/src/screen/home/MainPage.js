@@ -61,9 +61,11 @@ class MainPage extends React.Component {
         this.setState({redirectProfile: true});
     }
     
-    getWidthFromPseudo = pseudo => {
-        return 120 + 20 * pseudo.length;
+    getWidthFromPseudo = (pseudo, money) => {
+        const moneyLength = money.toString().length * 20;        
+        return 100 + moneyLength + 20 * pseudo.length;
     }
+
     
     render() {    
         const {
@@ -95,7 +97,7 @@ class MainPage extends React.Component {
                                     </Col>
                                 </Row>                                                                
                             </div>                            
-                            <div className="bannierePseudo" style={{width: this.getWidthFromPseudo(pseudo)}} />
+                            <div className="bannierePseudo" style={{width: this.getWidthFromPseudo(pseudo, money)}} />
                         </>
                     }
                     {!drawAnimation &&                         

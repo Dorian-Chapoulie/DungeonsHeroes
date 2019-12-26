@@ -31,8 +31,9 @@ class Shop extends React.Component {
       }   
     }
 
-    getWidthFromPseudo = pseudo => {
-        return 120 + 20 * pseudo.length;
+    getWidthFromPseudo = (pseudo, money) => {
+        const moneyLength = money.toString().length * 20;        
+        return 100 + moneyLength + 20 * pseudo.length;
     }
 
     getRandomInt(max) {
@@ -111,7 +112,7 @@ class Shop extends React.Component {
                             </Col>
                         </Row>                                                                
                     </div>                            
-                    <div className="bannierePseudo" style={{width: this.getWidthFromPseudo(pseudo)}} />
+                    <div className="bannierePseudo" style={{width: this.getWidthFromPseudo(pseudo, money)}} />
                 </div>
 
                 <div className="lootboxes d-flex justify-content-center">                    
