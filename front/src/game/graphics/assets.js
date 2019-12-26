@@ -22,6 +22,8 @@ export const spritesIds = {
     witch: 19,
     wizzard: 20,
     frost: 21,
+    tile5: 22,
+    tile6: 23,
 }
 export const sprites = [];
 export const getMapTileFromId = id => {
@@ -34,6 +36,10 @@ export const getMapTileFromId = id => {
             return sprites[spritesIds.tile3];
         case 4:
             return sprites[spritesIds.tile4];
+        case 5:
+            return sprites[spritesIds.tile5];
+        case 6:
+            return sprites[spritesIds.tile6];
         default:
             return sprites[spritesIds.tile1];
     };
@@ -42,9 +48,9 @@ export const getMapTileFromId = id => {
 export const getPlayerSkinFromId = id => {
     switch(id) {
         case 1:
-            return sprites[spritesIds.player];            
+            return sprites[spritesIds.player2];            
         case 2:
-            return sprites[spritesIds.player2];
+            return sprites[spritesIds.player];
         case 3:
             return sprites[spritesIds.player3];
         case 4:
@@ -54,7 +60,7 @@ export const getPlayerSkinFromId = id => {
     };
 }
 
-export const spritesNumber = 21;
+export const spritesNumber = 23;
 export let loadedSprites = 0;
 
 const createImage = (id, url) => {
@@ -103,6 +109,8 @@ export const loadSprites = async () => {
     sprites.warlock = createImage(spritesIds.warlock, '/assets/warlock-sprite.png');
     sprites.witch = createImage(spritesIds.witch, '/assets/witch-sprite.png');
     sprites.wizzard = createImage(spritesIds.wizzard, '/assets/wizzard-sprite.png'); 
-    sprites.frost = createImage(spritesIds.frost, '/assets/frost-sprite.png');   
+    sprites.frost = createImage(spritesIds.frost, '/assets/frost-sprite.png');  
+    sprites.tile5 = createImage(spritesIds.tile5, '/assets/tile5.png');
+    sprites.tile6 = createImage(spritesIds.tile6, '/assets/tile6.png'); 
     await check(); 
 }

@@ -13,7 +13,8 @@ class Game {
             1,
             2,
             3,
-            4,
+            5,
+            6,
         ];
 
         this.mobId = [
@@ -125,11 +126,13 @@ class Game {
                 }
 
                 if (y == 0 || y == this.HEIGHT / this.TILE_SIZE - 1) {
-                    row.push(this.tiles[3]);
-                } else if (x == 0 || x == this.WIDTH / this.TILE_SIZE - 1) {
-                    row.push(this.tiles[3]);
+                    row.push(this.getRandomTile([1, 2, 5, 6]));
+                } else if (x == 0) {
+                    row.push(this.getRandomTile([1, 2, 3, 4, 6]));
+                } else if(x == this.WIDTH / this.TILE_SIZE - 1) {
+                    row.push(this.getRandomTile([1, 2, 3, 4, 5]));
                 } else {
-                    row.push(this.getRandomTile([4]));
+                    row.push(this.getRandomTile([4, 3, 5, 6]));
                 }
 
                 x++;
