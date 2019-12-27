@@ -244,32 +244,32 @@ const playerMovements = () => {
     if (isKeyPressed("z") && player.canMoveUp) {
         player.dy = -player.speed;
         player.frameY = player.AVANCER;
-        //sendMessage('playermove', 'z');
+        sendMessage('playermove', 'z');
         canSendNy = true;
     } else if (isKeyPressed("s") && player.canMoveDown) {
         player.dy = player.speed;
         player.frameY = player.RECULER;
-        //sendMessage('playermove', 's');
+        sendMessage('playermove', 's');
         canSendNy = true;
     } else if (cansendNy() && canSendNy) {
         player.dy = 0;
-        //sendMessage('playermove', 'ny');
+        sendMessage('playermove', 'ny');
         canSendNy = false;
     }
 
     if (isKeyPressed("q") && player.canMoveLeft) {
         player.dx = -player.speed;
         player.frameY = player.GAUCHE;
-        //sendMessage('playermove', 'q');
+        sendMessage('playermove', 'q');
         canSendNx = true;
     } else if (isKeyPressed("d") && player.canMoveRight) {
         player.dx = player.speed;
         player.frameY = player.DROIT;
-        //sendMessage('playermove', 'd');
+        sendMessage('playermove', 'd');
         canSendNx = true;
     } else if (cansendNx() && canSendNx) {
         player.dx = 0;
-        //sendMessage('playermove', 'nx');
+        sendMessage('playermove', 'nx');
         canSendNx = false;
     }
 }

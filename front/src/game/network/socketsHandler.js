@@ -33,8 +33,8 @@ export const initSocksEvents = () => {
         displayMessage(data);
     });
 
-    socket.on('newplayer', player => {
-        setNewPlayer(new Player(player.name, player.x, player.y, player.socketId, getContext()));
+    socket.on('newplayer', player => {        
+        setNewPlayer(new Player(player.name, player.x, player.y, player.socketId, getContext(), player.skinId));
         displayNewUser(player.name);
     });
 
@@ -47,21 +47,13 @@ export const initSocksEvents = () => {
     socket.on('playermove', direction => {
         const player = getNewPlayer();
         if (direction == "z") {
-            player.dy = -player.speed;
             player.frameY = player.AVANCER;
         } else if (direction == "s") {
-            player.dy = player.speed;
             player.frameY = player.RECULER;
         } else if (direction == "q") {
-            player.dx = -player.speed;
             player.frameY = player.GAUCHE;
         } else if (direction == "d") {
-            player.dx = player.speed;
             player.frameY = player.DROIT;
-        } else if (direction == "ny") {
-            player.dy = 0;
-        } else if (direction == "nx") {
-            player.dx = 0;
         }
     });
 

@@ -42,6 +42,7 @@ export const spritesIds = {
     frost: 21,
     tile5: 22,
     tile6: 23,
+    defaultPlayer: 24,
 }
 
 
@@ -67,15 +68,15 @@ export const getMapTileFromId = id => {
 export const getPlayerSkinFromId = id => {
     switch(id) {
         case 1:
-            return sprites[spritesIds.player2];            
+            return sprites[spritesIds.player];            
         case 2:
-            return sprites[spritesIds.player];
+            return sprites[spritesIds.player2];
         case 3:
             return sprites[spritesIds.player3];
         case 4:
             return sprites[spritesIds.player4];
         default:
-            return sprites[spritesIds.player];
+            return sprites[spritesIds.defaultPlayer];
     };
 }
 
@@ -138,7 +139,8 @@ export const loadSprites = async () => {
     createImage(spritesIds.wizzard, '/assets/wizzard-sprite.png'); 
     createImage(spritesIds.frost, '/assets/frost-sprite.png');  
     createImage(spritesIds.tile5, '/assets/tile5.png');
-    createImage(spritesIds.tile6, '/assets/tile6.png'); 
+    createImage(spritesIds.tile6, '/assets/tile6.png');
+    createImage(spritesIds.defaultPlayer, '/assets/default-player-sprite.png');  
 
     createAudio(soundsIds.armor, '/assets/sound/armor.mp3');
     createAudio(soundsIds.boostSpeed, '/assets/sound/boostSpeed.mp3');

@@ -19,10 +19,12 @@ export class Player extends Entity {
         this.isSilenced = false;
         this.target = undefined;
         this.speed = 2;
-        this.AVANCER = 0;
-        this.GAUCHE = 1;
-        this.RECULER = 3;
-        this.DROIT = 2;
+
+        this.width = 32;    
+        this.AVANCER = 1;
+        this.GAUCHE = 2;
+        this.RECULER = 0;
+        this.DROIT = 3;
 
         this.shield = 50;
         this.health = 100;
