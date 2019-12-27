@@ -39,22 +39,7 @@ class SocketsHanlder {
         
 
             socket.on('playermove', (data) => {                                                 
-                socket.broadcast.emit('playermove', data);            
-                /*const player = this.game.joueurs.find(p => p.name === data.name);                
-                switch(data.pos) {
-                    case 'z':
-                        player.y -= 5;
-                        break;
-                    case 's':
-                        player.y += 5;
-                        break;
-                    case 'q':
-                        player.x -= 5;
-                        break;
-                    case 'd':
-                        player.x += 5;
-                        break;
-                }*/
+                socket.broadcast.emit('playermove', data);
             });
 
             socket.on('playerpos', data => {                                                 
@@ -83,6 +68,7 @@ class SocketsHanlder {
                     this.io.emit('deadmob', dm.id);  
                     if(this.game.deadMobsNumber == this.game.mobs){
                         this.io.emit('levelfinished', {});
+                        this.game.map = [];
                     }  
                 }                
             });
@@ -127,7 +113,7 @@ class SocketsHanlder {
 
             socket.on('disconnect', () => {                                 
                 const disconnectedPlayer = this.game.joueurs.find(p => p.socketId === socket.id);
-                console.log(disconnectedPlayer)
+                console.log("disconnected player: ", disconnectedPlayer)
                 socket.broadcast.emit('playerdisconnected', disconnectedPlayer);
                 this.game.joueurs = this.game.joueurs.filter(j => j !== disconnectedPlayer);                                
             });
