@@ -1,6 +1,6 @@
 import { Entity } from "./entity.js";
 import { PlayerProjectile } from "../projectiles/Playerprojectile.js";
-import { sprites, spritesIds, getPlayerSkinFromId } from '../graphics/assets';
+import { getPlayerSkinFromId, sounds, soundsIds } from '../graphics/assets';
 
 export class Player extends Entity {
     constructor(name, x, y, id, context, skinId) {
@@ -30,9 +30,7 @@ export class Player extends Entity {
         
         this.damageCoef = 1;
 
-        this.hitSound = new Audio();
-        this.hitSound.src = '/assets/sound/player-damage.mp3';
-        this.hitSound.volume = 0.6;
+        this.hitSound = sounds[soundsIds.playerDamage];        
         this.canPlayHitSound = true;
     }
 

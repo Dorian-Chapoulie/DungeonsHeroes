@@ -11,7 +11,6 @@ export class Torch extends LightenEntity {
         this.scaleX = 35;
         this.scaleY = 50;
 
-
         this.drawTime = 200;
 
         this.image = sprites[spritesIds.torch];   

@@ -1,4 +1,21 @@
-export const sounds = {}
+export const sounds = [];
+export const sprites = [];
+
+export const soundsIds = {
+    armor: 0,
+    boostSpeed: 1,
+    coin: 2,
+    door: 3,
+    fireball: 4,
+    heart: 5,
+    ice: 6,
+    player: 7,
+    playerDamage: 8,
+    poison: 9,
+    silence: 10,
+    theme: 11,
+    torch: 12,
+}
 export const spritesIds = {
     boostDamage: 0,
     boostSpeed: 1,
@@ -25,7 +42,8 @@ export const spritesIds = {
     tile5: 22,
     tile6: 23,
 }
-export const sprites = [];
+
+
 export const getMapTileFromId = id => {
     switch(id) {
         case 1:
@@ -60,7 +78,7 @@ export const getPlayerSkinFromId = id => {
     };
 }
 
-export const spritesNumber = 23;
+export const spritesNumber = 23 + 13;
 export let loadedSprites = 0;
 
 const createImage = (id, url) => {
@@ -68,11 +86,19 @@ const createImage = (id, url) => {
     image.onload = () => {                                               
         createImageBitmap(image, 0, 0, image.width, image.height)
             .then(data => {               
-                sprites[id] = data;      
+                sprites[id] = data;   
                 loadedSprites++;                      
             });            
     };
     image.src = url;     
+}
+
+const createAudio = (id, url) => {
+    const audio = new Audio(url);  
+    audio.onloadeddata = () => {
+        sounds[id] = audio;
+        loadedSprites++;
+    };              
 }
   
 const check = () => {
@@ -88,29 +114,43 @@ const check = () => {
 }
   
 export const loadSprites = async () => {         
-    sprites.boostDamage = createImage(spritesIds.boostDamage, '/assets/boostDamage-shield.png');    
-    sprites.boostSpeed = createImage(spritesIds.boostSpeed, '/assets/boostSpeed-sprite.png');
-    sprites.coin = createImage(spritesIds.coin, '/assets/coin-sprite.png');
-    sprites.door = createImage(spritesIds.door, '/assets/door-sprite.png');
-    sprites.heart = createImage(spritesIds.heart, '/assets/heart-sprite.png');
-    sprites.playerProjectile = createImage(spritesIds.playerProjectile, '/assets/player-projectile-sprite.png');
-    sprites.player = createImage(spritesIds.player, '/assets/player-sprite.png');
-    sprites.player2 = createImage(spritesIds.player2, '/assets/player-sprite-2.png');
-    sprites.player3 = createImage(spritesIds.player3, '/assets/player-sprite-3.png');
-    sprites.player4 = createImage(spritesIds.player4, '/assets/player-sprite-4.png');
-    sprites.shield = createImage(spritesIds.shield, '/assets/shield-sprite.png');
-    sprites.skeleton = createImage(spritesIds.skeleton, '/assets/skeleton-sprite.png');
-    sprites.fireball = createImage(spritesIds.fireball, '/assets/skeleton-fireball-sprite.png');
-    sprites.tile1 = createImage(spritesIds.tile1, '/assets/tile1.png');
-    sprites.tile2 = createImage(spritesIds.tile2, '/assets/tile2.png');
-    sprites.tile3 = createImage(spritesIds.tile3, '/assets/tile3.png');
-    sprites.tile4 = createImage(spritesIds.tile4, '/assets/tile4.png');
-    sprites.torch = createImage(spritesIds.torch, '/assets/torch-sprite.png');
-    sprites.warlock = createImage(spritesIds.warlock, '/assets/warlock-sprite.png');
-    sprites.witch = createImage(spritesIds.witch, '/assets/witch-sprite.png');
-    sprites.wizzard = createImage(spritesIds.wizzard, '/assets/wizzard-sprite.png'); 
-    sprites.frost = createImage(spritesIds.frost, '/assets/frost-sprite.png');  
-    sprites.tile5 = createImage(spritesIds.tile5, '/assets/tile5.png');
-    sprites.tile6 = createImage(spritesIds.tile6, '/assets/tile6.png'); 
+    createImage(spritesIds.boostDamage, '/assets/boostDamage-shield.png');    
+    createImage(spritesIds.boostSpeed, '/assets/boostSpeed-sprite.png');
+    createImage(spritesIds.coin, '/assets/coin-sprite.png');
+    createImage(spritesIds.door, '/assets/door-sprite.png');
+    createImage(spritesIds.heart, '/assets/heart-sprite.png');
+    createImage(spritesIds.playerProjectile, '/assets/player-projectile-sprite.png');
+    createImage(spritesIds.player, '/assets/player-sprite.png');
+    createImage(spritesIds.player2, '/assets/player-sprite-2.png');
+    createImage(spritesIds.player3, '/assets/player-sprite-3.png');
+    createImage(spritesIds.player4, '/assets/player-sprite-4.png');
+    createImage(spritesIds.shield, '/assets/shield-sprite.png');
+    createImage(spritesIds.skeleton, '/assets/skeleton-sprite.png');
+    createImage(spritesIds.fireball, '/assets/skeleton-fireball-sprite.png');
+    createImage(spritesIds.tile1, '/assets/tile1.png');
+    createImage(spritesIds.tile2, '/assets/tile2.png');
+    createImage(spritesIds.tile3, '/assets/tile3.png');
+    createImage(spritesIds.tile4, '/assets/tile4.png');
+    createImage(spritesIds.torch, '/assets/torch-sprite.png');
+    createImage(spritesIds.warlock, '/assets/warlock-sprite.png');
+    createImage(spritesIds.witch, '/assets/witch-sprite.png');
+    createImage(spritesIds.wizzard, '/assets/wizzard-sprite.png'); 
+    createImage(spritesIds.frost, '/assets/frost-sprite.png');  
+    createImage(spritesIds.tile5, '/assets/tile5.png');
+    createImage(spritesIds.tile6, '/assets/tile6.png'); 
+
+    createAudio(soundsIds.armor, '/assets/sound/armor.mp3');
+    createAudio(soundsIds.boostSpeed, '/assets/sound/boostSpeed.mp3');
+    createAudio(soundsIds.coin, '/assets/sound/coin.mp3');
+    createAudio(soundsIds.door, '/assets/sound/door.mp3');
+    createAudio(soundsIds.fireball, '/assets/sound/fireball-cast.mp3');
+    createAudio(soundsIds.heart, '/assets/sound/heart.mp3');
+    createAudio(soundsIds.ice, '/assets/sound/ice-cast.mp3');
+    createAudio(soundsIds.player, '/assets/sound/player-cast.mp3');
+    createAudio(soundsIds.playerDamage, '/assets/sound/player-damage.mp3');
+    createAudio(soundsIds.poison, '/assets/sound/poison-cast.mp3');
+    createAudio(soundsIds.silence, '/assets/sound/silence-cast.mp3');
+    createAudio(soundsIds.theme, '/assets/sound/theme.mp3');
+    createAudio(soundsIds.torch, '/assets/sound/torch.mp3');
     await check(); 
 }

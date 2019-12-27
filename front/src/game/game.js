@@ -20,6 +20,7 @@ import { Frost } from './projectiles/Frost.js';
 import { Poison } from './projectiles/Poison.js';
 import { Silence } from './projectiles/Silence.js';
 import { PlayerProjectile } from './projectiles/Playerprojectile.js';
+import { sounds, soundsIds } from './graphics/assets';
 
 var player, player2;
 var mobs = [];
@@ -29,11 +30,8 @@ var canvas;
 var context;
 var canSendNx = false;
 var canSendNy = false;
-var themeSong = document.getElementById('theme');
 var isSoungPlayed = false;
 var door;
-
-//document.addEventListener("DOMContentLoaded", () => init());
 
 export const setNewPlayer = (newPlayer) => {
     player2 = newPlayer;
@@ -173,17 +171,6 @@ const getRandomInt = max => {
     return Math.floor(Math.random() * Math.floor(max));
 }
 
-function playSound(url) {
-    var audio = document.createElement('audio');
-    audio.style.display = "none";
-    audio.src = url;
-    audio.autoplay = true;
-    audio.onended = function() {
-        audio.remove() //Remove when played.
-    };
-    document.body.appendChild(audio);
-}
-
 export const init = (pseudo, skinId) => {
     canvas = document.getElementById('Canvas');    
     context = canvas.getContext('2d');
@@ -196,17 +183,16 @@ export const init = (pseudo, skinId) => {
     door = new Door(280, -1, context);
     lights.push(new Torch(400, 300, context));
 
+    const themeSong = sounds[soundsIds.theme];
     /*const intervalSong = setInterval(() => {
-            if (isSoungPlayed) {
-                clearInterval(intervalSong);
-            }
-            themeSong.play().then(() => {
-                isSoungPlayed = true;
-                themeSong.volume = 0.7;
-            }).catch(() => isSoungPlayed = false);
-
-        },
-        100);*/
+        if (isSoungPlayed) {
+            clearInterval(intervalSong);
+        }
+        themeSong.play().then(() => {
+            isSoungPlayed = true;
+            themeSong.volume = 0.7;
+        }).catch(() => isSoungPlayed = false);
+    }, 100);*/
 
 
     sendMessage('newplayer', { name: pseudo, x: player.x, y: player.y, skinId});
@@ -324,7 +310,7 @@ const loop = () => {
         lights.forEach(l => {
             if (((player && entityCollision(player, l)) || (player2 && entityCollision(player2, l))) && l.canProcessLight == false) { 
                 l.canProcessLight = true;
-                playSound('/assets/sound/torch.mp3');
+                sounds[soundsIds.torch].play();
             }
             l.processLight();
             drawEntityAnimation(l);

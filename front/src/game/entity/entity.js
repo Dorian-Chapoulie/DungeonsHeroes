@@ -1,51 +1,36 @@
 import { HealthBar } from "../graphics/healthBar.js";
 import { ShieldBar } from "../graphics/shieldBar.js";
-
-const hitSoundFire = new Audio();        
-const hitSoundFrost = new Audio();        
-const hitSoundPlayerProjectile = new Audio();        
-const hitSoundPoison = new Audio();        
-const hitSoundSilence = new Audio();
-const soundDoor = new Audio();        
-
-(function initSounds(){    
-    hitSoundFire.src = '/assets/sound/fireball-cast.mp3';
-    hitSoundFrost.src = '/assets/sound/ice-cast.mp3';
-    hitSoundPlayerProjectile.src = '/assets/sound/player-cast.mp3';
-    hitSoundPoison.src = '/assets/sound/poison-cast.mp3';
-    hitSoundSilence.src = '/assets/sound/silence-cast.mp3';
-    soundDoor.src = '/assets/sound/door.mp3';
-})();
+import { sounds, soundsIds } from '../graphics/assets';
 
 export const playSound = type => {        
     switch(type) {
         case 0: //Fire        
-        hitSoundFire.volume = 0.4;
-        hitSoundFire.currentTime = 0;
-        hitSoundFire.play();    
+        sounds[soundsIds.fireball].volume = 0.4;
+        sounds[soundsIds.fireball].currentTime = 0;
+        sounds[soundsIds.fireball].play(); 
             break;
         case 1: //Frost        
-        hitSoundFrost.volume = 0.8;
-        hitSoundFrost.currentTime = 0;
-        hitSoundFrost.play();    
+        sounds[soundsIds.ice].volume = 0.8;
+        sounds[soundsIds.ice].currentTime = 0;
+        sounds[soundsIds.ice].play();
             break;
         case 2: //Poison        
-        hitSoundPoison.volume = 0.4;
-        hitSoundPoison.currentTime = 0;
-        hitSoundPoison.play();    
+        sounds[soundsIds.poison].volume = 0.4;
+        sounds[soundsIds.poison].currentTime = 0;
+        sounds[soundsIds.poison].play(); 
             break;
         case 3: //Silence        
-        hitSoundSilence.volume = 1;
-        hitSoundSilence.currentTime = 0;
-        hitSoundSilence.play();    
+        sounds[soundsIds.silence].volume = 1;
+        sounds[soundsIds.silence].currentTime = 0;
+        sounds[soundsIds.silence].play(); 
             break;
         case 4: //Player        
-        hitSoundPlayerProjectile.volume = 0.8;
-        hitSoundPlayerProjectile.currentTime = 0;
-        hitSoundPlayerProjectile.play();
+        sounds[soundsIds.player].volume = 0.8;
+        sounds[soundsIds.player].currentTime = 0;
+        sounds[soundsIds.player].play();
             break;
-        case 5:
-        soundDoor.play();
+        case 5://door
+            sounds[soundsIds.door].play();
         break;
     };
 }

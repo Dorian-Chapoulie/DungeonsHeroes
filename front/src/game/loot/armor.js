@@ -1,13 +1,12 @@
 import { Loot } from './loot.js';
-import { sprites, spritesIds } from '../graphics/assets';
+import { sprites, spritesIds, soundsIds, sounds } from '../graphics/assets';
 
 export class Armor extends Loot {
     constructor(context, x, y, id) {
-        super(context, x, y, '/assets/sound/armor.mp3', id);
+        super(context, x, y, id);
         this.canDrawNextFrame = true;
-
         this.image = sprites[spritesIds.armor];
-
+        this.pickUpSound = sounds[soundsIds.armor];
         this.width = 40;
         this.height = 42;
         this.scaleX = 32;

@@ -1,10 +1,11 @@
 import { Loot } from './loot.js';
-import { sprites, spritesIds } from '../graphics/assets';
+import { sprites, spritesIds, soundsIds, sounds } from '../graphics/assets';
 
 export class BoostSpeed extends Loot {
     constructor(context, x, y, id) {
-        super(context, x, y, '/assets/sound/boostSpeed.mp3', id);
+        super(context, x, y, id);
         this.image = sprites[spritesIds.boostSpeed];
+        this.pickUpSound = sounds[soundsIds.boostSpeed];
         this.canDrawNextFrame = true;
         this.width = 355;
         this.height = 504;
