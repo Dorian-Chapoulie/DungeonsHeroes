@@ -16,6 +16,7 @@ export const soundsIds = {
     theme: 11,
     torch: 12,
 }
+
 export const spritesIds = {
     boostDamage: 0,
     boostSpeed: 1,
@@ -27,7 +28,7 @@ export const spritesIds = {
     player2: 7,
     player3: 8,
     player4: 9,
-    shield: 10,
+    armor: 10,
     skeleton: 11,
     fireball: 12,
     tile1: 13,
@@ -78,7 +79,7 @@ export const getPlayerSkinFromId = id => {
     };
 }
 
-export const spritesNumber = 23 + 13;
+export const spritesNumber = Object.keys(soundsIds).length + Object.keys(spritesIds	).length;
 export let loadedSprites = 0;
 
 const createImage = (id, url) => {
@@ -114,7 +115,7 @@ const check = () => {
 }
   
 export const loadSprites = async () => {         
-    createImage(spritesIds.boostDamage, '/assets/boostDamage-shield.png');    
+    createImage(spritesIds.boostDamage, '/assets/boostDamage-sprite.png');    
     createImage(spritesIds.boostSpeed, '/assets/boostSpeed-sprite.png');
     createImage(spritesIds.coin, '/assets/coin-sprite.png');
     createImage(spritesIds.door, '/assets/door-sprite.png');
@@ -124,7 +125,7 @@ export const loadSprites = async () => {
     createImage(spritesIds.player2, '/assets/player-sprite-2.png');
     createImage(spritesIds.player3, '/assets/player-sprite-3.png');
     createImage(spritesIds.player4, '/assets/player-sprite-4.png');
-    createImage(spritesIds.shield, '/assets/shield-sprite.png');
+    createImage(spritesIds.armor, '/assets/shield-sprite.png');
     createImage(spritesIds.skeleton, '/assets/skeleton-sprite.png');
     createImage(spritesIds.fireball, '/assets/skeleton-fireball-sprite.png');
     createImage(spritesIds.tile1, '/assets/tile1.png');
