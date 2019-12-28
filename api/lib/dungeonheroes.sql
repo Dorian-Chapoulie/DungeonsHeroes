@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  jeu. 26 déc. 2019 à 14:49
+-- Généré le :  sam. 28 déc. 2019 à 20:04
 -- Version du serveur :  5.7.26
 -- Version de PHP :  7.2.18
 
@@ -34,16 +34,17 @@ CREATE TABLE IF NOT EXISTS `inventory` (
   `playerid` int(11) NOT NULL,
   `skinid` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=55 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=62 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `inventory`
 --
 
 INSERT INTO `inventory` (`id`, `playerid`, `skinid`) VALUES
-(54, 13, 1),
-(53, 13, 4),
-(52, 13, 2);
+(61, 8, 1),
+(60, 8, 3),
+(59, 8, 2),
+(58, 8, 4);
 
 -- --------------------------------------------------------
 
@@ -63,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `player` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`),
   UNIQUE KEY `pseudo` (`pseudo`)
-) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `player`
@@ -77,12 +78,13 @@ INSERT INTO `player` (`id`, `pseudo`, `email`, `password`, `money`, `lootbox`, `
 (5, 'none5', 'dorian.chapoulie5@gmail.com', '1234', 0, 0, 0),
 (6, 'a', 'a@a.com', 'a', 0, 0, 0),
 (7, 'fzqfzq', 'ab@a.com', 'a', 0, 0, 0),
-(8, 'aafdf', 'a', 'a', 9621, 402, 1),
+(8, 'aafdf', 'a', 'a', 9621, 398, 3),
 (9, 'aa', 'af@a.com', 'ffzfzfz', 0, 0, 0),
 (10, 'chap', 'dodo@dodo.com', 'bouffon', 0, 0, 0),
 (11, 'test', 'test@test.com', 'test', 0, 0, 0),
 (12, 'xena', 'ch@gmail.com', '1234', 0, 0, 0),
-(13, 'ab', 'toto', 'a', 0, 2, 4);
+(13, 'ab', 'toto', 'a', 0, 2, 4),
+(14, 'thomas', 'thomas', 'thomas', 0, 2, 2);
 
 -- --------------------------------------------------------
 
@@ -102,10 +104,10 @@ CREATE TABLE IF NOT EXISTS `skin` (
 --
 
 INSERT INTO `skin` (`id`, `path`) VALUES
-(1, '/images/skin0.png'),
-(2, '/images/skin1.png'),
-(3, '/images/skin2.png'),
-(4, '/images/skin3.png');
+(1, '/assets/player-sprite.png'),
+(2, '/assets/player-sprite-2.png'),
+(3, '/assets/player-sprite-3.png'),
+(4, '/assets/player-sprite-4.png');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
