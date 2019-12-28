@@ -35,7 +35,7 @@ export class Skeleton extends Entity {
         this.context.save();
         this.context.fillStyle = "red";
         this.context.font = "15px Arial";
-        this.context.fillText(this.name, this.x + this.context.measureText(this.name).width / 4, this.y);
+        this.context.fillText(this.name, this.x + (this.scaleX / 2) - this.context.measureText(this.name).width / 2, this.y);
         this.context.restore();
     }
 };
