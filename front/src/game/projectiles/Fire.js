@@ -17,6 +17,7 @@ export class Fire extends Projectile {
     }
 
     onHit(entity) {
+        super.onHit(entity);
         if (entity.canAffect) {
             entity.canAffect = false;
             const interval = setInterval(() => {
