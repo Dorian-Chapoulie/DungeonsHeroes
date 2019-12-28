@@ -11,6 +11,7 @@ import { Warlock } from './entity/warlock.js';
 import { Torch } from './entity/torch.js';
 import { Door } from './entity/door.js';
 import { Chest } from './entity/chest';
+import { Boss } from './entity/boss';
 import { Coin } from './loot/coin.js';
 import { Heart } from './loot/heart.js';
 import { Armor } from './loot/armor.js';
@@ -59,6 +60,7 @@ export const damageEntity = (entityId, type, sender) => {
             target = m;
         }
     })
+    
     if (player && player.name == entityId) {
         target = player;
     }
@@ -155,6 +157,9 @@ export const addMob = (mobType, pos, targetId, id) => {
             break;
         case 4:
             chests.push(new Chest(pos.x, pos.y, context, id));
+            break;
+        case 5:
+            mobs.push(new Boss(pos.x, pos.y, [player, player2], context, id));
             break;
     }
 }
@@ -408,7 +413,7 @@ const loop = () => {
         for (let i = 0; i < player2Projectiles; i++) {
             if (player2 && player2.projectiles[i] && entityCollision(player2.projectiles[i], m)) {
                 //player2.canShoot = true;
-                sendMessage('hitentity', { id: m.id, type: player2.projectiles[i].type, shootId: player2.shootId, sender: player2.name });
+                //sendMessage('hitentity', { id: m.id, type: player2.projectiles[i].type, shootId: player2.shootId, sender: player2.name });
                 player2.projectiles[i] = undefined;
             }
         }

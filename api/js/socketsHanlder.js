@@ -10,7 +10,9 @@ class SocketsHanlder {
         }                            
         this.game.level++;   
         if(this.game.level === this.game.bossLevel) {
-
+            setTimeout(() => {
+                this.game.sendBoss();
+            }, 3000);
         }else if(this.game.level === this.game.preBossLevel) {
             this.game.sendChests();
         } else {            
@@ -125,7 +127,7 @@ class SocketsHanlder {
                     }
                     this.game.shootIds = this.game.shootIds.filter(e => e !== undefined);                    
                 }*/   
-                socket.broadcast.emit('hitentity', data);                                                                   
+                this.io.emit('hitentity', data);                                                                   
             }); 
 
             socket.on('touchtorch', data => {                                                               

@@ -58,7 +58,10 @@ class Game {
                 this.loots.Coin,
                 this.loots.Armor,
                 this.loots.Heart,
-            ]
+            ],
+            "Sahrotaar": [
+                this.loots.Coin,
+            ],
         }
 
         this.shootIds = [];
@@ -67,7 +70,7 @@ class Game {
         this.deadMobsNumber = 0;
         this.mobs = 0;
         this.bossLevel = 2;
-        this.preBossLevel = 1;
+        this.preBossLevel = this.bossLevel - 1;
 
         this.socketHanlder = socketHanlder;
         this.map = [];
@@ -82,7 +85,7 @@ class Game {
         this.mobs = this.level + 1;
         for (let i = 0; i < this.mobs; i++) {
             ret.push({
-                mobType: this.mobId[this.getRandomInt(0, this.mobId.length)],
+                mobType: this.mobId[this.getRandomInt(0, this.mobId.length - 1)],
                 target: this.joueurs[this.getRandomInt(0, this.joueurs.length)].socketId,
                 position: {
                     x: this.getRandomInt(this.TILE_SIZE, this.WIDTH - this.TILE_SIZE * 3),
@@ -104,6 +107,18 @@ class Game {
 
     sendMobs() {
         this.socketHanlder.sendMessage('mobs', this.generateMobs());
+    }
+
+    sendBoss() {
+        this.socketHanlder.sendMessage('mobs',
+        [{
+            mobType: 5,            
+            position: {
+                x: this.WIDTH / 2 - 96 / 2,
+                y: this.HEIGHT / 2 - 96 / 2,
+            },
+            id: this.getRandomInt(0, 10000000000000),
+        }]);
     }
 
     sendChestsLoots(mob) {
