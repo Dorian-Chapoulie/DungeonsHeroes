@@ -22,6 +22,7 @@ class Game {
             1,
             2,
             3,
+            4,
         ];
 
         this.loots = {
@@ -53,12 +54,20 @@ class Game {
                 this.loots.boostSpeed,
                 this.loots.Coin,
             ],
+            "Chest": [
+                this.loots.Coin,
+                this.loots.Armor,
+                this.loots.Heart,
+            ]
         }
 
         this.shootIds = [];
         this.deadMobs = [];
+        this.chests = [];
         this.deadMobsNumber = 0;
         this.mobs = 0;
+        this.bossLevel = 2;
+        this.preBossLevel = 1;
 
         this.socketHanlder = socketHanlder;
         this.map = [];
@@ -85,8 +94,6 @@ class Game {
         return ret;
     }
 
-
-
     getRandomTile(forbidenValues) {
         let tile = 0;
         do {
@@ -97,6 +104,35 @@ class Game {
 
     sendMobs() {
         this.socketHanlder.sendMessage('mobs', this.generateMobs());
+    }
+
+    sendChestsLoots(mob) {
+        const possibleLoots = this.mobsLoots[mob.name];
+        for(let i = 0; i < 12; i++) {
+            this.socketHanlder.sendMessage('loots', {
+                type: possibleLoots[this.getRandomInt(0, possibleLoots.length)],
+                position: {
+                    x: mob.position.x + this.getRandomInt(0, 128),
+                    y: mob.position.y + this.getRandomInt(0, 128),
+                },
+                id: this.getRandomInt(0, 10000000000000),
+            });
+        }
+    }
+
+    sendChests() {      
+        const chestsNumber = 4;
+        for (let i = 0; i < chestsNumber; i++) {
+            this.chests.push({
+                mobType: 4,
+                position: {
+                    x: i * 100 + 64,
+                    y: this.HEIGHT / 2 - 100,
+                },
+                id: this.getRandomInt(0, 10000000000000),
+            });
+        }
+        this.socketHanlder.sendMessage('mobs', this.chests);
     }
 
     sendLoots(mob) {

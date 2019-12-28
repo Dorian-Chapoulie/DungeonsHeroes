@@ -10,6 +10,7 @@ import { Witch } from './entity/witch.js';
 import { Warlock } from './entity/warlock.js';
 import { Torch } from './entity/torch.js';
 import { Door } from './entity/door.js';
+import { Chest } from './entity/chest';
 import { Coin } from './loot/coin.js';
 import { Heart } from './loot/heart.js';
 import { Armor } from './loot/armor.js';
@@ -25,7 +26,8 @@ import { sounds, soundsIds } from './graphics/assets';
 var player, player2;
 var mobs = [];
 var loots = [];
-var lights = [];
+var lightenEntitys = [];
+var chests = [];
 var canvas;
 var context;
 var canSendNx = false;
@@ -92,6 +94,14 @@ export const damageEntity = (entityId, type, sender) => {
     }
 }
 
+export const damageTorch = (health, torchId) => {
+    lightenEntitys.map(le => {
+        if(le.id === torchId) {
+            le.health = health;
+        }
+    })
+}
+
 export const playerPickUpLoot = (lootId, playername) => {
     if (player && player.name === playername) {
         for (let i = 0; i < loots.length; i++) {
@@ -122,6 +132,7 @@ export const manageDeadMob = (mobId) => {
 
     mobs = mobs.filter(m => m.id !== mobId);
 }
+
 export const addMob = (mobType, pos, targetId, id) => {
     let target = undefined;     
     if(player2 && player2.socketId === targetId) { 
@@ -141,6 +152,9 @@ export const addMob = (mobType, pos, targetId, id) => {
             break;
         case 3:
             mobs.push(new Warlock(pos.x, pos.y, target, context, id));
+            break;
+        case 4:
+            chests.push(new Chest(pos.x, pos.y, context, id));
             break;
     }
 }
@@ -181,7 +195,10 @@ export const init = (pseudo, skinId) => {
     //initChat();
 
     door = new Door(280, -1, context);
-    lights.push(new Torch(400, 300, context));
+    lightenEntitys.push(new Torch(32, 32, context, -1));
+    lightenEntitys.push(new Torch(canvas.width - 65, 32, context, -2));
+    lightenEntitys.push(new Torch(32, canvas.height - 80, context, -3));
+    lightenEntitys.push(new Torch(canvas.width - 65, canvas.height - 80, context, -4));    
 
     const themeSong = sounds[soundsIds.theme];
     /*const intervalSong = setInterval(() => {
@@ -306,15 +323,37 @@ const loop = () => {
         door.canOpen = false;
         sendMessage('enternextlevel', {});
     }
-    if (lights.length > 0) {
-        lights.forEach(l => {
+    if (lightenEntitys.length > 0) {
+        lightenEntitys.forEach(l => {
             if (((player && entityCollision(player, l)) || (player2 && entityCollision(player2, l))) && l.canProcessLight == false) { 
                 l.canProcessLight = true;
                 sounds[soundsIds.torch].play();
             }
+            if(player && entityCollision(player, l) && player.health < player.maxHealth) {                                
+                l.onTouch(player);
+                sendMessage('touchtorch', { health: l.health, id: l.id });
+            }
+            if(player2 && entityCollision(player2, l) && player2.health < player2.maxHealth) {                                
+                l.onTouch(player2);
+                sendMessage('touchtorch', { health: l.health, id: l.id });
+            }
+            l.draw();
             l.processLight();
-            drawEntityAnimation(l);
+            drawEntityAnimation(l);            
         });
+        lightenEntitys = lightenEntitys.filter(e => e.health > 0);
+    }
+
+    if (chests.length > 0) {
+        chests.forEach(c => {                      
+            c.processLight();
+            drawEntityAnimation(c);
+            if (((player && entityCollision(player, c)) || (player2 && entityCollision(player2, c)))) { 
+                sendMessage('chestopen', {name: c.name, position: { x: c.x, y: c.y }, id: c.id });
+                c.health = 0;   
+            }                     
+        }); 
+        chests = chests.filter(c => c.health > 0);       
     }
 
     playerMovements();

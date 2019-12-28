@@ -9,12 +9,18 @@ class SocketsHanlder {
             this.io.emit('reposplayer', {socketId: this.game.joueurs[i].socketId, x: i * 504 + 36, y: 792 });                   
         }                            
         this.game.level++;   
-        this.game.sendMap(); 
+        if(this.game.level === this.game.bossLevel) {
+
+        }else if(this.game.level === this.game.preBossLevel) {
+            this.game.sendChests();
+        } else {            
+            setTimeout(() => {
+                this.game.sendMobs();
+            }, 3000);
+        }         
         this.game.mobs = 0;
-        this.game.deadMobsNumber = 0;
-        setTimeout(() => {
-            this.game.sendMobs();
-        }, 3000);
+        this.game.deadMobsNumber = 0;      
+        this.game.sendMap();  
     }
 
     initEvents() {
@@ -73,6 +79,17 @@ class SocketsHanlder {
                 }                
             });
 
+            socket.on('chestopen', dm => { 
+                this.game.chests.forEach(d => {
+                    if(d.id === dm.id) {
+                        this.game.sendChestsLoots(dm);                        
+                    }
+                });
+                this.game.chests = this.game.chests.filter(c => c.id !== dm.id); 
+                if(this.game.chests.length <= 0)
+                    this.io.emit('levelfinished', {});                                            
+            });            
+
             socket.on('enternextlevel', data => {                                                 
                 this.sendNextLevel();
             });
@@ -110,6 +127,10 @@ class SocketsHanlder {
                 }*/   
                 socket.broadcast.emit('hitentity', data);                                                                   
             }); 
+
+            socket.on('touchtorch', data => {                                                               
+                this.io.emit('touchtorch', data);        
+            });
 
             socket.on('disconnect', () => {                                 
                 const disconnectedPlayer = this.game.joueurs.find(p => p.socketId === socket.id);

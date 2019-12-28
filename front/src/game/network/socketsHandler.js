@@ -13,6 +13,7 @@ import {
     playerPickUpLoot,
     getLocalPlayer,
     getDoor,
+    damageTorch,
 } from '../game.js';
 import { displayMessage, displayNewUser, displayUserDisconnected } from './chat.js';
 
@@ -118,6 +119,10 @@ export const initSocksEvents = () => {
             player.shieldBar.x = data.x;
             player.shieldBar.y = data.y;
        }
+    });
+
+    socket.on('touchtorch', data => {
+        damageTorch(data.health, data.id);
     });
   
 

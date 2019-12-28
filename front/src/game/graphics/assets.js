@@ -43,6 +43,7 @@ export const spritesIds = {
     tile5: 22,
     tile6: 23,
     defaultPlayer: 24,
+    chest: 25,
 }
 
 
@@ -140,7 +141,8 @@ export const loadSprites = async () => {
     createImage(spritesIds.frost, '/assets/frost-sprite.png');  
     createImage(spritesIds.tile5, '/assets/tile5.png');
     createImage(spritesIds.tile6, '/assets/tile6.png');
-    createImage(spritesIds.defaultPlayer, '/assets/default-player-sprite.png');  
+    createImage(spritesIds.defaultPlayer, '/assets/default-player-sprite.png'); 
+    createImage(spritesIds.chest, '/assets/chest-sprite.png');  
 
     createAudio(soundsIds.armor, '/assets/sound/armor.mp3');
     createAudio(soundsIds.boostSpeed, '/assets/sound/boostSpeed.mp3');
