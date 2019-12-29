@@ -34,6 +34,7 @@ var context;
 var canSendNx = false;
 var canSendNy = false;
 var isSoungPlayed = false;
+var isBossLevel = false;
 var door;
 
 export const setNewPlayer = (newPlayer) => {
@@ -159,6 +160,7 @@ export const addMob = (mobType, pos, targetId, id) => {
             chests.push(new Chest(pos.x, pos.y, context, id));
             break;
         case 5:
+            isBossLevel = true;
             mobs.push(new Boss(pos.x, pos.y, [player, player2], context, id));
             break;
     }
@@ -205,17 +207,8 @@ export const init = (pseudo, skinId) => {
     lightenEntitys.push(new Torch(32, canvas.height - 80, context, -3));
     lightenEntitys.push(new Torch(canvas.width - 65, canvas.height - 80, context, -4));    
 
-    const themeSong = sounds[soundsIds.theme];
-    /*const intervalSong = setInterval(() => {
-        if (isSoungPlayed) {
-            clearInterval(intervalSong);
-        }
-        themeSong.play().then(() => {
-            isSoungPlayed = true;
-            themeSong.volume = 0.7;
-        }).catch(() => isSoungPlayed = false);
-    }, 100);*/
-
+    sounds[soundsIds.theme].play();
+    
 
     sendMessage('newplayer', { name: pseudo, x: player.x, y: player.y, skinId});
     sendMessage('getmap');
@@ -319,6 +312,11 @@ const destroyProjectile = projectile => {
 const loop = () => {    
     //context.clearRect(0, 0, canvas.width, canvas.height);
     drawMap(context, mapLevel, tilesSize);
+
+    if(isBossLevel) {
+        sounds[soundsIds.theme].pause();
+        sounds[soundsIds.bossSound].play();
+    }
 
     if(player)
         drawEntityAnimation(player);

@@ -15,6 +15,7 @@ export const soundsIds = {
     silence: 10,
     theme: 11,
     torch: 12,
+    bossSound: 13,
 }
 
 export const spritesIds = {
@@ -159,5 +160,6 @@ export const loadSprites = async () => {
     createAudio(soundsIds.silence, '/assets/sound/silence-cast.mp3');
     createAudio(soundsIds.theme, '/assets/sound/theme.mp3');
     createAudio(soundsIds.torch, '/assets/sound/torch.mp3');
+    createAudio(soundsIds.bossSound, '/assets/sound/bossSound.mp3');
     await check(); 
 }
