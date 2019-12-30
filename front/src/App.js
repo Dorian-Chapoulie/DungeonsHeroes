@@ -15,6 +15,7 @@ import Game from './screen/game/Game';
 import MainPage from './screen/home/MainPage';
 import Shop from './screen/shop/shop';
 import Profile from './screen/profile/profile'
+import HowToPlay from './screen/home/HowToPlay';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
@@ -44,6 +45,9 @@ function App() {
         </Route>
         <Route path="/profile">
           <Profile />
+        </Route>
+        <Route path="/howtoplay">
+          <HowToPlay />
         </Route>
         <Route path="/">
           <Home />
