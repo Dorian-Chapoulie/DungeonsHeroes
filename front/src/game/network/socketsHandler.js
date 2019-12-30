@@ -17,10 +17,17 @@ import {
 } from '../game.js';
 import { displayMessage, displayNewUser, displayUserDisconnected } from './chat.js';
 
-const socket = io.connect('http://localhost:8080');
+var socket;
 
+export const connect = () => { 
+    socket = io.connect('http://localhost:8080');
+    isConnected = true;        
+}
+export var isConnected = true;
+export var isInitialized = false;
 
 export const initSocksEvents = () => {
+    isInitialized = true;
     sendMessage('playerlist');
     socket.on('getid', (data) => {        
         getLocalPlayer().socketId = data.id;
@@ -131,6 +138,10 @@ export const initSocksEvents = () => {
             displayUserDisconnected(player.name);
         setNewPlayer(undefined);
     });
+    
+    socket.on('disconnect', () => {
+        isConnected = false;
+    });    
 }
 
 export const sendMessage = (event, msg) => {

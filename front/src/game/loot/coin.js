@@ -16,6 +16,6 @@ export class Coin extends Loot {
 
     onPickUp(entity) {
         super.onPickUp();
-        entity.health += 10;
+        entity.coin += 10;
     }
 }

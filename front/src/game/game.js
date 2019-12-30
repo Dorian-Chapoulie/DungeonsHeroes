@@ -1,5 +1,5 @@
-import { initSocksEvents, sendMessage } from './network/socketsHandler.js';
-import { initInputsEvent, isKeyPressed, cansendNx, cansendNy } from './inputs/inputsHandler.js';
+import { sendMessage } from './network/socketsHandler.js';
+import { isKeyPressed, cansendNx, cansendNy } from './inputs/inputsHandler.js';
 import { drawEntityAnimation, drawMap } from './graphics/graphics.js';
 import { initChat } from './network/chat.js';
 import { mapLevel, tilesSize } from './network/map.js';
@@ -25,7 +25,8 @@ import { Silence } from './projectiles/Silence.js';
 import { PlayerProjectile } from './projectiles/Playerprojectile.js';
 import { sounds, soundsIds } from './graphics/assets';
 
-var player, player2;
+export var player;
+export var player2;
 var mobs = [];
 var loots = [];
 var lightenEntitys = [];
@@ -37,7 +38,28 @@ var canSendNy = false;
 var isSoungPlayed = false;
 var isBossLevel = false;
 var door;
+var isPlaying = true;
 
+const clearVariables = () => {
+    player = undefined;
+    player2 = undefined;
+    mobs = [];
+    loots = [];
+    lightenEntitys = [];
+    chests = [];
+    canvas = undefined;
+    context = undefined;
+    canSendNx = false;
+    canSendNy = false;
+    isSoungPlayed = false;
+    isBossLevel = false;
+    door = undefined;
+    isPlaying = true;
+}
+
+export const stopLoop = () => {
+    isPlaying = false;
+}
 export const setNewPlayer = (newPlayer) => {
     player2 = newPlayer;
 }
@@ -74,9 +96,11 @@ export const damageEntity = (entityId, type, sender) => {
         //target.name
         if (player && sender === player.name) {
             projectile = new PlayerProjectile(context, 0, 0, player.damageCoef);
+            player.coin += 2;
             projectile.onHit(target);
         } else if (player2 && sender === player2.name) {
             projectile = new PlayerProjectile(context, 0, 0, player2.damageCoef);
+            player2.coin += 2;
             projectile.onHit(target);
         } else {
             switch (type) {
@@ -201,8 +225,8 @@ export const init = (pseudo, skinId) => {
     context = canvas.getContext('2d');
     player = new Player(pseudo, 300, 800, undefined, context, skinId);
 
-    initSocksEvents();
-    initInputsEvent();     
+    //initSocksEvents();
+    //initInputsEvent();     
     //initChat();
 
     door = new Door(280, -1, context);
@@ -482,6 +506,10 @@ const loop = () => {
 
     mobs.forEach(m => {
         m.move(delta);
-    })    
-    requestAnimationFrame(loop);
+    })   
+
+    if(isPlaying) 
+        requestAnimationFrame(loop);
+    else 
+        clearVariables();
 }

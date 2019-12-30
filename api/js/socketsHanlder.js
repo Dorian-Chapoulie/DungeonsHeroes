@@ -4,18 +4,27 @@ class SocketsHanlder {
     constructor(io) {
         this.io = io;
         this.initEvents();
+        this.sockets = [];
     }    
     
     sendNextLevel() {
-        if(this.game.isKeyPickedUp) {
-            /*this.game = new CGame(this);
+        if(this.game.isKeyPickedUp) {            
             this.game.joueurs.forEach(p => {
                 try {
-                    p.socket.disconnect();
+                    const ids = [];
+                    this.sockets.forEach(s => {
+                        if(s.id === p.socketId) {   
+                            ids.push(p.socketId);
+                            s.emit('disconnect', {});                         
+                            s.disconnect();                                                      
+                        }
+                    });                                                                              
                 }catch(e) {
-                    console.log("can't disconnect player " + p.name);
+                    console.log("can't disconnect player " + p.name, e);
                 }
-            })*/
+            });
+            this.game = new CGame(this);
+            this.sockets = [];
             //disco players
         }else {
             for(let i = 0; i < this.game.joueurs.length; i++) {
@@ -42,7 +51,8 @@ class SocketsHanlder {
     initEvents() {
         this.io.sockets.on('connection', socket => {        
             this.chat.addEvents(socket);    
-            this.game.sendMap();    
+            this.game.sendMap();            
+            this.sockets.push(socket);            
 
             socket.on('newplayer', (data) => {  
                 const {name, x, y, skinId} = data;

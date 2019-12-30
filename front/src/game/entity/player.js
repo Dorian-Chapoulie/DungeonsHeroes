@@ -31,6 +31,7 @@ export class Player extends Entity {
         this.maxHealth = 100;
         
         this.damageCoef = 1;
+        this.coin = 0;
 
         this.hitSound = sounds[soundsIds.playerDamage];        
         this.canPlayHitSound = true;

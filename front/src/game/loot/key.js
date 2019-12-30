@@ -16,7 +16,8 @@ export class Key extends Loot {
     }
 
     onPickUp(entity) {
-        super.onPickUp();    
+        super.onPickUp();   
+        entity.coin += 100; 
         sendMessage('keypickedup', {});    
     }
 }

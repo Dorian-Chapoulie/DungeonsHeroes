@@ -21,7 +21,10 @@ const pressedKeys = [
     },
 ];
 
-export const initInputsEvent = () => {    
+export var isInitialized = false;
+
+export const initInputsEvent = () => {   
+    isInitialized = true; 
     document.addEventListener('keypress', e => {
         pressedKeys.forEach(key => {
             if(e.key === key.value) {
