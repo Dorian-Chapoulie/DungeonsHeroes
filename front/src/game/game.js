@@ -45,7 +45,7 @@ export const getContext = () => context;
 export const getNewPlayer = () => player2;
 export const getLocalPlayer = () => player;
 export const player2ShootAt = entityId => {
-    if(player2) {
+    if (player2) {
         mobs.forEach(m => {
             if (m.id === entityId) {
                 player2.target = m;
@@ -62,7 +62,7 @@ export const damageEntity = (entityId, type, sender) => {
             target = m;
         }
     })
-    
+
     if (player && player.name == entityId) {
         target = player;
     }
@@ -93,14 +93,14 @@ export const damageEntity = (entityId, type, sender) => {
                     projectile = new Silence(context, 0, 0);
                     break;
             }
-            if(target && projectile) projectile.onHit(target);
+            if (target && projectile) projectile.onHit(target);
         }
     }
 }
 
 export const damageTorch = (health, torchId) => {
     lightenEntitys.map(le => {
-        if(le.id === torchId) {
+        if (le.id === torchId) {
             le.health = health;
         }
     })
@@ -138,12 +138,12 @@ export const manageDeadMob = (mobId) => {
 }
 
 export const addMob = (mobType, pos, targetId, id) => {
-    let target = undefined;     
-    if(player2 && player2.socketId === targetId) { 
-        target = player2; 
-    }else if(player && player.socketId === targetId){ 
-        target = player; 
-    } 
+    let target = undefined;
+    if (player2 && player2.socketId === targetId) {
+        target = player2;
+    } else if (player && player.socketId === targetId) {
+        target = player;
+    }
     switch (mobType) {
         case 0:
             mobs.push(new Skeleton(pos.x, pos.y, target, context, id));
@@ -197,49 +197,49 @@ const getRandomInt = max => {
 }
 
 export const init = (pseudo, skinId) => {
-    canvas = document.getElementById('Canvas');    
+    canvas = document.getElementById('Canvas');
     context = canvas.getContext('2d');
     player = new Player(pseudo, 300, 800, undefined, context, skinId);
 
     initSocksEvents();
-    initInputsEvent();     
+    initInputsEvent();
     //initChat();
 
     door = new Door(280, -1, context);
     lightenEntitys.push(new Torch(32, 32, context, -1));
     lightenEntitys.push(new Torch(canvas.width - 65, 32, context, -2));
     lightenEntitys.push(new Torch(32, canvas.height - 80, context, -3));
-    lightenEntitys.push(new Torch(canvas.width - 65, canvas.height - 80, context, -4));    
+    lightenEntitys.push(new Torch(canvas.width - 65, canvas.height - 80, context, -4));
 
     sounds[soundsIds.theme].play();
-    
 
-    sendMessage('newplayer', { name: pseudo, x: player.x, y: player.y, skinId});
+
+    sendMessage('newplayer', { name: pseudo, x: player.x, y: player.y, skinId });
     sendMessage('getmap');
 
     drawMap(context, mapLevel, tilesSize);
     requestAnimationFrame(loop);
 
     setInterval(() => {
-        if(player) sendMessage('playerpos', { x: player.x, y: player.y });
+        if (player) sendMessage('playerpos', { x: player.x, y: player.y });
     }, 20);
 
     setInterval(() => {
-        if(player) sendMessage('playerhs', { health: player.health, shield: player.shield });
+        if (player) sendMessage('playerhs', { health: player.health, shield: player.shield });
     }, 2 * 100);
 }
 
 const playerMovements = () => {
 
     /* Collision Murs */
-    if (player.x + player.width + 16 > canvas.width) {
+    if (player.x + player.width + 32 > canvas.width - 32) {
         player.dx = 0;
         player.canMoveRight = false;
     } else {
         player.canMoveRight = true;
     }
 
-    if (player.x < 16) {
+    if (player.x < 32) {
         player.dx = 0;
         player.canMoveLeft = false;
     } else {
@@ -313,54 +313,54 @@ const destroyProjectile = projectile => {
     return false;
 }
 
-const loop = () => {    
+const loop = () => {
     //context.clearRect(0, 0, canvas.width, canvas.height);
     drawMap(context, mapLevel, tilesSize);
 
-    if(isBossLevel) {
+    if (isBossLevel) {
         sounds[soundsIds.theme].pause();
         sounds[soundsIds.bossSound].play();
     }
 
-    if(player)
+    if (player)
         drawEntityAnimation(player);
-    
-        drawEntityAnimation(door);
+
+    drawEntityAnimation(door);
     if (door.canOpen && player && entityCollision(player, door)) {
         door.canOpen = false;
         sendMessage('enternextlevel', {});
     }
     if (lightenEntitys.length > 0) {
         lightenEntitys.forEach(l => {
-            if (((player && entityCollision(player, l)) || (player2 && entityCollision(player2, l))) && l.canProcessLight == false) { 
+            if (((player && entityCollision(player, l)) || (player2 && entityCollision(player2, l))) && l.canProcessLight == false) {
                 l.canProcessLight = true;
                 sounds[soundsIds.torch].play();
             }
-            if(player && entityCollision(player, l) && player.health < player.maxHealth) {                                
+            if (player && entityCollision(player, l) && player.health < player.maxHealth) {
                 l.onTouch(player);
                 sendMessage('touchtorch', { health: l.health, id: l.id });
             }
-            if(player2 && entityCollision(player2, l) && player2.health < player2.maxHealth) {                                
+            if (player2 && entityCollision(player2, l) && player2.health < player2.maxHealth) {
                 l.onTouch(player2);
                 sendMessage('touchtorch', { health: l.health, id: l.id });
             }
             l.draw();
             l.processLight();
-            drawEntityAnimation(l);            
+            drawEntityAnimation(l);
         });
         lightenEntitys = lightenEntitys.filter(e => e.health > 0);
     }
 
     if (chests.length > 0) {
-        chests.forEach(c => {                      
+        chests.forEach(c => {
             c.processLight();
             drawEntityAnimation(c);
-            if (((player && entityCollision(player, c)) || (player2 && entityCollision(player2, c)))) { 
-                sendMessage('chestopen', {name: c.name, position: { x: c.x, y: c.y }, id: c.id });
-                c.health = 0;   
-            }                     
-        }); 
-        chests = chests.filter(c => c.health > 0);       
+            if (((player && entityCollision(player, c)) || (player2 && entityCollision(player2, c)))) {
+                sendMessage('chestopen', { name: c.name, position: { x: c.x, y: c.y }, id: c.id });
+                c.health = 0;
+            }
+        });
+        chests = chests.filter(c => c.health > 0);
     }
 
     playerMovements();
@@ -391,7 +391,7 @@ const loop = () => {
 
     if (player && !player.target) {
         player.target = mobs[getRandomInt(mobs.length)];
-    } else if(player && player.target) {
+    } else if (player && player.target) {
         sendMessage('playershoot', player.target.id);
         player.shoot();
     }
@@ -400,9 +400,9 @@ const loop = () => {
         drawEntityAnimation(m);
         m.draw();
         m.shoot();
-        const playerProjectiles = player ? player.projectiles.length : 0; 
-        const player2Projectiles = player2 ? player2.projectiles.length : 0; 
-    
+        const playerProjectiles = player ? player.projectiles.length : 0;
+        const player2Projectiles = player2 ? player2.projectiles.length : 0;
+
         for (let i = 0; i < playerProjectiles; i++) {
             if (player && player.projectiles[i] && entityCollision(player.projectiles[i], m)) {
                 //player.canShoot = true;
@@ -419,7 +419,7 @@ const loop = () => {
                 player2.projectiles[i] = undefined;
             }
         }
-        
+
 
         for (let i = 0; i < m.projectiles.length; i++) {
             //m.projectiles[i].move();
@@ -441,7 +441,7 @@ const loop = () => {
             }
         }
         m.projectiles = m.projectiles.filter(p => p != undefined);
-        //randomMobsMovements(m);        
+        //randomMobsMovements(m);
     })
 
 
@@ -463,13 +463,13 @@ const loop = () => {
             player2.shoot();
         }
     }
-    
+
     const delta = 1; //(endDate.getTime() - startDate.getTime()) + 1;
 
     if (player2)
         player2.move(delta);
 
-    if(player) {
+    if (player) {
         player.move(delta);
         for (let i = 0; i < player.projectiles.length; i++) {
             if (player.projectiles[i] && destroyProjectile(player.projectiles[i])) {
@@ -482,6 +482,6 @@ const loop = () => {
 
     mobs.forEach(m => {
         m.move(delta);
-    })    
+    })
     requestAnimationFrame(loop);
 }
