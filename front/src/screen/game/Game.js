@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import { addCoin } from '../../lib/fetch';
+import { addMoneyAction } from '../../actions/player';
 import {
   Button,
   Card,
@@ -12,11 +14,11 @@ import { init, player as gamePlayer, stopLoop, player2 } from '../../game/game';
 import {
   isConnected,
   initSocksEvents,
-  connect as connectToServer,
-  isInitialized,
+  connect as connectToServer,  
   socket,
 } from '../../game/network/socketsHandler';
 import { initInputsEvent, isInitialized as isInitializedInputs } from '../../game/inputs/inputsHandler';
+import { sounds, soundsIds } from '../../game/graphics/assets';
 import './Game.scss';
 
 class Game extends React.Component {
@@ -57,10 +59,13 @@ class Game extends React.Component {
      
       init(pseudo, skinId);    
       
+      var tempPlayer = undefined;
       const interval = setInterval(() => {
+        if(gamePlayer)
+          tempPlayer = gamePlayer;
         if(!isConnected){
-          this.setState({player: gamePlayer});
-          this.setState({showCanvas: false});                         
+          this.setState({player: tempPlayer});
+          this.setState({showCanvas: false});
           clearInterval(interval);
         }
       }, 500);
@@ -69,6 +74,10 @@ class Game extends React.Component {
 
   componentWillUnmount() {
     stopLoop();
+    sounds.forEach(s => {           
+        s.pause();
+        s.currentTime = 0;
+    })
     try {
       socket.disconnect();
     }catch(e) {
@@ -77,6 +86,19 @@ class Game extends React.Component {
   }
 
   handleClickOk = () => {
+    sounds.forEach(s => {
+      if(s === sounds[soundsIds.theme] || s === sounds[soundsIds.bossSound])  {            
+          s.pause();
+          s.currentTime = 0;
+      }
+    })
+
+    const { player } = this.state;
+    const { email, isGuest, addMoney } = this.props;
+    if(!isGuest && player) {
+      addCoin(email, player.coin);
+      addMoney(player.coin);
+    }
     this.setState({canRedirect: true});    
   }
 
@@ -115,10 +137,17 @@ class Game extends React.Component {
 const mapStateToProps = (state) => {
   return {    
     pseudo: state.player.pseudo,
+    email: state.player.email,
     skinId: state.player.skinId,
     isSpritesLoaded: state.player.isSpriteLoaded,
+    isGuest: state.player.isGuest,
   }
 }
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addMoney: (money) => dispatch(addMoneyAction(money)),
+  }
+}
 
-export default connect(mapStateToProps)(Game);
+export default connect(mapStateToProps, mapDispatchToProps)(Game);

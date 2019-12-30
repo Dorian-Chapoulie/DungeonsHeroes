@@ -154,6 +154,20 @@ const addSkin = async (email, skinId) => {
     return resultat;
 }
 
+const setCoin = async (email, ammount) => {
+    const resultat = await new Promise(resolve => {
+        mysql.connection.query(`UPDATE player SET money = '${ammount}' where email like '${email}'`, (error, results, fields) => {    
+            if(error) {
+                console.log("ERREUR: ", error);
+                resolve({error: error.sqlMessage});
+            }
+            resolve(true);
+        });
+    });    
+
+    return resultat;
+}
+
 module.exports.checkCredentials = checkCredentials;
 module.exports.register = register;
 module.exports.getPseudoFromEmail = getPseudoFromEmail;
@@ -164,3 +178,4 @@ module.exports.getSkinIdFromEmail = getSkinIdFromEmail;
 module.exports.getInventorySkinsFromEmail = getInventorySkinsFromEmail;
 module.exports.setActivatedSkin = setActivatedSkin;
 module.exports.addSkin = addSkin;
+module.exports.setCoin = setCoin;

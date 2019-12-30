@@ -17,6 +17,7 @@ import {
     getDoor,
     damageTorch,
     respawnPlayer,
+    stopLoop,
 } from '../game.js';
 import { displayMessage, displayNewUser, displayUserDisconnected } from './chat.js';
 
@@ -153,6 +154,7 @@ export const initSocksEvents = () => {
     
     socket.on('disconnect', () => {
         isConnected = false;
+        stopLoop();
     });    
 }
 

@@ -13,6 +13,11 @@ export const setMoneyAction = (money) => ({
     value: money,
 });
 
+export const addMoneyAction = (money) => ({
+    type: 'UPADTE_ADD_PLAYER_MONEY',
+    value: money,
+});
+
 export const setEmailAction = (email) => ({
     type: 'UPADTE_PLAYER_EMAIL',
     value: email,

@@ -6,6 +6,7 @@ const URLS = {
         buy: '/player/buy',
         setskin: '/player/setskin',
         addskin: '/player/addskin',
+        addCoin: '/player/addcoin',
     },
     skins: {
         getAllSkins: '/skins',
@@ -63,6 +64,21 @@ const tryBuyCase = async (email, ammount, price) => {
     return data;
 }
 
+const addCoin = async (email, ammount) => {
+    const result = await fetch(API + URLS.player.addCoin, {
+        method: 'PUT',
+        headers: 
+            new Headers({
+                'Content-Type': 'application/json',    
+                'Access-Control-Allow-Origin': '*',            
+            }),
+        mode: 'cors',
+        body: JSON.stringify({email, ammount}),
+    });   
+    const data = await result.json();
+    return data;
+}
+
 const tryGetAllSkins = async () => {
     const result = await fetch(API + URLS.skins.getAllSkins, {
         method: 'GET',
@@ -113,3 +129,4 @@ module.exports.tryRegister = tryRegister;
 module.exports.tryGetAllSkins = tryGetAllSkins;
 module.exports.setActivatedSkin = setActivatedSkin;
 module.exports.addSkin = addSkin;
+module.exports.addCoin = addCoin;

@@ -127,7 +127,21 @@ const rootReducer = (state = initialState, action) => {
                 availableSkins: state.player.availableSkins, 
                 isSpriteLoaded: action.value,               
             },                                   
-        }           
+        }
+        case 'UPADTE_ADD_PLAYER_MONEY':                            
+        return {
+            player: {
+                isLoggedIn: state.player.isLoggedIn,
+                isGuest: state.player.isGuest,
+                money: state.player.money + action.value,
+                pseudo: state.player.pseudo,
+                email: state.player.email,
+                lootboxes: state.player.lootboxes,
+                skinId: state.player.skinId,
+                availableSkins: state.player.availableSkins, 
+                isSpriteLoaded: state.player.isSpriteLoaded,               
+            },                                   
+        }            
         default:
             return state;
     }

@@ -100,4 +100,23 @@ router.put('/addskin', async (req, res) => {
         
 });
 
+router.put('/addcoin', async (req, res) => {       
+    const { email, ammount } = req.body;    
+    if(!email || !ammount) {
+        //res.sendStatus(400)
+        res.end(JSON.stringify({error: 'bad request'}));
+    }
+    
+    const resultMoney = await playerService.getMoneyFromEmail(email);           
+    const newMoney =  parseInt(resultMoney.money,10) +  parseInt(ammount,10);
+    const ret = await playerService.setCoin(email, newMoney);            
+    if(ret.error) {
+        //res.sendStatus(400) 
+        res.end(JSON.stringify({ret}));
+        }else {
+        res.end(JSON.stringify({transaction: !!ret}));        
+        }
+               
+});
+
 module.exports.router = router;

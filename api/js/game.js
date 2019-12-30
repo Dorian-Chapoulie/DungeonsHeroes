@@ -4,6 +4,7 @@ class Game {
         this.isPlaying = false;
 
         this.level = 0;
+        this.alivePlayers = 0;
 
         this.WIDTH = 640;
         this.HEIGHT = 896;

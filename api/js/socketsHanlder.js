@@ -6,26 +6,29 @@ class SocketsHanlder {
         this.initEvents();
         this.sockets = [];
     }    
+
+    disconnectPlayers() {
+        this.game.joueurs.forEach(p => {
+            try {
+                const ids = [];
+                this.sockets.forEach(s => {
+                    if(s.id === p.socketId) {   
+                        ids.push(p.socketId);
+                        s.emit('disconnect', {});                         
+                        s.disconnect();                                                      
+                    }
+                });                                                                              
+            }catch(e) {
+                console.log("can't disconnect player " + p.name, e);
+            }
+        });
+        this.game = new CGame(this);
+        this.sockets = [];
+    }
     
     sendNextLevel() {
         if(this.game.isKeyPickedUp) {            
-            this.game.joueurs.forEach(p => {
-                try {
-                    const ids = [];
-                    this.sockets.forEach(s => {
-                        if(s.id === p.socketId) {   
-                            ids.push(p.socketId);
-                            s.emit('disconnect', {});                         
-                            s.disconnect();                                                      
-                        }
-                    });                                                                              
-                }catch(e) {
-                    console.log("can't disconnect player " + p.name, e);
-                }
-            });
-            this.game = new CGame(this);
-            this.sockets = [];
-            //disco players
+            this.disconnectPlayers();            
         }else {
             for(let i = 0; i < this.game.joueurs.length; i++) {
                 this.io.emit('reposplayer', {socketId: this.game.joueurs[i].socketId, x: i * 504 + 36, y: 792 });                   
@@ -64,7 +67,7 @@ class SocketsHanlder {
                 socket.broadcast.emit('newplayer', {name, x, y, socketId: socket.id, skinId}); 
                 socket.emit('playerlist', this.game.joueurs);                  
                 this.game.joueurs.push({name: data.name, x: data.x, y: data.y, socketId: socket.id, skinId});  
-
+                this.game.alivePlayers++;
                 if(this.game.joueurs.length == 2) {
                     this.game.isPlaying = true;
                     setTimeout(() => {
@@ -168,10 +171,19 @@ class SocketsHanlder {
                 this.io.emit('touchtorch', data);        
             });
 
+            socket.on('deadplayer', data => {                                                               
+                this.game.alivePlayers--;    
+                if(this.game.alivePlayers == 0) {
+                    this.disconnectPlayers();
+                }    
+            });
+
             socket.on('respawnplayer', () => {       
                 const playerToRespawn = this.game.joueurs.filter(j => j.socketId !== socket.id)[0]; 
-                if(playerToRespawn)                                           
+                if(playerToRespawn) {                                        
+                    this.game.alivePlayers++;
                     this.io.emit('respawnplayer', {name: playerToRespawn.name, id: playerToRespawn.socketId});             
+                }
             }); 
 
             socket.on('disconnect', () => {                                 

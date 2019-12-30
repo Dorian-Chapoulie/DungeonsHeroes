@@ -36,15 +36,18 @@ var context;
 var canSendNx = false;
 var canSendNy = false;
 var isSoungPlayed = false;
+var isBossSoungPlayed = false;
 var isBossLevel = false;
 var door;
 var isPlaying = true;
 
 const clearVariables = () => {
-    sounds[soundsIds.bossSound].pause();
-    sounds[soundsIds.bossSound].currentTime = 0;    
-    sounds[soundsIds.theme].pause();
-    sounds[soundsIds.theme].currentTime = 0;
+    sounds.forEach(s => {
+        if(s !== sounds[soundsIds.theme] && s !== sounds[soundsIds.bossSound])  {            
+            s.pause();
+            s.currentTime = 0;
+        }
+    })
     
     player = undefined;
     player2 = undefined;
@@ -76,9 +79,27 @@ export const getLocalPlayer = () => {
 
 export const respawnPlayer = data => { 
     if(player && player.socketId !== data.id) { 
-        player2 = new Player(data.name, 36, 762, data.id, context, data.skinId);       
+        player2 = new Player(data.name, 36, 762, data.id, context, data.skinId);         
+        if(isBossLevel) {
+            if(mobs[0]) {
+                if(mobs[0].targets[0] === undefined) {
+                    mobs[0].targets[0] = player2;
+                }else if(mobs[0].targets[1] === undefined) {
+                    mobs[0].targets[1] = player2;
+                }
+            }
+        }  
     }else if(player2 && player2.socketId !== data.id){ 
         player = new Player(data.name, 36, 762, data.id, context, data.skinId); 
+        if(isBossLevel) {
+            if(mobs[0]) {
+                if(mobs[0].targets[0] === undefined) {
+                    mobs[0].targets[0] = player;
+                }else if(mobs[0].targets[1] === undefined) {
+                    mobs[0].targets[1] = player;
+                }
+            }
+        }  
     }     
 } 
 
@@ -247,8 +268,9 @@ export const init = (pseudo, skinId) => {
     lightenEntitys.push(new Torch(32, canvas.height - 80, context, -3));
     lightenEntitys.push(new Torch(canvas.width - 65, canvas.height - 80, context, -4));
 
-    sounds[soundsIds.bossSound].volume = 0.2;
+    sounds[soundsIds.bossSound].volume = 0.1;
     sounds[soundsIds.theme].volume = 0.2;
+    sounds[soundsIds.player].volume = 0.2;    
     sounds[soundsIds.theme].play();
 
 
@@ -331,7 +353,7 @@ const playerMovements = () => {
     }
 
     if(isKeyPressed("a") && player.ulti >= 100 && !player2) { 
-        sendMessage('respawnplayer', {});            
+        sendMessage('respawnplayer', {});                
     }
 
 }
@@ -358,16 +380,27 @@ const destroyProjectile = projectile => {
 
 const loop = () => {
     //context.clearRect(0, 0, canvas.width, canvas.height);
-    drawMap(context, mapLevel, tilesSize);
+    drawMap(context, mapLevel, tilesSize);    
 
-    if (isBossLevel) {
+    if (isBossLevel && !isBossSoungPlayed) {
+        isBossSoungPlayed = true;
         sounds[soundsIds.theme].pause();
         sounds[soundsIds.bossSound].play();
     }
 
     if (player) {
         drawEntityAnimation(player);
-        if(player.health <= 0) {
+        if(player.health <= 0) {            
+            sendMessage('deadplayer', {}); 
+            if(isBossLevel) {
+                if(mobs[0]) {
+                    if(mobs[0].targets[0] && mobs[0].targets[0].socketId === player.socketId) {
+                        mobs[0].targets[0] = undefined;
+                    }else if(mobs[0].targets[1] && mobs[0].targets[1].socketId === player.socketId) {
+                        mobs[0].targets[1] = undefined;
+                    }
+                }
+            }
             player = undefined;
         }
     }
@@ -510,8 +543,17 @@ const loop = () => {
         if (player2.target) {
             player2.shoot();
         }
-        if(player2.health <= 0) {
-            player2 = undefined;
+        if(player2.health <= 0) {            
+            if(isBossLevel) {
+                if(mobs[0]) {
+                    if(mobs[0].targets[0] && mobs[0].targets[0].socketId === player2.socketId) {
+                        mobs[0].targets[0] = undefined;
+                    }else if(mobs[0].targets[1] && mobs[0].targets[1].socketId === player2.socketId) {
+                        mobs[0].targets[1] = undefined;
+                    }
+                }
+            }
+            player2 = undefined;        
         }
     }
 
