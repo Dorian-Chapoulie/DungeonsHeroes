@@ -40,21 +40,23 @@ export const spritesIds = {
     torch: 17,
     warlock: 18,
     witch: 19,
-    wizzard: 20,
-    frost: 21,
-    tile5: 22,
-    tile6: 23,
-    defaultPlayer: 24,
-    chest: 25,
-    boss: 26,
-    key: 27,
+    poison: 20,
+    wizzard: 21,
+    frost: 22,
+    tile5: 23,
+    tile6: 24,
+    defaultPlayer: 25,
+    chest: 26,
+    boss: 27,
+    key: 28,
+
 }
 
 
 export const getMapTileFromId = id => {
-    switch(id) {
+    switch (id) {
         case 1:
-            return sprites[spritesIds.tile1];            
+            return sprites[spritesIds.tile1];
         case 2:
             return sprites[spritesIds.tile2];
         case 3:
@@ -71,9 +73,9 @@ export const getMapTileFromId = id => {
 }
 
 export const getPlayerSkinFromId = id => {
-    switch(id) {
+    switch (id) {
         case 1:
-            return sprites[spritesIds.player];            
+            return sprites[spritesIds.player];
         case 2:
             return sprites[spritesIds.player2];
         case 3:
@@ -85,43 +87,43 @@ export const getPlayerSkinFromId = id => {
     };
 }
 
-export const spritesNumber = Object.keys(soundsIds).length + Object.keys(spritesIds	).length;
+export const spritesNumber = Object.keys(soundsIds).length + Object.keys(spritesIds).length;
 export let loadedSprites = 0;
 
 const createImage = (id, url) => {
-    const image = new Image();             
-    image.onload = () => {                                               
+    const image = new Image();
+    image.onload = () => {
         createImageBitmap(image, 0, 0, image.width, image.height)
-            .then(data => {               
-                sprites[id] = data;   
-                loadedSprites++;                      
-            });            
+            .then(data => {
+                sprites[id] = data;
+                loadedSprites++;
+            });
     };
-    image.src = url;     
+    image.src = url;
 }
 
 const createAudio = (id, url) => {
-    const audio = new Audio(url);  
+    const audio = new Audio(url);
     audio.onloadeddata = () => {
         sounds[id] = audio;
         loadedSprites++;
-    };              
+    };
 }
-  
+
 const check = () => {
     return new Promise(resolve => {
-        const interval = setInterval(() => {            
-            if(loadedSprites == spritesNumber) {
+        const interval = setInterval(() => {
+            if (loadedSprites == spritesNumber) {
                 clearInterval(interval);
                 loadedSprites = 0;
                 resolve(true);
             }
-        }, 200);           
+        }, 200);
     });
 }
-  
-export const loadSprites = async () => {         
-    createImage(spritesIds.boostDamage, '/assets/boostDamage-sprite.png');    
+
+export const loadSprites = async() => {
+    createImage(spritesIds.boostDamage, '/assets/boostDamage-sprite.png');
     createImage(spritesIds.boostSpeed, '/assets/boostSpeed-sprite.png');
     createImage(spritesIds.coin, '/assets/coin-sprite.png');
     createImage(spritesIds.door, '/assets/door-sprite.png');
@@ -141,14 +143,15 @@ export const loadSprites = async () => {
     createImage(spritesIds.torch, '/assets/torch-sprite.png');
     createImage(spritesIds.warlock, '/assets/warlock-sprite.png');
     createImage(spritesIds.witch, '/assets/witch-sprite.png');
-    createImage(spritesIds.wizzard, '/assets/wizzard-sprite.png'); 
-    createImage(spritesIds.frost, '/assets/frost-sprite.png');  
+    createImage(spritesIds.poison, '/assets/poison-sprite.png');
+    createImage(spritesIds.wizzard, '/assets/wizzard-sprite.png');
+    createImage(spritesIds.frost, '/assets/frost-sprite.png');
     createImage(spritesIds.tile5, '/assets/tile5.png');
     createImage(spritesIds.tile6, '/assets/tile6.png');
-    createImage(spritesIds.defaultPlayer, '/assets/default-player-sprite.png'); 
+    createImage(spritesIds.defaultPlayer, '/assets/default-player-sprite.png');
     createImage(spritesIds.chest, '/assets/chest-sprite.png');
     createImage(spritesIds.boss, '/assets/boss-sprite.png');
-    createImage(spritesIds.key, '/assets/key.png'); 
+    createImage(spritesIds.key, '/assets/key.png');
 
     createAudio(soundsIds.armor, '/assets/sound/armor.mp3');
     createAudio(soundsIds.boostSpeed, '/assets/sound/boostSpeed.mp3');
@@ -165,5 +168,5 @@ export const loadSprites = async () => {
     createAudio(soundsIds.torch, '/assets/sound/torch.mp3');
     createAudio(soundsIds.bossSound, '/assets/sound/bossSound.mp3');
     createAudio(soundsIds.key, '/assets/sound/key.mp3');
-    await check(); 
+    await check();
 }

@@ -8,9 +8,9 @@ export class Poison extends Projectile {
     constructor(context, x, y) {
         super(context, x, y, Poison.type);
 
-        this.image = sprites[spritesIds.playerProjectile];
-        this.width = 32;
-        this.height = 29;
+        this.image = sprites[spritesIds.poison];
+        this.width = 25;
+        this.height = 25;
 
 
         this.damageValue = 1;
@@ -19,7 +19,7 @@ export class Poison extends Projectile {
 
     onHit(entity) {
         super.onHit(entity);
-        if(entity.canAffect) {                        
+        if (entity.canAffect) {
             entity.canAffect = false;
             const temp = entity.speed;
             entity.speed = 0;

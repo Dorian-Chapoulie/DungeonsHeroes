@@ -40,25 +40,25 @@ export class Boss extends Entity {
     }
 
     shoot() {
-        if (this.canShoot && this.targets.length > 0) {                        
+        if (this.canShoot && this.targets.length > 0) {
 
             playSound(this.projectilesType);
             this.shootId++;
-            this.canShoot = false; 
-          
-            if(this.targets[0] !== undefined) { 
+            this.canShoot = false;
+
+            if (this.targets[0] !== undefined) {
                 this.target = this.targets[0];
-                for(let i = 0; i < this.phase; i++) {
-                    this.projectiles.push(new Fire(this.context, this.x, this.y));   
-                    this.projectiles[this.projectiles.length - 1].damageValue = 20;                    
+                for (let i = 0; i < this.phase; i++) {
+                    this.projectiles.push(new Fire(this.context, this.x + this.width / 3, this.y + this.height / 3));
+                    this.projectiles[this.projectiles.length - 1].damageValue = 20;
                     super.shoot();
                 }
             }
-            if(this.targets[1] !== undefined) {  
+            if (this.targets[1] !== undefined) {
                 this.target = this.targets[1];
-                for(let i = 0; i < this.phase; i++) {
-                    this.projectiles.push(new Fire(this.context, this.x, this.y));
-                    this.projectiles[this.projectiles.length - 1].damageValue = 20;                       
+                for (let i = 0; i < this.phase; i++) {
+                    this.projectiles.push(new Fire(this.context, this.x + this.width / 3, this.y + this.heigh / 3));
+                    this.projectiles[this.projectiles.length - 1].damageValue = 20;
                     super.shoot();
                 }
             }
@@ -70,18 +70,18 @@ export class Boss extends Entity {
 
     damage(amount) {
         super.damage(amount);
-        
-        if(this.health <= this.maxHealth / 2 && this.phase === 1) {
+
+        if (this.health <= this.maxHealth / 2 && this.phase === 1) {
             this.phase++;
             this.fireRate -= 150;
         }
 
-        if(this.health <= this.maxHealth / 3 && this.phase === 2) {
+        if (this.health <= this.maxHealth / 3 && this.phase === 2) {
             this.phase++;
             this.fireRate -= 150;
         }
 
-        if(this.health <= this.maxHealth / 4 && this.phase === 3) {
+        if (this.health <= this.maxHealth / 4 && this.phase === 3) {
             this.phase++;
             this.fireRate -= 150;
         }

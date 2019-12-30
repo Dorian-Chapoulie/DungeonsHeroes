@@ -9,8 +9,8 @@ export class Frost extends Projectile {
         super(context, x, y, Frost.type);
 
         this.image = sprites[spritesIds.frost];
-        this.width = 32;
-        this.height = 29;
+        this.width = 24;
+        this.height = 24;
 
         this.damageValue = 5;
     }
