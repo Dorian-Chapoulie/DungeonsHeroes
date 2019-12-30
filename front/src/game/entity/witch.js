@@ -11,7 +11,7 @@ export class Witch extends Entity {
         this.target = target;
 
         this.image = sprites[spritesIds.witch];
-        this.canShoot = true;   
+        this.canShoot = true;
         this.fireRate = 2000;
         this.DROIT = 0;
         this.GAUCHE = 1;
@@ -24,7 +24,7 @@ export class Witch extends Entity {
 
     shoot() {
         if (this.canShoot && this.target) {
-            this.projectiles.push(new Poison(this.context, this.x, this.y));
+            this.projectiles.push(new Poison(this.context, this.x + this.width / 2, this.y + this.height));
             super.shoot();
         }
     }

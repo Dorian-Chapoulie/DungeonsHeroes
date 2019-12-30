@@ -10,13 +10,13 @@ export class Key extends Loot {
         this.canDrawNextFrame = true;
         this.width = 33;
         this.height = 78;
-        this.scaleX = 64;
-        this.scaleY = 64;
+        this.scaleX = 32;
+        this.scaleY = 32;
         this.drawTime = 140;
     }
 
     onPickUp(entity) {
-        super.onPickUp();    
-        sendMessage('keypickedup', {});    
+        super.onPickUp();
+        sendMessage('keypickedup', {});
     }
 }
