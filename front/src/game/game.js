@@ -15,6 +15,7 @@ import { Boss } from './entity/boss';
 import { Coin } from './loot/coin.js';
 import { Heart } from './loot/heart.js';
 import { Armor } from './loot/armor.js';
+import { Key } from './loot/key.js';
 import { BoostSpeed } from './loot/boostSpeed.js';
 import { BoostDamage } from './loot/boostDamage.js';
 import { Fire } from './projectiles/Fire.js';
@@ -182,6 +183,9 @@ export const addLoot = (type, pos, id) => {
             break;
         case 4:
             loots.push(new BoostDamage(context, pos.x, pos.y, id));
+            break;
+        case 5:
+            loots.push(new Key(context, pos.x, pos.y, id));
             break;
     }
 }

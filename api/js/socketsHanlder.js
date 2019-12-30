@@ -1,3 +1,5 @@
+const CGame = require('./game');
+
 class SocketsHanlder {
     constructor(io) {
         this.io = io;
@@ -5,24 +7,36 @@ class SocketsHanlder {
     }    
     
     sendNextLevel() {
-        for(let i = 0; i < this.game.joueurs.length; i++) {
-            this.io.emit('reposplayer', {socketId: this.game.joueurs[i].socketId, x: i * 504 + 36, y: 792 });                   
-        }                            
-        this.game.level++;   
-        if(this.game.level === this.game.bossLevel) {
-            setTimeout(() => {
-                this.game.sendBoss();
-            }, 3000);
-        }else if(this.game.level === this.game.preBossLevel) {
-            this.game.sendChests();
-        } else {            
-            setTimeout(() => {
-                this.game.sendMobs();
-            }, 3000);
-        }         
-        this.game.mobs = 0;
-        this.game.deadMobsNumber = 0;      
-        this.game.sendMap();  
+        if(this.game.isKeyPickedUp) {
+            /*this.game = new CGame(this);
+            this.game.joueurs.forEach(p => {
+                try {
+                    p.socket.disconnect();
+                }catch(e) {
+                    console.log("can't disconnect player " + p.name);
+                }
+            })*/
+            //disco players
+        }else {
+            for(let i = 0; i < this.game.joueurs.length; i++) {
+                this.io.emit('reposplayer', {socketId: this.game.joueurs[i].socketId, x: i * 504 + 36, y: 792 });                   
+            }                            
+            this.game.level++;   
+            if(this.game.level === this.game.bossLevel) {
+                setTimeout(() => {
+                    this.game.sendBoss();
+                }, 3000);
+            }else if(this.game.level === this.game.preBossLevel) {
+                this.game.sendChests();
+            } else {            
+                setTimeout(() => {
+                    this.game.sendMobs();
+                }, 3000);
+            }         
+            this.game.mobs = 0;
+            this.game.deadMobsNumber = 0;      
+            this.game.sendMap();
+        }  
     }
 
     initEvents() {
@@ -102,6 +116,11 @@ class SocketsHanlder {
 
             socket.on('lootpickup', data => {                                                               
                 this.io.emit('lootpickup', data);        
+            });
+
+            socket.on('keypickedup', data => { 
+                this.io.emit('levelfinished', {});    
+                this.game.isKeyPickedUp = true;                     
             });
 
             socket.on('hitentity', data => { 

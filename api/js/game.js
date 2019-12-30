@@ -30,7 +30,8 @@ class Game {
             Heart: 1,
             Armor: 2,
             boostSpeed: 3,
-            boostDamage: 4
+            boostDamage: 4,
+            Key: 5,
         };
 
         this.mobsLoots = {
@@ -60,7 +61,7 @@ class Game {
                 this.loots.Heart,
             ],
             "Sahrotaar": [
-                this.loots.Coin,
+                this.loots.Key,
             ],
         }
 
@@ -71,6 +72,7 @@ class Game {
         this.mobs = 0;
         this.bossLevel = 2;
         this.preBossLevel = this.bossLevel - 1;
+        this.isKeyPickedUp = false;
 
         this.socketHanlder = socketHanlder;
         this.map = [];

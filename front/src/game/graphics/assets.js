@@ -16,6 +16,7 @@ export const soundsIds = {
     theme: 11,
     torch: 12,
     bossSound: 13,
+    key: 14,
 }
 
 export const spritesIds = {
@@ -46,6 +47,7 @@ export const spritesIds = {
     defaultPlayer: 24,
     chest: 25,
     boss: 26,
+    key: 27,
 }
 
 
@@ -145,7 +147,8 @@ export const loadSprites = async () => {
     createImage(spritesIds.tile6, '/assets/tile6.png');
     createImage(spritesIds.defaultPlayer, '/assets/default-player-sprite.png'); 
     createImage(spritesIds.chest, '/assets/chest-sprite.png');
-    createImage(spritesIds.boss, '/assets/boss-sprite.png');  
+    createImage(spritesIds.boss, '/assets/boss-sprite.png');
+    createImage(spritesIds.key, '/assets/key.png'); 
 
     createAudio(soundsIds.armor, '/assets/sound/armor.mp3');
     createAudio(soundsIds.boostSpeed, '/assets/sound/boostSpeed.mp3');
@@ -161,5 +164,6 @@ export const loadSprites = async () => {
     createAudio(soundsIds.theme, '/assets/sound/theme.mp3');
     createAudio(soundsIds.torch, '/assets/sound/torch.mp3');
     createAudio(soundsIds.bossSound, '/assets/sound/bossSound.mp3');
+    createAudio(soundsIds.key, '/assets/sound/key.mp3');
     await check(); 
 }
