@@ -57,7 +57,7 @@ export class Boss extends Entity {
             if (this.targets[1] !== undefined) {
                 this.target = this.targets[1];
                 for (let i = 0; i < this.phase; i++) {
-                    this.projectiles.push(new Fire(this.context, this.x + this.width / 3, this.y + this.heigh / 3));
+                    this.projectiles.push(new Fire(this.context, this.x + this.width / 3, this.y + this.height / 3));
                     this.projectiles[this.projectiles.length - 1].damageValue = 20;
                     super.shoot();
                 }
