@@ -1,22 +1,28 @@
-![](https://i.ibb.co/k56htP7/Screenshot-3.png)
+![](https://i.ibb.co/6HYPr3V/Image1-jpg.png)
 
 
 # Game
 
 ## Executive summary
-In a world of different stages, you play a hero who has to kill all the monsters in order to progress to new stages and if you die ... you have to start all over again until you reach the last stage
+Dungeons Heroes is a co-op game
+
+In a world of different stages, you and your friend play characters in a dungeon who have to kill all the different monsters in order to progress to new stages and if both of you die ... you have to start all over again until you reach the last stage and finish the dungeon
 
 This game is strongly inspired by the mobile arcade action game:  [Archero](https://play.google.com/store/apps/details?id=com.habby.archero&hl=fr)
+
+We also tried to recreate a Dark Souls atmosphere, notably with music and different sounds directly taken from the game.
 
 # Table of contents
 
 <!--ts-->
    * [Game](#Game)
    * [Table of contents](#table-of-contents)
-   * [First Preview](#First-Preview)
-   * [Sprite](#Sprite)
-   * [Next Missions](#Next-Mission)
-   * [To Do List ](#To-do-list)
+   * [Preview](#Preview)
+   * [Characters](#Characters)
+   * [Monsters](#Monsters)
+   * [Boss](#Boss)
+   * [Loots ](#Loots)
+   * [Special items ](#Special-items)
    * [Required](#Required)
    * [Authors](#Authors)
    * [Acknowledgment](#Acknowledgment)
@@ -25,49 +31,56 @@ This game is strongly inspired by the mobile arcade action game:  [Archero](http
  
 <!--te-->
 
-# First Preview
-
-![](https://i.ibb.co/wzycXPG/Screenshot-6.png)
+# Preview
 
 
-# Sprite
 
-![](https://i.ibb.co/wzjjVzG/Screenshot-9.png)
+# Characters
 
-Note : this is a basic sprite used as a test , we will change for a better one later
+![](https://i.ibb.co/zXkC0Jj/Screenshot-4.png)
+![](https://i.ibb.co/r0yCfSX/Screenshot-5.png)
+![](https://i.ibb.co/ys41P1y/Screenshot-7.png)
+![](https://i.ibb.co/7V20Y1C/Screenshot-3.png)
+![](https://i.ibb.co/Bg6MLZ4/Screenshot-2.png)
 
+Note : these are different skins from the shop on the website that you can unlock by earning money in the game 
 
-# Multiplayer 
+# Monsters 
 
-![](https://i.ibb.co/pKkPZS4/Screenshot-7.png)
+| Monsters | Preview | Projectiles | Description | DamageValue |
+| --------- | --------- | --------- | --------- | --------- | 
+|Wizard| ![](https://i.ibb.co/ZLgB0Hw/wiz.png) | ![](https://i.ibb.co/Dwq5VtV/frost.png)| Slow down the player for a few seconds|5|
+|Witch|  ![](https://i.ibb.co/0MGdPK5/witch.png) | ![](https://i.ibb.co/bX41TTL/poison.png)| Paralyzes the player for a few seconds|1|
+|Warlock|  ![](https://i.ibb.co/4dbRsdV/warlo.png) | ![](https://i.ibb.co/fSv66wX/silence.png) | Prevents the player from shooting for a few seconds|1|
+|Skeleton|  ![](https://i.ibb.co/Zczpf4q/skel.png) | ![](https://i.ibb.co/w710WS6/fire.png)| Inflicts damage overtime on the player for a few seconds|1|
 
-![](https://i.ibb.co/7zCgXmw/Screenshot-8.png)
+# Boss
 
-Note : a chat system has been implemented to allow a communication between the two players
+|Boss | Preview |  Projectile | Description | DamageValue |
+|---------| --------- | --------- | --------- | --------- | 
+|Sahrotaar | ![](https://i.ibb.co/ssPstwR/boss.png) | ![](https://i.ibb.co/w710WS6/fire.png) | Inflicts damage overtime and has different phases  | 20 |
+# Loots
 
-# Next Missions
+| Loots | Preview | Description | Value |
+| --------- | --------- |--------- |--------- |
+| Heart | ![](https://i.ibb.co/Tb6XwPk/coeur.png)|Gives some heal|20|
+| Shield | ![](https://i.ibb.co/RHxNv7Q/boubou.png)|Gives some shield|15|
+| Coin | ![](https://i.ibb.co/74b6PZX/coin.png)| Gives money for the shop|10|
+| BoostSpeed | ![](https://i.ibb.co/G0MsJzF/speed.png) | Increases speed| 1%|
+| BoostDamage |![](https://i.ibb.co/0m0PYmZ/dmaage.png) | Increases damage|10%|
 
-1. spawn differents monsters randomly in the map and make them move randomly
-2. include the possibility of shooting between the character and the monsters
-3. player and monster aim at each other
-4. improve shooting
-5. generate random worlds
-6. Differents stages
+# Special items
 
-
-# To Do List  
-
-
-| Monday, November 25th |  
-| --------- | 
-|  New mob  |
-|  Add walls  |    
-|  Fix some errors |   
+| Items | Preview| Description |
+| --------- | --------- |--------- |
+| Chest | ![](https://i.ibb.co/M81yr8v/cocofr.png)| Gives some different loots |
+| Torch | ![](https://i.ibb.co/kmj4FnB/torch.png)| Allows to regain some health if you are near|
+| Key | ![](https://i.ibb.co/bgks91K/key.png)| Allows to unlock a special door|
 
 # Required
 
-+ JavaScript
-+ Html5 / CSS
++ WampServer
++ MySQL
 + Node JS
 
 # Run 
@@ -85,11 +98,9 @@ Start the API: node server.js
 
 Thanks to 
 
-Tamerlan BEKMURZAYEV Student in Gobelins PARIS
+Michel BUFFA Professor in MIAGE NICE http://users.polytech.unice.fr/~buffa/
 
-
-for making our logo
-
+and Tamerlan BEKMURZAYEV Student in Gobelins PARIS for making our logo
 
 # License
 
