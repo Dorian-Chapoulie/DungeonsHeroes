@@ -167,7 +167,11 @@ class SocketsHanlder {
                 const disconnectedPlayer = this.game.joueurs.find(p => p.socketId === socket.id);
                 console.log("disconnected player: ", disconnectedPlayer)
                 socket.broadcast.emit('playerdisconnected', disconnectedPlayer);
-                this.game.joueurs = this.game.joueurs.filter(j => j !== disconnectedPlayer);                                
+                this.game.joueurs = this.game.joueurs.filter(j => j !== disconnectedPlayer);
+                if(this.game.joueurs.length <= 0) {
+                    this.game = new CGame(this);
+                    this.sockets = [];
+                }                                
             });
         });       
 

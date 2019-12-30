@@ -344,8 +344,12 @@ const loop = () => {
         sounds[soundsIds.bossSound].play();
     }
 
-    if (player)
+    if (player) {
         drawEntityAnimation(player);
+        if(player.health <= 0) {
+            player = undefined;
+        }
+    }
 
     drawEntityAnimation(door);
     if (door.canOpen && player && entityCollision(player, door)) {
@@ -385,9 +389,10 @@ const loop = () => {
         chests = chests.filter(c => c.health > 0);
     }
 
-    playerMovements();
-
-    player.draw();
+    if(player) {
+        playerMovements();
+        player.draw();
+    }    
 
     const deadMobs = mobs.filter(m => m.health <= 0);
     deadMobs.forEach(dm => {
@@ -483,6 +488,9 @@ const loop = () => {
 
         if (player2.target) {
             player2.shoot();
+        }
+        if(player2.health <= 0) {
+            player2 = undefined;
         }
     }
 
