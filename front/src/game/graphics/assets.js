@@ -17,6 +17,7 @@ export const soundsIds = {
     torch: 12,
     bossSound: 13,
     key: 14,
+    respawn: 15,
 }
 
 export const spritesIds = {
@@ -49,7 +50,6 @@ export const spritesIds = {
     chest: 26,
     boss: 27,
     key: 28,
-
 }
 
 
@@ -168,5 +168,6 @@ export const loadSprites = async() => {
     createAudio(soundsIds.torch, '/assets/sound/torch.mp3');
     createAudio(soundsIds.bossSound, '/assets/sound/bossSound.mp3');
     createAudio(soundsIds.key, '/assets/sound/key.mp3');
+    createAudio(soundsIds.respawn, '/assets/sound/respawn.mp3');
     await check();
 }

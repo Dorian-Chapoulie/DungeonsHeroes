@@ -52,7 +52,11 @@ class SocketsHanlder {
         this.io.sockets.on('connection', socket => {        
             this.chat.addEvents(socket);    
             this.game.sendMap();            
-            this.sockets.push(socket);            
+            this.sockets.push(socket); 
+            
+            if(this.game.isPlaying) {
+                socket.disconnect();
+            }
 
             socket.on('newplayer', (data) => {  
                 const {name, x, y, skinId} = data;
@@ -62,6 +66,7 @@ class SocketsHanlder {
                 this.game.joueurs.push({name: data.name, x: data.x, y: data.y, socketId: socket.id, skinId});  
 
                 if(this.game.joueurs.length == 2) {
+                    this.game.isPlaying = true;
                     setTimeout(() => {
                         this.game.sendMobs();
                     }, 2000);                    
@@ -162,6 +167,12 @@ class SocketsHanlder {
             socket.on('touchtorch', data => {                                                               
                 this.io.emit('touchtorch', data);        
             });
+
+            socket.on('respawnplayer', () => {       
+                const playerToRespawn = this.game.joueurs.filter(j => j.socketId !== socket.id)[0]; 
+                if(playerToRespawn)                                           
+                    this.io.emit('respawnplayer', {name: playerToRespawn.name, id: playerToRespawn.socketId});             
+            }); 
 
             socket.on('disconnect', () => {                                 
                 const disconnectedPlayer = this.game.joueurs.find(p => p.socketId === socket.id);

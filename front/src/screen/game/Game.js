@@ -8,7 +8,7 @@ import {
   CardBody,
   CardFooter,
 } from 'reactstrap';
-import { init, player as gamePlayer, stopLoop } from '../../game/game';
+import { init, player as gamePlayer, stopLoop, player2 } from '../../game/game';
 import {
   isConnected,
   initSocksEvents,
@@ -81,7 +81,10 @@ class Game extends React.Component {
   }
 
   render() {  
-    const { showCanvas, canRedirect, player, redirectNoLoaded } = this.state;          
+    const { showCanvas, canRedirect, player, redirectNoLoaded } = this.state; 
+    if(!player && !showCanvas) {
+      this.setState({canRedirect: true})
+    }         
     return (
       <>  
         { canRedirect && <Redirect to='/main'/>}
@@ -89,7 +92,7 @@ class Game extends React.Component {
         { showCanvas && 
           <canvas className="GameCanvas" id="Canvas" height="896" width="640"></canvas>
         }
-        { !showCanvas && !redirectNoLoaded &&
+        { !showCanvas && !redirectNoLoaded && player &&
           <Card className="login mt-5" style={{width: '18em'}}>    
             <CardHeader>
                 <h5>{player.name} - Statistiques</h5>

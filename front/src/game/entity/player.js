@@ -32,6 +32,7 @@ export class Player extends Entity {
         
         this.damageCoef = 1;
         this.coin = 0;
+        this.ulti = 100;
 
         this.hitSound = sounds[soundsIds.playerDamage];        
         this.canPlayHitSound = true;
@@ -43,6 +44,12 @@ export class Player extends Entity {
             super.shoot();
         }
     }
+
+    incrementUlti(value) { 
+        if(this.ulti < 100) { 
+            this.ulti += value; 
+        } 
+    } 
 
     damage(amount) {
         if (this.canPlayHitSound) {

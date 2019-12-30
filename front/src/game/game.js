@@ -41,6 +41,11 @@ var door;
 var isPlaying = true;
 
 const clearVariables = () => {
+    sounds[soundsIds.bossSound].pause();
+    sounds[soundsIds.bossSound].currentTime = 0;    
+    sounds[soundsIds.theme].pause();
+    sounds[soundsIds.theme].currentTime = 0;
+    
     player = undefined;
     player2 = undefined;
     mobs = [];
@@ -68,6 +73,15 @@ export const getNewPlayer = () => player2;
 export const getLocalPlayer = () => {    
     return player;
 }
+
+export const respawnPlayer = data => { 
+    if(player && player.socketId !== data.id) { 
+        player2 = new Player(data.name, 36, 762, data.id, context, data.skinId);       
+    }else if(player2 && player2.socketId !== data.id){ 
+        player = new Player(data.name, 36, 762, data.id, context, data.skinId); 
+    }     
+} 
+
 export const player2ShootAt = entityId => {
     if (player2) {
         mobs.forEach(m => {
@@ -226,13 +240,15 @@ export const init = (pseudo, skinId) => {
     canvas = document.getElementById('Canvas');
     context = canvas.getContext('2d');
     player = new Player(pseudo, 300, 800, undefined, context, skinId);        
-
+    isPlaying = true;
     door = new Door(280, -1, context);
     lightenEntitys.push(new Torch(32, 32, context, -1));
     lightenEntitys.push(new Torch(canvas.width - 65, 32, context, -2));
     lightenEntitys.push(new Torch(32, canvas.height - 80, context, -3));
     lightenEntitys.push(new Torch(canvas.width - 65, canvas.height - 80, context, -4));
 
+    sounds[soundsIds.bossSound].volume = 0.2;
+    sounds[soundsIds.theme].volume = 0.2;
     sounds[soundsIds.theme].play();
 
 
@@ -313,6 +329,11 @@ const playerMovements = () => {
         sendMessage('playermove', 'nx');
         canSendNx = false;
     }
+
+    if(isKeyPressed("a") && player.ulti >= 100 && !player2) { 
+        sendMessage('respawnplayer', {});            
+    }
+
 }
 
 const entityCollision = (a, b) => {

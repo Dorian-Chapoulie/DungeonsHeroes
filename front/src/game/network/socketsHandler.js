@@ -1,6 +1,8 @@
 import io from 'socket.io-client';
 import { saveMap } from './map.js';
 import { Player } from '../entity/player.js';
+import { sounds, soundsIds } from '../graphics/assets';
+
 import {
     setNewPlayer,
     getNewPlayer,
@@ -14,6 +16,7 @@ import {
     getLocalPlayer,
     getDoor,
     damageTorch,
+    respawnPlayer,
 } from '../game.js';
 import { displayMessage, displayNewUser, displayUserDisconnected } from './chat.js';
 
@@ -136,8 +139,12 @@ export const initSocksEvents = () => {
     socket.on('touchtorch', data => {
         damageTorch(data.health, data.id);
     });
-  
 
+    socket.on('respawnplayer', data => { 
+        respawnPlayer(data); 
+        sounds[soundsIds.respawn].play();
+    });  
+  
     socket.on('playerdisconnected', player => {
         if(player)
             displayUserDisconnected(player.name);
