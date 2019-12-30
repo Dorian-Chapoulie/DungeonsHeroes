@@ -32,3 +32,8 @@ export const addSkinAction = (skinId) => ({
     type: 'UPADTE_PLAYER_SKINS',
     value: skinId,
 });
+
+export const setIsSpritesLoaded = (isSpriteLoaded) => ({
+    type: 'UPADTE_PLAYER_LOADED_SPRITES',
+    value: isSpriteLoaded,
+});

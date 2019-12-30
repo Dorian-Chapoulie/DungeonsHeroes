@@ -54,7 +54,7 @@ const clearVariables = () => {
     isSoungPlayed = false;
     isBossLevel = false;
     door = undefined;
-    isPlaying = true;
+    isPlaying = true;    
 }
 
 export const stopLoop = () => {
@@ -65,7 +65,9 @@ export const setNewPlayer = (newPlayer) => {
 }
 export const getContext = () => context;
 export const getNewPlayer = () => player2;
-export const getLocalPlayer = () => player;
+export const getLocalPlayer = () => {    
+    return player;
+}
 export const player2ShootAt = entityId => {
     if (player2) {
         mobs.forEach(m => {
@@ -223,11 +225,7 @@ const getRandomInt = max => {
 export const init = (pseudo, skinId) => {
     canvas = document.getElementById('Canvas');
     context = canvas.getContext('2d');
-    player = new Player(pseudo, 300, 800, undefined, context, skinId);
-
-    //initSocksEvents();
-    //initInputsEvent();     
-    //initChat();
+    player = new Player(pseudo, 300, 800, undefined, context, skinId);        
 
     door = new Door(280, -1, context);
     lightenEntitys.push(new Torch(32, 32, context, -1));

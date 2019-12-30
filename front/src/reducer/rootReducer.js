@@ -8,6 +8,7 @@ const initialState = {
         lootboxes: 0,
         skinId: 0,
         availableSkins: [],
+        isSpriteLoaded: false,
     }
 }
 
@@ -25,6 +26,7 @@ const rootReducer = (state = initialState, action) => {
                     lootboxes: state.player.lootboxes,
                     skinId: state.player.skinId,
                     availableSkins: state.player.availableSkins, 
+                    isSpriteLoaded: state.player.isSpriteLoaded,
                 },                                   
             }
         case 'UPADTE_PLAYER_NAME':                        
@@ -38,6 +40,7 @@ const rootReducer = (state = initialState, action) => {
                     lootboxes: state.player.lootboxes,
                     skinId: state.player.skinId,
                     availableSkins: state.player.availableSkins, 
+                    isSpriteLoaded: state.player.isSpriteLoaded,
                 },                                   
             } 
         case 'UPADTE_PLAYER_MONEY':                    
@@ -51,6 +54,7 @@ const rootReducer = (state = initialState, action) => {
                 lootboxes: state.player.lootboxes,
                 skinId: state.player.skinId,
                 availableSkins: state.player.availableSkins, 
+                isSpriteLoaded: state.player.isSpriteLoaded,
             },                                   
         }
         case 'UPADTE_PLAYER_EMAIL':                    
@@ -64,6 +68,7 @@ const rootReducer = (state = initialState, action) => {
                 lootboxes: state.player.lootboxes,
                 skinId: state.player.skinId,
                 availableSkins: state.player.availableSkins, 
+                isSpriteLoaded: state.player.isSpriteLoaded,
             },                                   
         }    
         case 'UPADTE_PLAYER_LOOTBOXES':                    
@@ -76,7 +81,8 @@ const rootReducer = (state = initialState, action) => {
                 email: state.player.email,
                 lootboxes: action.value,
                 skinId: state.player.skinId,
-                availableSkins: state.player.availableSkins, 
+                availableSkins: state.player.availableSkins,
+                isSpriteLoaded: state.player.isSpriteLoaded, 
             },                                   
         }   
         case 'UPADTE_PLAYER_SKINID':                    
@@ -90,6 +96,7 @@ const rootReducer = (state = initialState, action) => {
                 lootboxes: state.player.lootboxes,
                 skinId: action.value,
                 availableSkins: state.player.availableSkins, 
+                isSpriteLoaded: state.player.isSpriteLoaded,
             },                                   
         }
         case 'UPADTE_PLAYER_SKINS':                    
@@ -103,9 +110,24 @@ const rootReducer = (state = initialState, action) => {
                 email: state.player.email,
                 lootboxes: state.player.lootboxes,
                 skinId: state.player.skinId,
-                availableSkins: state.player.availableSkins,                
+                availableSkins: state.player.availableSkins, 
+                isSpriteLoaded: state.player.isSpriteLoaded,               
             },                                   
-        }              
+        }    
+        case 'UPADTE_PLAYER_LOADED_SPRITES':                            
+        return {
+            player: {
+                isLoggedIn: state.player.isLoggedIn,
+                isGuest: state.player.isGuest,
+                money: state.player.money,
+                pseudo: state.player.pseudo,
+                email: state.player.email,
+                lootboxes: state.player.lootboxes,
+                skinId: state.player.skinId,
+                availableSkins: state.player.availableSkins, 
+                isSpriteLoaded: action.value,               
+            },                                   
+        }           
         default:
             return state;
     }

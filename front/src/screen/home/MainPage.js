@@ -8,6 +8,9 @@ import {
     Row,
     Container,
 } from 'reactstrap';
+import {
+    setIsSpritesLoaded,
+} from '../../actions/player';
 import { loadSprites, spritesNumber, loadedSprites } from '../../game/graphics/assets';
 import Loader from 'react-loader-spinner';
 
@@ -41,15 +44,19 @@ class MainPage extends React.Component {
             const { animationSong } = this.state;
             animationSong.play();           
         }, 500);
+        const { isSpritesLoaded, setLoadedSprites } = this.props;
+        if(!isSpritesLoaded) {
+            const interval = setInterval(() => {            
+                if(loadedSprites === spritesNumber) {                
+                    clearInterval(interval);
+                }
+                this.setState({spritesLoaded: loadedSprites});
+            }, 50);
 
-        const interval = setInterval(() => {            
-            if(loadedSprites === spritesNumber) {                
-                clearInterval(interval);
-            }
-            this.setState({spritesLoaded: loadedSprites});
-        }, 50);
-
-        await loadSprites();        
+            await loadSprites();
+            setLoadedSprites(true);
+        }   
+        //     
         this.setState({redirect: true});       
     }    
 
@@ -164,7 +171,14 @@ const mapStateToProps = (state) => {
       pseudo: state.player.pseudo,
       money: state.player.money,
       isGuest: state.player.isGuest,
+      isSpritesLoaded: state.player.isSpriteLoaded,
     }
 }
 
-export default connect(mapStateToProps)(MainPage);
+const mapDispatchToProps = (dispatch) => {
+    return {
+      setLoadedSprites: (isSpritesLoaded) => dispatch(setIsSpritesLoaded(isSpritesLoaded)),
+    }
+  }
+
+export default connect(mapStateToProps, mapDispatchToProps)(MainPage);

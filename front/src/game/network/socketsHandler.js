@@ -17,7 +17,7 @@ import {
 } from '../game.js';
 import { displayMessage, displayNewUser, displayUserDisconnected } from './chat.js';
 
-var socket;
+export var socket;
 
 export const connect = () => { 
     socket = io.connect('http://localhost:8080');
@@ -29,8 +29,13 @@ export var isInitialized = false;
 export const initSocksEvents = () => {
     isInitialized = true;
     sendMessage('playerlist');
-    socket.on('getid', (data) => {        
-        getLocalPlayer().socketId = data.id;
+    socket.on('getid', (data) => {       
+        const interval = setInterval(() => {
+            if(getLocalPlayer()) {
+                getLocalPlayer().socketId = data.id;
+                clearInterval(interval);
+            }            
+        }, 200);         
     });
    
     socket.on('map', map => {

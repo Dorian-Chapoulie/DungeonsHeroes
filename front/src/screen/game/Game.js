@@ -14,6 +14,7 @@ import {
   initSocksEvents,
   connect as connectToServer,
   isInitialized,
+  socket,
 } from '../../game/network/socketsHandler';
 import { initInputsEvent, isInitialized as isInitializedInputs } from '../../game/inputs/inputsHandler';
 import './Game.scss';
@@ -21,33 +22,58 @@ import './Game.scss';
 class Game extends React.Component {
   constructor(props) {
     super(props); 
+    const { isSpritesLoaded  } = this.props;    
+    
+    if(isSpritesLoaded) {        
+      connectToServer();
 
-    connectToServer();
-
-   //if(!isInitialized)
       initSocksEvents();
 
-    //if(!isInitializedInputs)
       initInputsEvent();
 
-    this.state = {
-      showCanvas: true,
-      canRedirect: false,
-      player: undefined,
-    }    
+      this.state = {
+        showCanvas: true,
+        canRedirect: false,
+        player: undefined,
+        redirectNoLoaded: false,
+      } 
+    }else {
+      this.state = {
+        showCanvas: false,
+        canRedirect: false,
+        redirectNoLoaded: true,
+        player: undefined,
+      } 
+    }
+
+       
   }
 
   componentDidMount() {
+    const { redirectNoLoaded } = this.state;
     const { pseudo, skinId } = this.props;
-    init(pseudo, skinId);   
-    const interval = setInterval(() => {
-      if(!isConnected){
-        this.setState({player: gamePlayer});
-        this.setState({showCanvas: false});        
-        stopLoop();         
-        clearInterval(interval);
-      }
-    }, 500);
+
+    if(!redirectNoLoaded) {     
+     
+      init(pseudo, skinId);    
+      
+      const interval = setInterval(() => {
+        if(!isConnected){
+          this.setState({player: gamePlayer});
+          this.setState({showCanvas: false});                         
+          clearInterval(interval);
+        }
+      }, 500);
+    }
+  }
+
+  componentWillUnmount() {
+    stopLoop();
+    try {
+      socket.disconnect();
+    }catch(e) {
+      console.log(e);
+    }
   }
 
   handleClickOk = () => {
@@ -55,14 +81,15 @@ class Game extends React.Component {
   }
 
   render() {  
-    const { showCanvas, canRedirect, player } = this.state;          
+    const { showCanvas, canRedirect, player, redirectNoLoaded } = this.state;          
     return (
       <>  
         { canRedirect && <Redirect to='/main'/>}
+        { redirectNoLoaded && <Redirect to='/main'/>}
         { showCanvas && 
           <canvas className="GameCanvas" id="Canvas" height="896" width="640"></canvas>
         }
-        { !showCanvas &&
+        { !showCanvas && !redirectNoLoaded &&
           <Card className="login mt-5" style={{width: '18em'}}>    
             <CardHeader>
                 <h5>{player.name} - Statistiques</h5>
@@ -86,6 +113,7 @@ const mapStateToProps = (state) => {
   return {    
     pseudo: state.player.pseudo,
     skinId: state.player.skinId,
+    isSpritesLoaded: state.player.isSpriteLoaded,
   }
 }
 
