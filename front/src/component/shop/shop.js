@@ -41,7 +41,23 @@ class Shop extends React.Component {
     }
 
     handleBuyChest = async (amount, price) => {        
-        const { email } = this.props;
+        const { email, isGuest } = this.props;
+        if(isGuest) {
+            store.addNotification({
+                title: "Achat",
+                message: "Les invités ne peuvent pas acheter",
+                type: "danger",
+                insert: "top",
+                container: "top-right",
+                animationIn: ["animated", "fadeIn"],
+                animationOut: ["animated", "fadeOut"],
+                dismiss: {
+                  duration: 2000,
+                  onScreen: true
+                }
+            });
+            return;
+        }
         const requestBuy = await tryBuyCase(email, amount, price);
         if(requestBuy.error) {
             if(requestBuy.error === "money") {                
