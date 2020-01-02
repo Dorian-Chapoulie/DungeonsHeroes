@@ -99,7 +99,7 @@ const createImage = (id, url) => {
                 loadedSprites++;
             });
     };
-    image.src = url;
+    image.src = url + "?ts=" + new Date().getTime();
 }
 
 const createAudio = (id, url) => {
