@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { addCoin } from '../../lib/fetch';
+import PerfectScrollbar from 'react-perfect-scrollbar'
 import { addMoneyAction } from '../../actions/player';
 import {
   Button,
@@ -9,6 +10,7 @@ import {
   CardHeader,
   CardBody,
   CardFooter,
+  Input,
 } from 'reactstrap';
 import { init, player as gamePlayer, stopLoop, player2 } from '../../game/game';
 import {
@@ -16,10 +18,12 @@ import {
   initSocksEvents,
   connect as connectToServer,  
   socket,
+  sendMessage,
 } from '../../game/network/socketsHandler';
 import { initInputsEvent, isInitialized as isInitializedInputs } from '../../game/inputs/inputsHandler';
 import { sounds, soundsIds } from '../../game/graphics/assets';
 import './Game.scss';
+import 'react-perfect-scrollbar/dist/css/styles.css';
 
 class Game extends React.Component {
   constructor(props) {
@@ -38,6 +42,7 @@ class Game extends React.Component {
         canRedirect: false,
         player: undefined,
         redirectNoLoaded: false,
+        msg: '',
       } 
     }else {
       this.state = {
@@ -45,6 +50,7 @@ class Game extends React.Component {
         canRedirect: false,
         redirectNoLoaded: true,
         player: undefined,
+        msg: '',
       } 
     }
 
@@ -102,17 +108,38 @@ class Game extends React.Component {
     this.setState({canRedirect: true});    
   }
 
+  handleClickSend = () => {
+    const { msg } = this.state;
+    if(msg.length > 0)
+      sendMessage('sendchat', {msg, name: gamePlayer.name});
+    this.setState({msg: ''});
+  }
+
+  handleChange(event) {
+    this.setState({msg: event.target.value});
+  }
+
   render() {  
-    const { showCanvas, canRedirect, player, redirectNoLoaded } = this.state; 
+    const { showCanvas, canRedirect, player, redirectNoLoaded, msg } = this.state; 
     if(!player && !showCanvas) {
       this.setState({canRedirect: true})
-    }         
+    }     
+       
     return (
       <>  
         { canRedirect && <Redirect to='/main'/>}
         { redirectNoLoaded && <Redirect to='/main'/>}
-        { showCanvas && 
-          <canvas className="GameCanvas" id="Canvas" height="896" width="640"></canvas>
+        { showCanvas &&
+          <div>
+            <canvas className="GameCanvas" id="Canvas" height="896" width="640"></canvas>
+            <div className="chatbox">  
+              <PerfectScrollbar className="scroll">
+                <div id="conversation"/>
+              </PerfectScrollbar>
+              <Input type="text" style={{width: '10em'}} name="text" value={msg} onChange={e => this.handleChange(e)}/>
+              <Button color="success" onClick={this.handleClickSend}>Envoyer</Button>
+            </div>
+          </div> 
         }
         { !showCanvas && !redirectNoLoaded && player &&
           <Card className="login mt-5" style={{width: '18em'}}>    

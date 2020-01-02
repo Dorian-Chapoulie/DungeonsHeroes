@@ -6,3 +6,23 @@
     margin-right: auto;
     display: block;
 };
+
+.chatbox {
+    left: 0px;
+    top: 0px !important;
+    position: fixed;
+}
+
+.scroll {
+    background-color: rgba(255, 255, 255, 0.05);
+    max-height: 15em;
+    max-width: 15em;
+}
+
+#conversation {
+    color: white !important;
+}
+
+#chatname {
+    color: red !important;
+}
