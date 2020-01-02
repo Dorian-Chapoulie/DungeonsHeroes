@@ -25,6 +25,7 @@ class MainPage extends React.Component {
             redirect: false,
             redirectShop: false,
             redirectProfile: false,
+            redirectHowToPlay: false,
             imageClass: 'imgMainAnimation',
             animationSong: new Audio('/assets/sound/gameStart.mp3'),
             spritesLoaded: 0,
@@ -67,6 +68,10 @@ class MainPage extends React.Component {
     handleClickProfile = () => {        
         this.setState({redirectProfile: true});
     }
+
+    handleClickHowToPlay = () => {        
+        this.setState({redirectHowToPlay: true});
+    }
     
     getWidthFromPseudo = (pseudo, money) => {
         const moneyLength = money.toString().length * 20;        
@@ -82,6 +87,7 @@ class MainPage extends React.Component {
             redirectShop,
             redirectProfile,
             spritesLoaded,
+            redirectHowToPlay,
         } = this.state; 
         const { pseudo, money, isGuest } = this.props; 
         return (               
@@ -89,6 +95,7 @@ class MainPage extends React.Component {
                     {redirect && <Redirect push to="/game" />}
                     {redirectShop && <Redirect push to="/shop" />}
                     {redirectProfile && <Redirect push to="/profile" />}
+                    {redirectHowToPlay && <Redirect push to="/howtoplay" />}
                     {!drawAnimation &&
                         <>
                             <img className="imgMain" src='/images/logo2.png'/>
@@ -143,6 +150,16 @@ class MainPage extends React.Component {
                                         Boutique
                                     </Button>
                                 </Col> 
+                                <Col>
+                                    <Button
+                                        outline
+                                        className="mainPageDown"
+                                        color={"info"}                                   
+                                        onClick={this.handleClickHowToPlay}
+                                    >
+                                        Comment jouer ?
+                                    </Button>
+                                </Col>
                             </Row>
                         </Container>
                     }

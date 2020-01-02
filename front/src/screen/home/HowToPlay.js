@@ -1,5 +1,10 @@
 import React from 'react';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import {
+    Card,
+    CardBody,
+    CardHeader,
+} from 'reactstrap';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 
 import './HowToPlay.scss';
@@ -97,7 +102,7 @@ class HowToPlay extends React.Component {
            {
             name: 'Torch',
             imagesprite: "/images/torch.png",
-            description: "Donne de la vie si vous etes à proximite",          
+            description: "Donne de la vie si vous etes a proximite",          
            },
 
            {
@@ -108,37 +113,77 @@ class HowToPlay extends React.Component {
         ];
             
         return (
-            <div>                
-                <BootstrapTable data={mobsData} striped={true} hover={true} className="tableMobs">
-                    <TableHeaderColumn dataField="name" dataSort={true} isKey>Monstres</TableHeaderColumn>
-                    <TableHeaderColumn dataField="imagesprite" dataFormat={this.imageFormatter}>Images</TableHeaderColumn>
-                    <TableHeaderColumn dataField="imageprojectile" dataFormat={this.imageFormatter}>Projectiles</TableHeaderColumn>
-                    <TableHeaderColumn dataField="description" dataSort={true}>Description</TableHeaderColumn>
-                    <TableHeaderColumn dataField="DamageValue" dataSort={true}>Degat</TableHeaderColumn>
-                    <TableHeaderColumn dataField="Health" dataSort={true}>Sante</TableHeaderColumn>
-                </BootstrapTable>
+            <div className="howtoplay"> 
+
+                <Card style={{width: '60em'}}>
+                    <CardHeader>
+                        <h5 className="d-flex justify-content-center" style={{fontSize: '5em'}}>But du jeu</h5>
+                    </CardHeader>
+                    <CardBody>
+                        <p className="but">
+                            Explication but du jeu
+                        </p>
+                    </CardBody>
+                </Card>
+
+                <Card style={{width: '60em'}}>
+                    <CardHeader>
+                        <h5 className="d-flex justify-content-center" style={{fontSize: '5em'}}>Monstres</h5>
+                    </CardHeader>
+                    <CardBody>
+                        <BootstrapTable data={mobsData} striped={true} hover={true} bordered={false} className="tableMobs">
+                            <TableHeaderColumn dataField="name" dataSort={true} isKey>Nom</TableHeaderColumn>
+                            <TableHeaderColumn dataField="imagesprite" dataFormat={this.imageFormatter}>Image</TableHeaderColumn>
+                            <TableHeaderColumn dataField="imageprojectile" dataFormat={this.imageFormatter}>Projectile</TableHeaderColumn>
+                            <TableHeaderColumn dataField="description" dataSort={true}>Description</TableHeaderColumn>
+                            <TableHeaderColumn dataField="DamageValue" dataSort={true}>Degats</TableHeaderColumn>
+                            <TableHeaderColumn dataField="Health" dataSort={true}>Sante</TableHeaderColumn>
+                        </BootstrapTable>
+                    </CardBody>
+                </Card>
  
-                <BootstrapTable data={bosstab} striped={true} hover={true} className="tableMobs tableBoss">
-                    <TableHeaderColumn dataField="name" dataSort={true} isKey>Boss</TableHeaderColumn>
-                    <TableHeaderColumn dataField="imagesprite" dataFormat={this.imageFormatter}>Images</TableHeaderColumn>
-                    <TableHeaderColumn dataField="imageprojectile" dataFormat={this.imageFormatter}>Projectiles</TableHeaderColumn>
-                    <TableHeaderColumn dataField="description" dataSort={true}>Description</TableHeaderColumn>
-                    <TableHeaderColumn dataField="DamageValue" dataSort={true}>Degat</TableHeaderColumn>
-                    <TableHeaderColumn dataField="Health" dataSort={true}>Sante</TableHeaderColumn>
-                </BootstrapTable>
+                <Card style={{width: '60em'}}>
+                    <CardHeader>
+                        <h5 className="d-flex justify-content-center" style={{fontSize: '5em'}}>Boss</h5>
+                    </CardHeader>
+                    <CardBody>
+                        <BootstrapTable data={bosstab} striped={true} hover={true} bordered={false} className="tableMobs tableBoss">
+                            <TableHeaderColumn dataField="name" dataSort={true} isKey>Nom</TableHeaderColumn>
+                            <TableHeaderColumn dataField="imagesprite" dataFormat={this.imageFormatter}>Image</TableHeaderColumn>
+                            <TableHeaderColumn dataField="imageprojectile" dataFormat={this.imageFormatter}>Projectile</TableHeaderColumn>
+                            <TableHeaderColumn dataField="description" dataSort={true}>Description</TableHeaderColumn>
+                            <TableHeaderColumn dataField="DamageValue" dataSort={true}>Degats</TableHeaderColumn>
+                            <TableHeaderColumn dataField="Health" dataSort={true}>Sante</TableHeaderColumn>
+                        </BootstrapTable>
+                    </CardBody>
+                </Card>
 
-                <BootstrapTable data={lootstab} striped={true} hover={true} className="tableMobs tableLoots">
-                    <TableHeaderColumn dataField="name" dataSort={true} isKey>Loots</TableHeaderColumn>
-                    <TableHeaderColumn dataField="imagesprite" dataFormat={this.imageFormatter}>Images</TableHeaderColumn>
-                    <TableHeaderColumn dataField="description" dataSort={true}>Description</TableHeaderColumn>
-                    <TableHeaderColumn dataField="Value" dataSort={true}>Valeur</TableHeaderColumn>
-                </BootstrapTable>
+                <Card style={{width: '60em'}}>
+                    <CardBody>
+                        <CardHeader>
+                            <h5 className="d-flex justify-content-center" style={{fontSize: '5em'}}>Loots</h5>
+                        </CardHeader>
+                        <BootstrapTable data={lootstab} striped={true} hover={true} bordered={false} className="tableMobs tableLoots">
+                            <TableHeaderColumn dataField="name" dataSort={true} isKey>Nom</TableHeaderColumn>
+                            <TableHeaderColumn dataField="imagesprite" dataFormat={this.imageFormatter}>Images</TableHeaderColumn>
+                            <TableHeaderColumn dataField="description" dataSort={true}>Description</TableHeaderColumn>
+                            <TableHeaderColumn dataField="Value" dataSort={true}>Valeur</TableHeaderColumn>
+                        </BootstrapTable>
+                    </CardBody>
+                </Card>
 
-                <BootstrapTable data={itemstab} striped={true} hover={true} className="tableMobs tableItems">
-                    <TableHeaderColumn dataField="name" dataSort={true} isKey>Objets speciaux</TableHeaderColumn>
-                    <TableHeaderColumn dataField="imagesprite" dataFormat={this.imageFormatter}>Images</TableHeaderColumn>
-                    <TableHeaderColumn dataField="description" dataSort={true}>Description</TableHeaderColumn>
-                </BootstrapTable>
+                <Card style={{width: '60em'}}>
+                    <CardBody>
+                        <CardHeader>
+                            <h5 className="d-flex justify-content-center" style={{fontSize: '5em'}}>Objets speciaux</h5>
+                        </CardHeader>
+                        <BootstrapTable data={itemstab} striped={true} hover={true} bordered={false} className="tableMobs tableItems">
+                            <TableHeaderColumn dataField="name" dataSort={true} isKey>Nom</TableHeaderColumn>
+                            <TableHeaderColumn dataField="imagesprite" dataFormat={this.imageFormatter}>Images</TableHeaderColumn>
+                            <TableHeaderColumn dataField="description" dataSort={true}>Description</TableHeaderColumn>
+                        </BootstrapTable>
+                    </CardBody>
+                </Card>
             </div>
         );
     }
