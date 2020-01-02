@@ -103,11 +103,12 @@ const createImage = (id, url) => {
 }
 
 const createAudio = (id, url) => {
-    const audio = new Audio(url);
+    const audio = new Audio();
     audio.onloadeddata = () => {
         sounds[id] = audio;
         loadedSprites++;
     };
+    audio.src = url + "?ts=" + new Date().getTime();    
 }
 
 const check = () => {
