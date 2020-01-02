@@ -63,14 +63,16 @@ export const initSocksEvents = () => {
 
     socket.on('playermove', direction => {
         const player = getNewPlayer();
-        if (direction == "z") {
-            player.frameY = player.AVANCER;
-        } else if (direction == "s") {
-            player.frameY = player.RECULER;
-        } else if (direction == "q") {
-            player.frameY = player.GAUCHE;
-        } else if (direction == "d") {
-            player.frameY = player.DROIT;
+        if(player) {
+            if (direction == "z") {
+                player.frameY = player.AVANCER;
+            } else if (direction == "s") {
+                player.frameY = player.RECULER;
+            } else if (direction == "q") {
+                player.frameY = player.GAUCHE;
+            } else if (direction == "d") {
+                player.frameY = player.DROIT;
+            }
         }
     });
 
