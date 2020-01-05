@@ -121,7 +121,10 @@ class HowToPlay extends React.Component {
                     </CardHeader>
                     <CardBody>
                         <p className="but">
-                            Explication but du jeu
+                            Vous et votre coequipier devez tuer tous les monstres qui croisent votre chemin, pour acceder à la salle superieure.
+                            Essayez d'eviter les projectiles des monstres et ramassez certains loots pourra vous aider à avancer dans le jeu.
+                            Plus vous avancez dans le jeu et plus il y a de monstres. 
+                            Atteint un certain niveau, vous devrez affronter le boss pour terminer le jeu.
                         </p>
                     </CardBody>
                 </Card>
