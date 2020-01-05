@@ -12,6 +12,7 @@ import {
   CardFooter,
   Input,
 } from 'reactstrap';
+import Loader from 'react-loader-spinner';
 import { init, player as gamePlayer, stopLoop, player2 } from '../../game/game';
 import {
   isConnected,
@@ -24,6 +25,7 @@ import { initInputsEvent, isInitialized as isInitializedInputs } from '../../gam
 import { sounds, soundsIds } from '../../game/graphics/assets';
 import './Game.scss';
 import 'react-perfect-scrollbar/dist/css/styles.css';
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 class Game extends React.Component {
   constructor(props) {
@@ -65,12 +67,12 @@ class Game extends React.Component {
      
       init(pseudo, skinId);    
       
-      var tempPlayer = undefined;
+      //var tempPlayer = undefined;
       const interval = setInterval(() => {
         if(gamePlayer)
-          tempPlayer = gamePlayer;
+          this.setState({player: gamePlayer});
         if(!isConnected){
-          this.setState({player: tempPlayer});
+          //this.setState({player: tempPlayer});
           this.setState({showCanvas: false});
           clearInterval(interval);
         }
@@ -138,7 +140,17 @@ class Game extends React.Component {
               </PerfectScrollbar>
               <Input type="text" style={{width: '10em'}} name="text" value={msg} onChange={e => this.handleChange(e)}/>
               <Button color="success" onClick={this.handleClickSend}>Envoyer</Button>
-            </div>
+              <span className="loader mt-5">
+              <Loader
+                  type="Triangle"
+                  color="#D99E30"
+                  height={100}
+                  width={100}
+                  timeout={3000000}
+              />    
+              <h5 className="ulti">{player ? player.ulti : 0}%</h5>          
+            </span>
+            </div>            
           </div> 
         }
         { !showCanvas && !redirectNoLoaded && player &&

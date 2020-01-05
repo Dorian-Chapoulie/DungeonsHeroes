@@ -78,7 +78,8 @@ export const getLocalPlayer = () => {
 }
 
 export const respawnPlayer = data => { 
-    if(player && player.socketId !== data.id) { 
+    if(player && player.socketId !== data.id) {
+        player.ulti = 0; 
         player2 = new Player(data.name, 36, 762, data.id, context, data.skinId);         
         if(isBossLevel) {
             if(mobs[0]) {
@@ -90,6 +91,7 @@ export const respawnPlayer = data => {
             }
         }  
     }else if(player2 && player2.socketId !== data.id){ 
+        player2.ulti = 0;
         player = new Player(data.name, 36, 762, data.id, context, data.skinId); 
         if(isBossLevel) {
             if(mobs[0]) {
@@ -134,10 +136,12 @@ export const damageEntity = (entityId, type, sender) => {
         if (player && sender === player.name) {
             projectile = new PlayerProjectile(context, 0, 0, player.damageCoef);
             player.coin += 2;
+            player.incrementUlti(5);
             projectile.onHit(target);
         } else if (player2 && sender === player2.name) {
             projectile = new PlayerProjectile(context, 0, 0, player2.damageCoef);
             player2.coin += 2;
+            player2.incrementUlti(5);
             projectile.onHit(target);
         } else {
             switch (type) {
