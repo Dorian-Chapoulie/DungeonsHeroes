@@ -24,6 +24,7 @@ class SocketsHanlder {
         });
         this.game = new CGame(this);
         this.sockets = [];
+        this.game.alivePlayers = 0;
     }
     
     sendNextLevel() {
@@ -182,18 +183,21 @@ class SocketsHanlder {
                 const playerToRespawn = this.game.joueurs.filter(j => j.socketId !== socket.id)[0]; 
                 if(playerToRespawn) {                                        
                     this.game.alivePlayers++;
-                    this.io.emit('respawnplayer', {name: playerToRespawn.name, id: playerToRespawn.socketId});             
+                    this.io.emit('respawnplayer', {name: playerToRespawn.name, id: playerToRespawn.socketId, skinId: playerToRespawn.skinId});             
                 }
             }); 
 
             socket.on('disconnect', () => {                                 
                 const disconnectedPlayer = this.game.joueurs.find(p => p.socketId === socket.id);
                 console.log("disconnected player: ", disconnectedPlayer)
+                if(disconnectedPlayer)
+                    this.game.alivePlayers--; 
                 socket.broadcast.emit('playerdisconnected', disconnectedPlayer);
                 this.game.joueurs = this.game.joueurs.filter(j => j !== disconnectedPlayer);
                 if(this.game.joueurs.length <= 0) {
                     this.game = new CGame(this);
                     this.sockets = [];
+                    this.game.alivePlayers = 0;
                 }                                
             });
         });       
