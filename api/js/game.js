@@ -71,7 +71,7 @@ class Game {
         this.chests = [];
         this.deadMobsNumber = 0;
         this.mobs = 0;
-        this.bossLevel = 2;
+        this.bossLevel = 10;
         this.preBossLevel = this.bossLevel - 1;
         this.isKeyPickedUp = false;
 
