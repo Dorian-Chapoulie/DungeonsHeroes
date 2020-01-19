@@ -26,7 +26,7 @@ class Shop extends React.Component {
         animationSong: [
             new Audio('/sounds/achete 1.mp3'),
             new Audio('/sounds/achete 2.mp3'),
-            new Audio('/sounds/achete 3.mp3'),
+            //new Audio('/sounds/achete 3.mp3'),
         ],
       }   
     }
