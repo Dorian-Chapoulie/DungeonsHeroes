@@ -77,6 +77,12 @@ Note : these are different skins from the shop on the website that you can unloc
 | Torch | ![](https://i.ibb.co/kmj4FnB/torch.png)| Allows to regain some health if you are near|
 | Key | ![](https://i.ibb.co/bgks91K/key.png)| Allows to unlock a special door|
 
+# Ulti
+Your ulti can revive your friend. Just press 'A' and your friend will respawn.
+You can only use your ulti if your friend is dead and if you have unlocked your ulti (100%).
+You gain points everytime you touch an enemy.
+
+
 # Required
 
 + WampServer
