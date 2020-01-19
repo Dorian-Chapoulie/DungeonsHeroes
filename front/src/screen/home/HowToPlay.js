@@ -17,6 +17,20 @@ class HowToPlay extends React.Component {
 
     render() {
 
+        const playerData = [
+            {   
+                description: "Peut se deplacer, Tir en continu, Possede un ulti, Peut augmenter sa vitesse et ses degats grace aux loots",
+                Deplacement: "/images/zqsd.png",
+                Ulti: "/images/ulti.png",
+                descUlti: "Lorsque vous etes etes a 100% de charge, vous pouvez reanimer votre coequipier si celui-ci est mort",
+                imageprojectile: "/images/silence.png", 
+                DamageValue: '15',
+                Speed: '2',
+                Health: '100',
+                Shield: '50',
+            },
+        ];        
+
         const mobsData = [{
             name: 'Wizard',
             imagesprite: "/images/wiz.png",
@@ -126,6 +140,25 @@ class HowToPlay extends React.Component {
                             Plus vous avancez dans le jeu et plus il y a de monstres. 
                             Atteint un certain niveau, vous devrez affronter le boss pour terminer le jeu.
                         </p>
+                    </CardBody>
+                </Card>
+
+                <Card style={{width: '60em'}}>
+                    <CardHeader>
+                        <h5 className="d-flex justify-content-center" style={{fontSize: '5em'}}>Joueur</h5>
+                    </CardHeader>
+                    <CardBody>
+                        <BootstrapTable data={playerData} striped={true} hover={true} bordered={false} className="tablePlayer">
+                        <TableHeaderColumn dataField="description" dataSort={true} isKey>Desc</TableHeaderColumn>
+                            <TableHeaderColumn dataField="Deplacement" dataFormat={this.imageFormatter} >Deplacement</TableHeaderColumn>
+                            <TableHeaderColumn dataField="Ulti" dataFormat={this.imageFormatter} >Ulti</TableHeaderColumn>
+                            <TableHeaderColumn dataField="descUlti" dataSort={true}>Desc</TableHeaderColumn>
+                            <TableHeaderColumn dataField="imageprojectile" dataFormat={this.imageFormatter}>Projectile</TableHeaderColumn>
+                            <TableHeaderColumn dataField="DamageValue" dataSort={true}>Degats</TableHeaderColumn>
+                            <TableHeaderColumn dataField="Speed" dataSort={true}>Vitesse</TableHeaderColumn>
+                            <TableHeaderColumn dataField="Health" dataSort={true}>Sante</TableHeaderColumn>
+                            <TableHeaderColumn dataField="Shield" dataSort={true}>Bouclier</TableHeaderColumn>
+                        </BootstrapTable>
                     </CardBody>
                 </Card>
 
