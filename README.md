@@ -1,7 +1,6 @@
 ![](https://i.ibb.co/6HYPr3V/Image1-jpg.png)
 
-[![Watch the video](https://i.imgur.com/vKb2F1B.png)](https://www.youtube.com/watch?v=5NkyzzJ4O9U&fbclid=IwAR1z4Lx4QwTgRBv9S83FF1Tt9n8p8P-jGa5bMMRYLgzmT6BvlmRQmbUutPs)
-
+[![Watch the video](https://img.youtube.com/vi/VKIX0eLq-4g/maxresdefault.jpg)](https://www.youtube.com/watch?v=5NkyzzJ4O9U&fbclid=IwAR1z4Lx4QwTgRBv9S83FF1Tt9n8p8P-jGa5bMMRYLgzmT6BvlmRQmbUutPs)
 # Game
 
 ## Executive summary
